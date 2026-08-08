@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>婺源3天2夜攻略</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB",sans-serif;background:#F0EBE3;color:#3A3A3A;line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:420px;margin:0 auto;padding:0 16px 80px}
+.section{margin-top:24px;animation:fadeInUp .6s ease-out both}
+.section:nth-child(2){animation-delay:.1s}
+.section:nth-child(3){animation-delay:.2s}
+.section:nth-child(4){animation-delay:.3s}
+.section:nth-child(5){animation-delay:.4s}
+.section:nth-child(6){animation-delay:.5s}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.section-title{display:flex;align-items:center;gap:8px;margin-bottom:16px;padding:12px 16px;background:linear-gradient(135deg,#E0D8CF 0%,#E8E3DB 100%);border-radius:12px;font-size:18px;font-weight:700;color:#3A3A3A}
+.section-title svg{width:24px;height:24px;flex-shrink:0}
+.card{background:#F5F0EB;border-radius:16px;padding:20px;margin-bottom:12px;box-shadow:0 2px 12px rgba(107,142,155,0.08);transition:transform .2s}
+.card:active{transform:scale(.98)}
+.tag{display:inline-block;background:rgba(107,142,155,0.15);color:#6B8E9B;padding:4px 12px;border-radius:20px;font-size:12px;margin:4px 4px 4px 0}
+.highlight{color:#6B8E9B;font-weight:600}
+.divider{height:1px;background:linear-gradient(90deg,transparent,#E0D8CF,transparent);margin:16px 0}
+
+/* M1 封面 */
+.cover{background:linear-gradient(135deg,#6B8E9B 0%,#8BA5B0 50%,#A5BEC9 100%);border-radius:20px;padding:40px 24px;text-align:center;color:#fff;margin-top:16px;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 70%);animation:pulse 4s ease-in-out infinite}
+.cover h1{font-size:28px;font-weight:800;margin-bottom:8px;text-shadow:0 2px 4px rgba(0,0,0,0.2)}
+.cover .subtitle{font-size:16px;opacity:0.9}
+.cover .route{margin-top:16px;font-size:14px;opacity:0.85}
+
+/* M2 成员 */
+.members{display:flex;gap:12px;justify-content:center}
+.member-card{background:#F5F0EB;border-radius:16px;padding:20px;flex:1;text-align:center;box-shadow:0 2px 12px rgba(107,142,155,0.08)}
+.member-avatar{width:60px;height:60px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:28px;background:linear-gradient(135deg,#6B8E9B,#8BA5B0)}
+
+/* M3 天气 */
+.weather-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.weather-day{text-align:center;padding:16px 8px;background:#F5F0EB;border-radius:12px;box-shadow:0 2px 8px rgba(107,142,155,0.06)}
+.weather-day .date{font-size:12px;color:#6E6E6E;margin-bottom:4px}
+.weather-day .icon{font-size:32px;margin:8px 0}
+.weather-day .temp{font-size:14px;font-weight:600}
+.weather-day .range{font-size:11px;color:#6E6E6E;margin-top:4px}
+
+/* M5 住宿 */
+.hotel-card{display:flex;gap:12px;align-items:center;padding:16px;background:#F5F0EB;border-radius:12px;margin-bottom:8px;box-shadow:0 2px 8px rgba(107,142,155,0.06)}
+.hotel-icon{width:48px;height:48px;background:linear-gradient(135deg,#6B8E9B,#8BA5B0);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.hotel-info{flex:1}
+.hotel-info h4{font-size:15px;margin-bottom:4px}
+.hotel-info p{font-size:12px;color:#6E6E6E}
+
+/* M7 亮点 */
+.highlights{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.highlight-card{background:#F5F0EB;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(107,142,155,0.06)}
+.highlight-card .icon{font-size:32px;margin-bottom:8px}
+.highlight-card h4{font-size:14px;margin-bottom:4px}
+.highlight-card p{font-size:11px;color:#6E6E6E}
+
+/* M8 行程 */
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#6B8E9B,rgba(107,142,155,0.2))}
+.day-block{margin-bottom:24px;position:relative}
+.day-block::before{content:'';position:absolute;left:-20px;top:4px;width:12px;height:12px;border-radius:50%;background:#6B8E9B;border:2px solid #F0EBE3}
+.day-header{font-size:16px;font-weight:700;color:#6B8E9B;margin-bottom:12px}
+.day-card{background:#F5F0EB;border-radius:12px;padding:16px;margin-bottom:8px;box-shadow:0 2px 8px rgba(107,142,155,0.06)}
+.day-card .time{font-size:12px;color:#6B8E9B;font-weight:600;margin-bottom:4px}
+.day-card h4{font-size:14px;margin-bottom:4px}
+.day-card p{font-size:12px;color:#6E6E6E}
+.ticket{display:inline-block;background:rgba(107,142,155,0.1);color:#6B8E9B;padding:2px 8px;border-radius:6px;font-size:11px;margin-top:4px}
+
+/* M9 美食 */
+.food-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.food-card{background:#F5F0EB;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(107,142,155,0.06)}
+.food-card .emoji{font-size:28px;margin-bottom:8px}
+.food-card h4{font-size:14px;margin-bottom:4px}
+.food-card p{font-size:11px;color:#6E6E6E}
+
+/* M10 清单 */
+.checklist{list-style:none}
+.checklist-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(107,142,155,0.08)}
+.checklist-item:last-child{border-bottom:none}
+.ck-box{width:22px;height:22px;border:2px solid #6B8E9B;border-radius:6px;flex-shrink:0;font-size:11px;color:transparent;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.ck-box::before{content:''}
+.checklist-item input{position:absolute;opacity:0}
+.checklist-item input:checked+.ck-box{background:#6B8E9B;border-color:#6B8E9B;color:#fff}
+.checklist-item input:checked+.ck-box::after{content:"✓"}
+.checklist-item input:checked~.ck-text{color:#3A3A3A}
+.ck-text{font-size:14px}
+
+/* M11 预算 */
+.budget-chart{display:flex;justify-content:center;margin:16px 0}
+.budget-table{width:100%;border-collapse:collapse;font-size:13px}
+.budget-table th{background:#E0D8CF;padding:10px;text-align:left;font-weight:600}
+.budget-table td{padding:10px;border-bottom:1px solid rgba(107,142,155,0.08)}
+.budget-table tr:last-child td{border-bottom:none;font-weight:700;color:#6B8E9B}
+
+/* M12 省钱 */
+.save-tips{list-style:none;counter-reset:tip}
+.save-tips li{counter-increment:tip;padding:12px 0;border-bottom:1px solid rgba(107,142,155,0.08);font-size:14px;position:relative;padding-left:36px}
+.save-tips li::before{content:counter(tip);position:absolute;left:0;width:24px;height:24px;background:#6B8E9B;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
+.save-tips li:last-child{border-bottom:none}
+
+/* M13 风险 */
+.risk-card{background:linear-gradient(135deg,rgba(107,142,155,0.08),rgba(107,142,155,0.03));border-left:4px solid #6B8E9B;border-radius:0 12px 12px 0;padding:16px;margin-bottom:8px}
+.risk-card h4{font-size:14px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.risk-card p{font-size:12px;color:#6E6E6E}
+
+/* M14 应急 */
+.emergency-card{background:#F5F0EB;border-radius:12px;padding:16px;margin-bottom:8px;box-shadow:0 2px 8px rgba(107,142,155,0.06)}
+.emergency-card h4{font-size:14px;margin-bottom:8px;color:#6B8E9B}
+.emergency-card p{font-size:13px;margin-bottom:4px}
+.emergency-card .phone{font-size:16px;font-weight:700;color:#3A3A3A}
+
+/* M15 实用信息 */
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.info-card{background:#F5F0EB;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(107,142,155,0.06)}
+.info-card h4{font-size:13px;margin-bottom:8px;color:#6B8E9B}
+.info-card p{font-size:12px;color:#6E6E6E}
+
+/* M16 页脚 */
+.footer{text-align:center;padding:24px 0;font-size:12px;color:#6E6E6E;margin-top:32px}
+.footer p{margin-bottom:4px}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- M1 封面 -->
+<div class="cover section">
+<h1>婺源3天2夜</h1>
+<div class="subtitle">古村·峡谷·夜游·避暑</div>
+<div class="route">深圳北 → 婺源站</div>
+<div style="margin-top:16px;font-size:13px;opacity:0.8">2026.08.14 - 08.16</div>
+</div>
+
+<!-- M2 成员 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+成员信息
+</div>
+<div class="members">
+<div class="member-card">
+<div class="member-avatar">🧑</div>
+<div style="font-weight:600;font-size:15px">你</div>
+<div style="font-size:12px;color:#6E6E6E;margin-top:4px">摄影担当</div>
+</div>
+<div class="member-card">
+<div class="member-avatar">🧑</div>
+<div style="font-weight:600;font-size:15px">朋友</div>
+<div style="font-size:12px;color:#6E6E6E;margin-top:4px">美食担当</div>
+</div>
+</div>
+</div>
+
+<!-- M3 天气 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+天气预报
+</div>
+<div class="weather-grid">
+<div class="weather-day">
+<div class="date">8月14日 周五</div>
+<div class="icon">⛅</div>
+<div class="temp">雷阵雨</div>
+<div class="range">25~34℃</div>
+</div>
+<div class="weather-day">
+<div class="date">8月15日 周六</div>
+<div class="icon">🌧</div>
+<div class="temp">中雨转雷阵雨</div>
+<div class="range">25~32℃</div>
+</div>
+<div class="weather-day">
+<div class="date">8月16日 周日</div>
+<div class="icon">⛅</div>
+<div class="temp">雷阵雨</div>
+<div class="range">25~33℃</div>
+</div>
+</div>
+<div style="background:rgba(107,142,155,0.08);border-radius:10px;padding:12px;margin-top:12px;font-size:12px;color:#6E6E6E">
+⚡ <strong>注意</strong>：婺源8月高温橙色预警中，白天体感闷热，午后多雷阵雨。随身带伞，户外活动尽量安排在上午或傍晚。
+</div>
+</div>
+
+<!-- M4 交通 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+交通方案
+</div>
+<div class="card">
+<div style="font-size:13px;color:#6B8E9B;font-weight:600;margin-bottom:8px">去程 · 8月14日周五</div>
+<div style="font-size:15px;font-weight:600">G3142 深圳北 → 婺源</div>
+<div style="font-size:13px;color:#6E6E6E;margin-top:4px">12:48 发车 → 20:31 抵达 · 约7小时43分</div>
+<div style="font-size:14px;margin-top:8px">二等座 <span class="highlight">¥480/人</span></div>
+<div style="font-size:11px;color:#6E6E6E;margin-top:4px">💡 选这趟比早班车便宜约100元/人，下午出发不用赶早</div>
+</div>
+<div class="card">
+<div style="font-size:13px;color:#6B8E9B;font-weight:600;margin-bottom:8px">返程 · 8月16日周日</div>
+<div style="font-size:15px;font-weight:600">G1601 婺源 → 深圳北</div>
+<div style="font-size:13px;color:#6E6E6E;margin-top:4px">11:52 发车 → 18:59 抵达 · 约7小时7分</div>
+<div style="font-size:14px;margin-top:8px">二等座 <span class="highlight">¥578.5/人</span></div>
+<div style="font-size:11px;color:#6E6E6E;margin-top:4px">💡 建议提前1小时到婺源站，暑期客流大</div>
+</div>
+<div class="card">
+<div style="font-size:13px;color:#6B8E9B;font-weight:600;margin-bottom:8px">当地交通</div>
+<div style="font-size:14px">婺源站 → 景区：景区直通车 <span class="highlight">¥20/人</span>，约50分钟，整点发车</div>
+<div style="font-size:13px;color:#6E6E6E;margin-top:4px">景点间可拼车或包车，日均约50-80元/人</div>
+</div>
+</div>
+
+<!-- M5 住宿 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+住宿推荐
+</div>
+<div class="hotel-card">
+<div class="hotel-icon">🏡</div>
+<div class="hotel-info">
+<h4>婺源县城/紫阳镇民宿</h4>
+<p>第1晚 · 距婺女洲近，晚上看完演出步行回</p>
+<p style="color:#6B8E9B;font-weight:600;margin-top:4px">约¥200-300/晚</p>
+</div>
+</div>
+<div class="hotel-card">
+<div class="hotel-icon">🏔</div>
+<div class="hotel-info">
+<h4>篁岭山脚晓鳙村民宿</h4>
+<p>第2晚 · 步行3分钟到篁岭索道，次日早起不赶路</p>
+<p style="color:#6B8E9B;font-weight:600;margin-top:4px">约¥200-350/晚</p>
+</div>
+</div>
+</div>
+
+<!-- M6 节奏 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+行程节奏
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;text-align:center">
+<div>
+<div style="font-size:24px">🌊</div>
+<div style="font-size:13px;font-weight:600">Day1</div>
+<div style="font-size:11px;color:#6E6E6E">抵达+夜游</div>
+</div>
+<div>
+<div style="font-size:24px">🏮</div>
+<div style="font-size:13px;font-weight:600">Day2</div>
+<div style="font-size:11px;color:#6E6E6E">篁岭+江湾</div>
+</div>
+<div>
+<div style="font-size:24px">🌿</div>
+<div style="font-size:13px;font-weight:600">Day3</div>
+<div style="font-size:11px;color:#6E6E6E">卧龙谷+返程</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- M7 亮点 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+行程亮点
+</div>
+<div class="highlights">
+<div class="highlight-card">
+<div class="icon">🏔</div>
+<h4>崖上古村篁岭</h4>
+<p>挂在山崖上的600年徽派古村，花溪水街清凉消暑</p>
+</div>
+<div class="highlight-card">
+<div class="icon">💧</div>
+<h4>卧龙谷避暑</h4>
+<p>峡谷均温26℃，瀑布成群，天然空调</p>
+</div>
+<div class="highlight-card">
+<div class="icon">🎆</div>
+<h4>婺女洲夜游</h4>
+<p>非遗打铁花+火壶表演，夜景绝美</p>
+</div>
+<div class="highlight-card">
+<div class="icon">🏘</div>
+<h4>江湾古村</h4>
+<p>婺源最大古村，萧江宗祠气势恢宏</p>
+</div>
+</div>
+</div>
+
+<!-- M8 行程详情 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+详细行程
+</div>
+<div class="timeline">
+<!-- Day1 -->
+<div class="day-block">
+<div class="day-header">Day1 · 8月14日 周五 — 抵达+夜游婺女洲</div>
+<div class="day-card">
+<div class="time">12:48</div>
+<h4>深圳北站出发</h4>
+<p>G3142次高铁，二等座480元/人，车上可以休息或看风景</p>
+</div>
+<div class="day-card">
+<div class="time">20:31</div>
+<h4>抵达婺源站</h4>
+<p>出站后打车或乘公交前往婺源县城紫阳镇，约20分钟</p>
+</div>
+<div class="day-card">
+<div class="time">21:00</div>
+<h4>入住县城民宿</h4>
+<p>放好行李，附近吃个晚饭，早点休息</p>
+</div>
+</div>
+
+<!-- Day2 -->
+<div class="day-block">
+<div class="day-header">Day2 · 8月15日 周六 — 篁岭+江湾</div>
+<div class="day-card">
+<div class="time">07:30</div>
+<h4>早起出发去篁岭</h4>
+<p>民宿早餐后，乘景区直通车或拼车前往篁岭，约40分钟</p>
+</div>
+<div class="day-card">
+<div class="time">08:30</div>
+<h4>篁岭景区</h4>
+<p>索道上山，游览花溪水街、天街、晒秋人家、垒心桥。夏天花溪水街有水雾，凉快又出片。建议游玩4-5小时</p>
+<span class="ticket">门票+索道 ¥145/人</span>
+</div>
+<div class="day-card">
+<div class="time">13:30</div>
+<h4>午餐</h4>
+<p>篁岭天街食府或山脚农家菜，推荐荷包红鲤鱼、糊豆腐</p>
+</div>
+<div class="day-card">
+<div class="time">15:00</div>
+<h4>江湾景区</h4>
+<p>从篁岭驱车约20分钟到江湾，游览萧江宗祠、滕家老屋等徽派古建。建议游玩2小时</p>
+<span class="ticket">门票 ¥57/人</span>
+</div>
+<div class="day-card">
+<div class="time">17:30</div>
+<h4>前往婺女洲</h4>
+<p>驱车约40分钟到婺女洲度假区</p>
+</div>
+<div class="day-card">
+<div class="time">18:30</div>
+<h4>婺女洲夜游</h4>
+<p>看非遗打铁花、火壶表演，游抱玉塔灯光秀，拍照打卡。晚上9点左右返回县城住宿</p>
+<span class="ticket">门票 ¥110/人</span>
+</div>
+</div>
+
+<!-- Day3 -->
+<div class="day-block">
+<div class="day-header">Day3 · 8月16日 周日 — 卧龙谷+返程</div>
+<div class="day-card">
+<div class="time">07:00</div>
+<h4>早起退房</h4>
+<p>民宿早餐后，行李寄存或带走</p>
+</div>
+<div class="day-card">
+<div class="time">07:30</div>
+<h4>卧龙谷景区</h4>
+<p>驱车约50分钟到大鄣山卧龙谷。峡谷清凉，瀑布成群，均温26℃左右。建议游玩2-3小时</p>
+<span class="ticket">门票 ¥49/人</span>
+</div>
+<div class="day-card">
+<div class="time">10:30</div>
+<h4>返回婺源站</h4>
+<p>从卧龙谷驱车约1小时到婺源站，预留充足时间</p>
+</div>
+<div class="day-card">
+<div class="time">11:52</div>
+<h4>婺源站出发返程</h4>
+<p>G1601次高铁，二等座578.5元/人</p>
+</div>
+<div class="day-card">
+<div class="time">18:59</div>
+<h4>抵达深圳北站</h4>
+<p>到家休息，结束愉快旅程！</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- M9 美食 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+必吃美食
+</div>
+<div class="food-grid">
+<div class="food-card">
+<div class="emoji">🐟</div>
+<h4>荷包红鲤鱼</h4>
+<p>婺源地标食材，通体橘红，肉质细嫩。清蒸最经典，淋猪油葱花</p>
+</div>
+<div class="food-card">
+<div class="emoji">🥘</div>
+<h4>糊豆腐</h4>
+<p>婺源宴席头道菜，豆腐切碎加肉末香菇笋丁慢熬，滑嫩醇厚</p>
+</div>
+<div class="food-card">
+<div class="emoji">🥩</div>
+<h4>粉蒸肉</h4>
+<p>五花肉裹粗米粉，垫南瓜干豆角同蒸，肥而不腻，米香肉香交融</p>
+</div>
+<div class="food-card">
+<div class="emoji">🫓</div>
+<h4>蒸汽糕</h4>
+<p>籼米磨浆发酵蒸制，撒虾米葱花榨菜末，松软弹牙，当地人早餐必备</p>
+</div>
+<div class="food-card">
+<div class="emoji">🥟</div>
+<h4>清明粿</h4>
+<p>艾草汁和糯米粉做皮，笋干腊肉豆腐做馅，软糯咸香</p>
+</div>
+<div class="food-card">
+<div class="emoji">🍚</div>
+<h4>婺源米糕</h4>
+<p>新米磨粉加桂花芝麻蒸制，洁白如雪，米香飘逸</p>
+</div>
+</div>
+</div>
+
+<!-- M10 清单 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+出行清单
+</div>
+<div class="card">
+<ul class="checklist">
+<li class="checklist-item"><input type="checkbox" id="c1"><label class="ck-box" for="c1"></label><span class="ck-text">身份证+学生证（有就带）</span></li>
+<li class="checklist-item"><input type="checkbox" id="c2"><label class="ck-box" for="c2"></label><span class="ck-text">充电宝+充电线</span></li>
+<li class="checklist-item"><input type="checkbox" id="c3"><label class="ck-box" for="c3"></label><span class="ck-text">雨伞/雨衣（必带，午后雷阵雨）</span></li>
+<li class="checklist-item"><input type="checkbox" id="c4"><label class="ck-box" for="c4"></label><span class="ck-text">防晒霜+墨镜+帽子</span></li>
+<li class="checklist-item"><input type="checkbox" id="c5"><label class="ck-box" for="c5"></label><span class="ck-text">薄外套（卧龙谷/灵岩洞内外温差大）</span></li>
+<li class="checklist-item"><input type="checkbox" id="c6"><label class="ck-box" for="c6"></label><span class="ck-text">防蚊喷雾</span></li>
+<li class="checklist-item"><input type="checkbox" id="c7"><label class="ck-box" for="c7"></label><span class="ck-text">舒适运动鞋（古村石板路多）</span></li>
+<li class="checklist-item"><input type="checkbox" id="c8"><label class="ck-box" for="c8"></label><span class="ck-text">相机/自拍杆</span></li>
+</ul>
+</div>
+</div>
+
+<!-- M11 预算 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+预算明细
+</div>
+<div class="card">
+<table class="budget-table">
+<thead>
+<tr><th>项目</th><th>明细</th><th>小计</th></tr>
+</thead>
+<tbody>
+<tr><td>高铁往返</td><td>去程480×2 + 返程578.5×2</td><td>¥2,117</td></tr>
+<tr><td>当地交通</td><td>景区直通车+拼车</td><td>¥200</td></tr>
+<tr><td>住宿</td><td>2晚民宿</td><td>¥500</td></tr>
+<tr><td>门票</td><td>篁岭145+江湾57+卧龙谷49+婺女洲110(×2人)</td><td>¥722</td></tr>
+<tr><td>餐饮</td><td>3天约150元/天</td><td>¥450</td></tr>
+<tr><td colspan="2" style="text-align:right">合计</td><td>¥3,989</td></tr>
+</tbody>
+</table>
+<div style="font-size:11px;color:#6E6E6E;margin-top:8px">* 以上为2人合计，人均约1995元，含大交通</div>
+</div>
+</div>
+
+<!-- M12 省钱 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+省钱技巧
+</div>
+<div class="card">
+<ul class="save-tips">
+<li>提前1天在携程/美团买篁岭门票，比现场便宜10元左右</li>
+<li>婺源站到景区选直通车（20元/人），比打车省一半</li>
+<li>民宿选景区山脚村民自营的，比景区内住宿便宜200+</li>
+<li>午餐在景区外农家乐吃，比景区内便宜且更地道</li>
+</ul>
+</div>
+</div>
+
+<!-- M13 风险 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+风险提示
+</div>
+<div class="risk-card">
+<h4>⛈ 午后雷阵雨</h4>
+<p>8月婺源午后常有雷阵雨，建议把户外景点安排在上午，下午逛室内/古村落有屋檐可避雨</p>
+</div>
+<div class="risk-card">
+<h4>🌡 高温闷热</h4>
+<p>白天最高34-35℃，体感闷热。卧龙谷峡谷内凉快，但篁岭山顶暴晒，做好防晒</p>
+</div>
+<div class="risk-card">
+<h4>👥 暑期客流</h4>
+<p>8月是暑期旺季，篁岭索道可能排队。建议8:30前到景区，避开人流高峰</p>
+</div>
+</div>
+
+<!-- M14 应急 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+应急信息
+</div>
+<div class="emergency-card">
+<h4>婺源县人民医院</h4>
+<p>地址：婺源县紫阳镇文公北路</p>
+<p class="phone">0793-7352024</p>
+</div>
+<div class="emergency-card">
+<h4>婺源旅游投诉</h4>
+<p class="phone">0793-7343605</p>
+</div>
+<div class="emergency-card">
+<h4>景区救援</h4>
+<p>篁岭景区客服：0793-7255588</p>
+</div>
+</div>
+
+<!-- M15 实用信息 -->
+<div class="section">
+<div class="section-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6B8E9B" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+实用信息
+</div>
+<div class="info-grid">
+<div class="info-card">
+<h4>交通卡/支付</h4>
+<p>婺源县城可刷支付宝/微信，景区也支持。建议带少量现金备用</p>
+</div>
+<div class="info-card">
+<h4>通讯/网络</h4>
+<p>县城和景区信号正常，卧龙谷部分区域信号弱，提前下好离线地图</p>
+</div>
+<div class="info-card">
+<h4>语言/沟通</h4>
+<p>当地人说婺源话，但普通话完全通行，景区工作人员都用普通话</p>
+</div>
+<div class="info-card">
+<h4>营业时间</h4>
+<p>篁岭 07:30-21:00<br>婺女洲 16:00-22:00<br>卧龙谷 08:00-17:00</p>
+</div>
+</div>
+</div>
+
+<!-- M16 页脚 -->
+<div class="section footer">
+<p>婺源3天2夜攻略 · 2026.08.14-08.16</p>
+<p>行程仅供参考，请以实际情况为准</p>
+<p style="margin-top:8px;color:#6B8E9B">祝旅途愉快 🏔</p>
+</div>
+
+</div>
+</body>
+</html>
