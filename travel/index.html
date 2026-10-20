@@ -38,6 +38,15 @@ li{margin:5px 0}
 .src a{color:#4a7bd5}
 footer{margin:22px 12px 0;color:var(--sub);font-size:12px;line-height:1.7}
 a{color:var(--accent)}
+.bud{font-size:14px}
+.brow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+.brow:first-child{border-top:0}
+.bl{min-width:0}
+.bn{display:block;font-size:12px;color:var(--sub);margin-top:2px;line-height:1.5}
+.bv{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.brow.total{border-top:2px solid var(--line);margin-top:4px;padding-top:11px}
+.brow.total .bv{font-size:17px;color:var(--accent)}
+.bnote{margin-top:8px;font-size:12.5px;color:var(--sub);text-align:right}
 @media print{body{background:#fff}section,.day{break-inside:avoid;border-color:#ddd}.banner,.cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style></head><body><div class="wrap">
 
@@ -46,14 +55,14 @@ a{color:var(--accent)}
 <div class="chips"><span class="chip">4 人 · 2 男 2 女 · 朋友</span><span class="chip">无老人、无小孩</span><span class="chip">公共交通</span><span class="chip">总预算 ¥20000</span><span class="chip">人均餐标 ≤ ¥125</span><span class="chip">九寨沟进沟 1 天</span></div></div>
 
 <section><h2>预算概览</h2>
-<table>
-<tr><th>类别</th><th>估算</th><th>说明</th></tr>
-<tr><td>住宿</td><td class="n">¥2368</td><td class="sub">3 晚 × 2 间（两晚夜车计 0 元）</td></tr>
-<tr><td>餐饮</td><td class="n">¥2084</td><td class="sub">4 人，按已列餐次</td></tr>
-<tr><td>门票</td><td class="n">¥860</td><td class="sub">九寨沟 640（160×4）＋ 熊猫基地 220（55×4）</td></tr>
-<tr><td>交通 + 市内杂费</td><td class="n">¥8252</td><td class="sub">动卧往返 6520 · C5792 572 · 直通车往返 408 · C5784 572 · 市内 180</td></tr>
-<tr><td><b>合计</b></td><td class="n"><b>¥13564</b></td><td class="sub">人均 ¥3391 · 预算 ¥20000 · 余 ¥6436</td></tr>
-</table>
+<div class="bud">
+<div class="brow"><div class="bl">住宿<span class="bn">3 晚 × 2 间（两晚夜车计 0）</span></div><div class="bv">¥2368</div></div>
+<div class="brow"><div class="bl">餐饮<span class="bn">4 人 · 11 餐</span></div><div class="bv">¥2084</div></div>
+<div class="brow"><div class="bl">门票<span class="bn">九寨沟 640 · 熊猫基地 220</span></div><div class="bv">¥860</div></div>
+<div class="brow"><div class="bl">交通 + 市内<span class="bn">动卧 6520 · 高铁 1144 · 直通车 408 · 市内 180</span></div><div class="bv">¥8252</div></div>
+<div class="brow total"><div class="bl">合计</div><div class="bv">¥13564</div></div>
+<div class="bnote">人均 ¥3391 · 预算 ¥20000 · 余 ¥6436</div>
+</div>
 </section>
 
 
