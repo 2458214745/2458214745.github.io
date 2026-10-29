@@ -68,7 +68,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <div class="card">
 <div class="card-title">交易跟踪</div>
-<div class="sub-line">最新交易日 2026-10-28 ｜ 生成于 2026-10-29 14:02</div>
+<div class="sub-line">最新交易日 2026-10-28 ｜ 生成于 2026-10-29 14:04</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -76,6 +76,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <th data-sort="name">名称</th>
 <th data-sort="statusText">状态</th>
 <th data-sort="buy">买入前</th>
+<th data-sort="now">现价</th>
 <th data-sort="d1">Day1</th>
 <th data-sort="d2">Day2</th>
 <th data-sort="d3">Day3</th>
@@ -181,6 +182,7 @@ function renderTrade(){
       '<td>' + r.name + '</td>' +
       '<td class="' + (r.status === 'hold' ? '' : 'sold') + '">' + badge + '</td>' +
       '<td>' + num(r.buy) + '</td>' +
+      '<td>' + (r.status === 'hold' ? num(qnow(r.code)) : '<span class="void">—</span>') + '</td>' +
       '<td>' + num(r.d1) + '</td>' +
       '<td>' + num(r.d2) + '</td>' +
       '<td>' + num(r.d3) + '</td>' +
@@ -198,6 +200,7 @@ function renderTrade(){
 }
 var watchSort = {key:null, asc:true};
 var tradeSort = {key:null, asc:true};
+var QMAP = {};
 function bindSort(tableId, st, renderFn){
   var ths = document.querySelectorAll('#' + tableId + ' th[data-sort]');
   for(var i = 0; i < ths.length; i++){
@@ -249,7 +252,22 @@ function applyQuotes(map){
     if(q.chg !== null && q.chg !== undefined) r.chg = q.chg;
     hit++;
   }
+  for(var j = 0; j < TRADE.length; j++){
+    var t = TRADE[j], tq = map[t.code];
+    if(tq && t.status === 'hold'){ t.now = (tq.now !== null && tq.now > 0) ? tq.now : null; hit++; }
+  }
   return hit;
+}
+function quoteCodes(){
+  var codes = [], seen = {};
+  function add(c){ if(!c || seen[c]) return; seen[c] = 1; codes.push(c); }
+  for(var i = 0; i < WATCH.length; i++) add(WATCH[i].code);
+  for(var j = 0; j < TRADE.length; j++) if(TRADE[j].status === 'hold') add(TRADE[j].code);
+  return codes;
+}
+function qnow(code){
+  if(typeof QMAP === 'object' && QMAP && QMAP[code]) return QMAP[code].now;
+  return null;
 }
 function txFallback(codes){
   if(!codes.length){ setStamp('快照价（无可用代码）', true); return; }
@@ -269,7 +287,8 @@ function txFallback(codes){
       map[codes[i]] = {now: nv, chg: (isFinite(pc) && pc > 0) ? (nv / pc - 1) * 100 : null};
       n++;
     }
-    if(n){ applyQuotes(map); renderWatch(); setStamp('实时价 ' + hhmmss()); }
+    QMAP = map;
+    if(n){ applyQuotes(map); renderWatch(); renderTrade(); setStamp('实时价 ' + hhmmss()); }
     else { setStamp('快照价（实时获取失败）', true); }
     if(sc.parentNode) sc.parentNode.removeChild(sc);
   };
@@ -281,11 +300,10 @@ function txFallback(codes){
 }
 function refreshQuotes(){
   setStamp('实时价拉取中…');
-  var secids = [], codes = [];
-  for(var i = 0; i < WATCH.length; i++){
-    var s = emSec(WATCH[i].code);
-    if(s){ secids.push(s); codes.push(WATCH[i].code); }
-    else { codes.push(WATCH[i].code); }
+  var codes = quoteCodes(), secids = [];
+  for(var i = 0; i < codes.length; i++){
+    var s = emSec(codes[i]);
+    if(s) secids.push(s);
   }
   if(!secids.length){ txFallback(codes); return; }
   var url = 'https://push2.eastmoney.com/api/qt/ulist.np/get?fltt=2&fields=f2,f3,f12'
@@ -294,17 +312,17 @@ function refreshQuotes(){
     .then(function(res){ return res.json(); })
     .then(function(j){
       var diff = (j && j.data && j.data.diff) || [];
-      var map = {}, n = 0;
+      var map = {};
       for(var k = 0; k < diff.length; k++){
         var d = diff[k];
         map[d.f12] = {
           now: (typeof d.f2 === 'number') ? d.f2 : null,
           chg: (typeof d.f3 === 'number') ? d.f3 : null
         };
-        n++;
       }
+      QMAP = map;
       var hit = applyQuotes(map);
-      if(hit){ renderWatch(); setStamp('实时价 ' + hhmmss()); }
+      if(hit){ renderWatch(); renderTrade(); setStamp('实时价 ' + hhmmss()); }
       else { txFallback(codes); }
     })
     .catch(function(){ txFallback(codes); });
