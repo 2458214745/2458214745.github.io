@@ -28,6 +28,7 @@ tbody tr.tr-holding td{background:#eff8ff!important}
 .badge-cut{background:#fee2e2;color:#b91c1c}
 .rise{color:#dc2626}
 .fall{color:#16a34a}
+.live{font-weight:700}
 .void{color:#bbb}
 .sold{color:#999;text-decoration:line-through}
 a.code{color:#0a58ca;text-decoration:none;font-weight:600}
@@ -68,7 +69,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <div class="card">
 <div class="card-title">交易跟踪</div>
-<div class="sub-line">最新交易日 2026-10-28 ｜ 生成于 2026-10-29 14:21</div>
+<div class="sub-line">最新交易日 2026-10-28 ｜ 生成于 2026-10-29 14:23</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -76,7 +77,6 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <th data-sort="name">名称</th>
 <th data-sort="statusText">状态</th>
 <th data-sort="buy">买入前</th>
-<th data-sort="now">现价</th>
 <th data-sort="d1">Day1</th>
 <th data-sort="d2">Day2</th>
 <th data-sort="d3">Day3</th>
@@ -102,9 +102,9 @@ function sortList(list, st){
   return a;
 }
 function num(v){ return v === null ? '<span class="void">\u2014</span>' : v.toFixed(2); }
-function pctCell(p){
+function pctCell(p, live){
   if(p === null) return '<span class="void">\u2014</span>';
-  return '<span class="' + (p >= 0 ? 'rise' : 'fall') + '">' +
+  return '<span class="' + (p >= 0 ? 'rise' : 'fall') + (live ? ' live' : '') + '">' +
          (p >= 0 ? '+' : '') + p.toFixed(1) + '%</span>';
 }
 function moneyCell(v){
@@ -112,12 +112,16 @@ function moneyCell(v){
   return '<span class="' + (v >= 0 ? 'rise' : 'fall') + '">' +
          (v >= 0 ? '+' : '') + v.toFixed(2) + '</span>';
 }
-function dayCell(v, base){
+function dayCell(v, base, isLive){
   if(v === null) return '<span class="void">\u2014</span>';
-  if(base === null || !isFinite(base) || base <= 0) return v.toFixed(2);
-  if(v > base) return '<span class="rise">' + v.toFixed(2) + '</span>';
-  if(v < base) return '<span class="fall">' + v.toFixed(2) + '</span>';
-  return v.toFixed(2);
+  var cls = '';
+  if(base !== null && isFinite(base) && base > 0){
+    if(v > base) cls = 'rise';
+    else if(v < base) cls = 'fall';
+  }
+  if(isLive) cls = cls ? cls + ' live' : 'live';
+  if(!cls) return v.toFixed(2);
+  return '<span class="' + cls + '">' + v.toFixed(2) + '</span>';
 }
 function dayVal(r, i){
   if(r.status === 'hold' && r.live === i){
@@ -126,7 +130,12 @@ function dayVal(r, i){
   }
   return i === 0 ? r.d1 : (i === 1 ? r.d2 : r.d3);
 }
-function dayCellOf(r, i){ return dayCell(dayVal(r, i), r.buy); }
+function dayCellOf(r, i){ return dayCell(dayVal(r, i), r.buy, usingLive(r) && r.live === i); }
+function usingLive(r){
+  if(r.status !== 'hold' || r.live === null || r.live === undefined) return false;
+  var q = qnow(r.code);
+  return q !== null && q > 0;
+}
 function tradeRel(r){
   var last = dayVal(r, 2);
   if(last === null) last = dayVal(r, 1);
@@ -205,11 +214,10 @@ function renderTrade(){
       '<td>' + r.name + '</td>' +
       '<td class="' + (r.status === 'hold' ? '' : 'sold') + '">' + badge + '</td>' +
       '<td>' + num(r.buy) + '</td>' +
-      '<td>' + (r.status === 'hold' ? num(qnow(r.code)) : '<span class="void">—</span>') + '</td>' +
       '<td>' + dayCellOf(r, 0) + '</td>' +
       '<td>' + dayCellOf(r, 1) + '</td>' +
       '<td>' + dayCellOf(r, 2) + '</td>' +
-      '<td>' + pctCell(tradeRel(r)) + '</td>' +
+      '<td>' + pctCell(tradeRel(r), usingLive(r)) + '</td>' +
       '<td>' + moneyCell(r.pnl) + '</td>' +
       '</tr>';
   }
