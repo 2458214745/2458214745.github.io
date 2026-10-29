@@ -26,6 +26,8 @@ tbody tr.tr-holding td{background:#eff8ff!important}
 .badge-relax{background:#fffbeb;color:#92400e}
 .badge-hold{background:#dbeafe;color:#1e40af}
 .badge-cut{background:#fee2e2;color:#b91c1c}
+.badge-warn{background:#fff7ed;color:#c2410c;border:1px solid #fdba74;margin-left:6px;font-weight:600}
+.card-cand{border-left:3px solid #fdba74}
 .rise{color:#dc2626}
 .fall{color:#16a34a}
 .live{font-weight:700}
@@ -67,9 +69,31 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <th data-sort="pos">pos</th>
 </tr></thead><tbody id="watchBody"></tbody></table>
 </div>
+<div class="card card-cand">
+<div class="card-title">形态候选<span class="badge badge-warn">判据未通过</span></div>
+<div class="sub-line">基准日 2026-10-29 收盘筛选 ｜ 共 3 只形态合格</div>
+<div class="sub-line">反转因子当日统计无优势（组合 5 日为负），本表仅供观察，不作为买入依据，不生成正式名单</div>
+<div class="summary-bar"><span>候选 <b id="candTotal">0</b></span><span>进可买带 <b id="candTriggerCount" class="rise">0</b></span><span>跌破前低 <b id="candBreakCount" class="fall">0</b></span><span>核心档 <b id="candCoreCount">0</b></span></div>
+<table id="candTable"><thead><tr>
+<th data-sort="idx">序号</th>
+<th data-sort="code">代码</th>
+<th data-sort="name">名称</th>
+<th data-sort="levelTxt">档</th>
+<th data-sort="close">昨收</th>
+<th data-sort="now">现价</th>
+<th data-sort="chg">今涨</th>
+<th data-sort="bandLo">可买带</th>
+<th data-sort="stop">止损</th>
+<th data-sort="preLow">前低</th>
+<th data-sort="five">5日</th>
+<th data-sort="dev">dev</th>
+<th data-sort="cap">市值</th>
+<th data-sort="pos">pos</th>
+</tr></thead><tbody id="candBody"></tbody></table>
+</div>
 <div class="card">
 <div class="card-title">交易跟踪</div>
-<div class="sub-line">最新交易日 2026-10-29 ｜ 生成于 2026-10-29 15:07</div>
+<div class="sub-line">最新交易日 2026-10-29 ｜ 生成于 2026-10-29 15:40</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -89,6 +113,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <script>
 var WATCH = [{"idx": 1.0, "code": "000905", "name": "厦门港务", "t2": "8.24", "t1": "8.13", "close": 8.21, "preLow": 8.06, "lo": 7.96, "hi": 8.13, "bandLo": 8.06, "stop": 7.68, "pos": 0.13, "vr": 0.57, "five": -3.9, "dev": -6.0, "cap": 126.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_000905/#&amp;atab=geguNews", "now": 8.15, "chg": -0.730816077953722}, {"idx": 2.0, "code": "605198", "name": "安德利", "t2": "54.83", "t1": "52.72", "close": 57.32, "preLow": 53.4, "lo": 55.6, "hi": 56.75, "bandLo": 55.6, "stop": 53.64, "pos": 0.16, "vr": 0.71, "five": -4.9, "dev": -5.2, "cap": 186.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_605198/#&amp;atab=geguNews", "now": 53.9, "chg": -5.966503838101889}, {"idx": 3.0, "code": "000676", "name": "智度股份", "t2": "6.47", "t1": "6.22", "close": 6.26, "preLow": 6.16, "lo": 6.07, "hi": 6.2, "bandLo": 6.16, "stop": 5.86, "pos": 0.16, "vr": 0.66, "five": -3.4, "dev": -4.8, "cap": 79.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_000676/#&amp;atab=geguNews", "now": 6.01, "chg": -3.9936102236421744}, {"idx": 4.0, "code": "002030", "name": "达安基因", "t2": "5.37", "t1": "5.23", "close": 5.36, "preLow": 5.2, "lo": 5.2, "hi": 5.31, "bandLo": 5.2, "stop": 5.02, "pos": 0.18, "vr": 0.59, "five": -3.6, "dev": -4.3, "cap": 75.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_002030/#&amp;atab=geguNews", "now": 5.27, "chg": -1.679104477611959}, {"idx": 5.0, "code": "001322", "name": "箭牌家居", "t2": "6.28", "t1": "6.13", "close": 6.24, "preLow": 6.07, "lo": 6.05, "hi": 6.18, "bandLo": 6.07, "stop": 5.84, "pos": 0.18, "vr": 0.63, "five": -6.2, "dev": -5.0, "cap": 59.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_001322/#&amp;atab=geguNews", "now": 6.07, "chg": -2.724358974358976}, {"idx": 6.0, "code": "600032", "name": "浙江新能", "t2": "7.00", "t1": "6.87", "close": 6.95, "preLow": 6.83, "lo": 6.74, "hi": 6.88, "bandLo": 6.83, "stop": 6.5, "pos": 0.21, "vr": 0.63, "five": -7.1, "dev": -5.0, "cap": 167.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_600032/#&amp;atab=geguNews", "now": 6.98, "chg": 0.4316546762589857}, {"idx": 7.0, "code": "002467", "name": "二六三", "t2": "4.62", "t1": "4.45", "close": 4.52, "preLow": 4.4, "lo": 4.38, "hi": 4.47, "bandLo": 4.4, "stop": 4.23, "pos": 0.22, "vr": 0.57, "five": -4.2, "dev": -6.0, "cap": 62.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_002467/#&amp;atab=geguNews", "now": 4.49, "chg": -0.6637168141592764}, {"idx": 8.0, "code": "601949", "name": "中国出版", "t2": "5.61", "t1": "5.55", "close": 5.64, "preLow": 5.41, "lo": 5.47, "hi": 5.58, "bandLo": 5.47, "stop": 5.28, "pos": 0.26, "vr": 0.56, "five": -4.1, "dev": -3.1, "cap": 107.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_601949/#&amp;atab=geguNews", "now": 5.46, "chg": -3.1914893617021267}, {"idx": 9.0, "code": "600088", "name": "中视传媒", "t2": "12.65", "t1": "12.60", "close": 12.81, "preLow": 12.48, "lo": 12.43, "hi": 12.68, "bandLo": 12.48, "stop": 11.99, "pos": 0.31, "vr": 0.71, "five": -4.3, "dev": -2.8, "cap": 51.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_600088/#&amp;atab=geguNews", "now": 12.68, "chg": -1.014832162373147}, {"idx": 10.0, "code": "600551", "name": "时代出版", "t2": "7.82", "t1": "7.59", "close": 7.7, "preLow": 7.56, "lo": 7.47, "hi": 7.62, "bandLo": 7.56, "stop": 7.21, "pos": 0.35, "vr": 0.71, "five": -3.1, "dev": -2.4, "cap": 52.0, "levelTxt": "放宽", "level": "relax", "url": "https://m.10jqka.com.cn/stockpage/hs_600551/#&amp;atab=geguNews", "now": 7.49, "chg": -2.7272727272727226}, {"idx": 11.0, "code": "002803", "name": "吉宏股份", "t2": "19.04", "t1": "18.62", "close": 18.9, "preLow": 18.21, "lo": 18.33, "hi": 18.71, "bandLo": 18.33, "stop": 17.69, "pos": 0.37, "vr": 0.7, "five": -4.1, "dev": -1.4, "cap": 87.0, "levelTxt": "放宽", "level": "relax", "url": "https://m.10jqka.com.cn/stockpage/hs_002803/#&amp;atab=geguNews", "now": 18.03, "chg": -4.603174603174587}, {"idx": 12.0, "code": "688767", "name": "博拓生物", "t2": "38.08", "t1": "36.70", "close": 38.15, "preLow": 36.75, "lo": 37.01, "hi": 37.77, "bandLo": 37.01, "stop": 35.7, "pos": 0.43, "vr": 0.66, "five": -4.5, "dev": -3.3, "cap": 57.0, "levelTxt": "放宽", "level": "relax", "url": "https://m.10jqka.com.cn/stockpage/hs_688767/#&amp;atab=geguNews", "now": 37.53, "chg": -1.6251638269986879}];
+var CAND = [{"idx": 1, "code": "002803", "name": "吉宏股份", "t2": 18.62, "t1": 18.9, "close": 18.03, "preLow": 18.0, "lo": 17.49, "hi": 17.85, "bandLo": 18.0, "stop": 16.87, "pos": 0.1623, "vr": 0.6601, "five": -3.74, "dev": -5.46, "cap": 83.0, "levelTxt": "核心", "level": "core", "industry": "互联网-互联网商务-电子商务B2B", "url": "https://m.10jqka.com.cn/stockpage/hs_002803/#&amp;atab=geguNews", "now": 18.03, "chg": -4.603174603174587}, {"idx": 2, "code": "600777", "name": "新潮能源", "t2": 4.17, "t1": 4.16, "close": 4.08, "preLow": 4.07, "lo": 3.96, "hi": 4.04, "bandLo": 4.07, "stop": 3.82, "pos": 0.2022, "vr": 0.6321, "five": -4.0, "dev": -3.64, "cap": 277.0, "levelTxt": "核心", "level": "core", "industry": "化石能源-石油天然气-石油天然气开采", "url": "https://m.10jqka.com.cn/stockpage/hs_600777/#&amp;atab=geguNews", "now": 4.08, "chg": -1.9230769230769273}, {"idx": 3, "code": "688237", "name": "超卓航科", "t2": 55.4, "t1": 56.61, "close": 56.2, "preLow": 55.6, "lo": 54.51, "hi": 55.64, "bandLo": 55.6, "stop": 52.59, "pos": 0.363, "vr": 0.5953, "five": -3.62, "dev": -2.53, "cap": 50.0, "levelTxt": "放宽", "level": "relax", "industry": "国防与装备-航空航天装备-航空装备", "url": "https://m.10jqka.com.cn/stockpage/hs_688237/#&amp;atab=geguNews", "now": 56.2, "chg": -0.7242536654301301}];
 var TRADE = [{"dt": "2026-10-29", "code": "600032", "name": "浙江新能", "buy": 6.95, "bp": 6.897, "live": null, "status": "hold", "statusText": "持有", "d1": 6.98, "d2": null, "d3": null, "pct": 0.43165467625899634, "chgBp": 1.2034217775844596, "sp": null, "pnl": null, "url": "https://m.10jqka.com.cn/stockpage/hs_600032/#&amp;atab=geguNews"}, {"dt": "2026-10-28", "code": "601949", "name": "中国出版", "buy": 5.55, "bp": 5.63, "live": null, "status": "cut", "statusText": "Day2割", "d1": 5.64, "d2": 5.46, "d3": null, "pct": -1.6216216216216193, "chgBp": -3.0195381882770858, "sp": 5.51, "pnl": -59.14, "url": "https://m.10jqka.com.cn/stockpage/hs_601949/#&amp;atab=geguNews"}, {"dt": "2026-10-28", "code": "000930", "name": "中粮科技", "buy": 4.78, "bp": 4.735, "live": null, "status": "cut", "statusText": "Day2割", "d1": 4.74, "d2": 4.63, "d3": null, "pct": -3.138075313807539, "chgBp": -2.2175290390707585, "sp": 4.64, "pnl": -102.41, "url": "https://m.10jqka.com.cn/stockpage/hs_000930/#&amp;atab=geguNews"}, {"dt": "2026-10-28", "code": "600863", "name": "华能蒙电", "buy": 4.95, "bp": 5.118, "live": null, "status": "hold", "statusText": "持有", "d1": 5.13, "d2": 5.27, "d3": null, "pct": 6.464646464646452, "chgBp": 2.969910121141056, "sp": null, "pnl": null, "url": "https://m.10jqka.com.cn/stockpage/hs_600863/#&amp;atab=geguNews"}];
 
 function sortList(list, st){
@@ -249,8 +274,47 @@ function renderTrade(){
   document.getElementById('pnlSum').className = sum >= 0 ? 'rise' : 'fall';
   setSortMark('tradeTable', tradeSort);
 }
+function renderCand(){
+  var tb = document.getElementById('candBody');
+  if(!tb) return;
+  var list = sortList(CAND, candSort);
+  var html = '', trig = 0, brk = 0, core = 0;
+  for(var i = 0; i < list.length; i++){
+    var r = list[i];
+    var inBand = (r.now !== null && r.lo !== null && r.hi !== null &&
+                  r.bandLo <= r.hi && r.now >= r.bandLo && r.now <= r.hi);
+    var broken = (r.now !== null && r.preLow !== null && r.now < r.preLow);
+    if(inBand) trig++;
+    if(broken) brk++;
+    if(r.level === 'core') core++;
+    var cls = inBand ? ' class="tr-trigger"' : (broken ? ' class="tr-break"' : '');
+    html += '<tr' + cls + '>' +
+      '<td>' + r.idx + '</td>' +
+      '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
+      '<td>' + r.name + '</td>' +
+      '<td><span class="badge ' + (r.level === 'core' ? 'badge-core' : 'badge-relax') + '">' + r.levelTxt + '</span></td>' +
+      '<td>' + num(r.close) + '</td>' +
+      '<td>' + num(r.now) + '</td>' +
+      '<td>' + pctCell(r.chg) + '</td>' +
+      '<td>' + bandCell(r) + '</td>' +
+      '<td class="rise">' + num(r.stop) + '</td>' +
+      '<td>' + num(r.preLow) + '</td>' +
+      '<td>' + pctCell(r.five) + '</td>' +
+      '<td>' + pctCell(r.dev) + '</td>' +
+      '<td>' + (r.cap === null ? '<span class="void">\u2014</span>' : r.cap.toFixed(0)) + '</td>' +
+      '<td>' + (r.pos === null ? '<span class="void">\u2014</span>' : r.pos.toFixed(2)) + '</td>' +
+      '</tr>';
+  }
+  tb.innerHTML = html;
+  document.getElementById('candTotal').textContent = list.length;
+  document.getElementById('candTriggerCount').textContent = trig;
+  document.getElementById('candBreakCount').textContent = brk;
+  document.getElementById('candCoreCount').textContent = core;
+  setSortMark('candTable', candSort);
+}
 var watchSort = {key:null, asc:true};
 var tradeSort = {key:null, asc:true};
+var candSort = {key:null, asc:true};
 var QMAP = {};
 function bindSort(tableId, st, renderFn){
   var ths = document.querySelectorAll('#' + tableId + ' th[data-sort]');
@@ -267,8 +331,10 @@ function bindSort(tableId, st, renderFn){
 }
 renderWatch();
 renderTrade();
+if(typeof CAND !== 'undefined') renderCand();
 bindSort('watchTable', watchSort, renderWatch);
 bindSort('tradeTable', tradeSort, renderTrade);
+if(typeof CAND !== 'undefined') bindSort('candTable', candSort, renderCand);
 
 // ---------- 实时行情：页面加载即拉一次，覆盖服务端快照价 ----------
 function hhmmss(){
@@ -314,6 +380,15 @@ function applyQuotes(map){
     var t = TRADE[j], tq = map[t.code];
     if(tq && t.status === 'hold'){ t.now = (tq.now !== null && tq.now > 0) ? tq.now : null; hit++; }
   }
+  if(typeof CAND !== 'undefined'){
+    for(var k = 0; k < CAND.length; k++){
+      var c = CAND[k], cq = map[c.code];
+      if(!cq) continue;
+      if(cq.now !== null && cq.now > 0) c.now = cq.now;
+      if(cq.chg !== null && cq.chg !== undefined) c.chg = cq.chg;
+      hit++;
+    }
+  }
   return hit;
 }
 function quoteCodes(){
@@ -321,6 +396,7 @@ function quoteCodes(){
   function add(c){ if(!c || seen[c]) return; seen[c] = 1; codes.push(c); }
   for(var i = 0; i < WATCH.length; i++) add(WATCH[i].code);
   for(var j = 0; j < TRADE.length; j++) if(TRADE[j].status === 'hold') add(TRADE[j].code);
+  if(typeof CAND !== 'undefined') for(var k = 0; k < CAND.length; k++) add(CAND[k].code);
   return codes;
 }
 function qnow(code){
@@ -346,7 +422,7 @@ function txFallback(codes){
       n++;
     }
     QMAP = map;
-    if(n){ applyQuotes(map); renderWatch(); renderTrade(); setStamp(qLabel() + hhmmss()); }
+    if(n){ applyQuotes(map); renderWatch(); renderTrade(); if(typeof CAND !== 'undefined') renderCand(); setStamp(qLabel() + hhmmss()); }
     else { setStamp('快照价（实时获取失败）', true); }
     if(sc.parentNode) sc.parentNode.removeChild(sc);
   };
@@ -380,7 +456,7 @@ function refreshQuotes(){
       }
       QMAP = map;
       var hit = applyQuotes(map);
-      if(hit){ renderWatch(); renderTrade(); setStamp(qLabel() + hhmmss()); }
+      if(hit){ renderWatch(); renderTrade(); if(typeof CAND !== 'undefined') renderCand(); setStamp(qLabel() + hhmmss()); }
       else { txFallback(codes); }
     })
     .catch(function(){ txFallback(codes); });
