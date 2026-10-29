@@ -68,14 +68,14 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <div class="card">
 <div class="card-title">交易跟踪</div>
-<div class="sub-line">最新交易日 2026-10-28 ｜ 生成于 2026-10-29 13:58</div>
+<div class="sub-line">最新交易日 2026-10-28 ｜ 生成于 2026-10-29 14:02</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
 <th data-sort="code">代码</th>
 <th data-sort="name">名称</th>
-<th data-sort="buy">买入前</th>
 <th data-sort="statusText">状态</th>
+<th data-sort="buy">买入前</th>
 <th data-sort="d1">Day1</th>
 <th data-sort="d2">Day2</th>
 <th data-sort="d3">Day3</th>
@@ -179,8 +179,8 @@ function renderTrade(){
       '<td>' + r.dt + '</td>' +
       '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
       '<td>' + r.name + '</td>' +
-      '<td>' + num(r.buy) + '</td>' +
       '<td class="' + (r.status === 'hold' ? '' : 'sold') + '">' + badge + '</td>' +
+      '<td>' + num(r.buy) + '</td>' +
       '<td>' + num(r.d1) + '</td>' +
       '<td>' + num(r.d2) + '</td>' +
       '<td>' + num(r.d3) + '</td>' +
