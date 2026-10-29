@@ -28,6 +28,9 @@ tbody tr.tr-holding td{background:#eff8ff!important}
 .badge-cut{background:#fee2e2;color:#b91c1c}
 .badge-warn{background:#fff7ed;color:#c2410c;border:1px solid #fdba74;margin-left:6px;font-weight:600}
 .card-cand{border-left:3px solid #fdba74}
+.card-watch{border-left:3px solid #60a5fa}
+.card-trade{border-left:3px solid #34d399}
+.badge-live{background:#dcfce7;color:#166534;margin-left:6px;font-weight:600}
 .badge-expired{background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;margin-left:6px;font-weight:600}
 .card-stale{border-left:3px solid #94a3b8}
 .rise{color:#dc2626}
@@ -90,9 +93,9 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <th data-sort="pos">pos</th>
 </tr></thead><tbody id="candBody"></tbody></table>
 </div>
-<div class="card">
-<div class="card-title">交易跟踪</div>
-<div class="sub-line">最新交易日 2026-10-29 ｜ 生成于 2026-10-29 15:58</div>
+<div class="card card-trade">
+<div class="card-title">交易跟踪<span class="badge badge-hold">持仓跟踪</span></div>
+<div class="sub-line">最新交易日 2026-10-29 ｜ 生成于 2026-10-29 16:08</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
