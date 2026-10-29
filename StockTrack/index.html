@@ -93,7 +93,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <div class="card">
 <div class="card-title">交易跟踪</div>
-<div class="sub-line">最新交易日 2026-10-29 ｜ 生成于 2026-10-29 15:40</div>
+<div class="sub-line">最新交易日 2026-10-29 ｜ 生成于 2026-10-29 15:41</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -274,6 +274,11 @@ function renderTrade(){
   document.getElementById('pnlSum').className = sum >= 0 ? 'rise' : 'fall';
   setSortMark('tradeTable', tradeSort);
 }
+function candBandCell(r){
+  if(r.bandLo === null || r.lo === null) return '<span class="void">\u2014</span>';
+  if(r.bandLo > r.hi) return '<span class="void" title="前低高于触发上限，开盘任何位置都不满足买入条件">无</span>';
+  return r.bandLo.toFixed(2) + '~' + r.hi.toFixed(2);
+}
 function renderCand(){
   var tb = document.getElementById('candBody');
   if(!tb) return;
@@ -296,7 +301,7 @@ function renderCand(){
       '<td>' + num(r.close) + '</td>' +
       '<td>' + num(r.now) + '</td>' +
       '<td>' + pctCell(r.chg) + '</td>' +
-      '<td>' + bandCell(r) + '</td>' +
+      '<td>' + candBandCell(r) + '</td>' +
       '<td class="rise">' + num(r.stop) + '</td>' +
       '<td>' + num(r.preLow) + '</td>' +
       '<td>' + pctCell(r.five) + '</td>' +
