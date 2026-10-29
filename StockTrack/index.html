@@ -114,7 +114,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <div class="card">
 <div class="card-title">交易跟踪</div>
-<div class="sub-line">最新交易日 2026-10-29 ｜ 生成于 2026-10-29 15:46</div>
+<div class="sub-line">最新交易日 2026-10-29 ｜ 生成于 2026-10-29 15:47</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -343,14 +343,20 @@ function renderStale(){
   var tb = document.getElementById('staleBody');
   if(!tb) return;
   var list = sortList(STALE, staleSort);
+  var holding = {};
+  for(var j = 0; j < TRADE.length; j++){
+    if(TRADE[j].status === 'hold') holding[TRADE[j].code] = 1;
+  }
   var html = '', ok = 0, no = 0;
   for(var i = 0; i < list.length; i++){
     var r = list[i];
+    var held = !!holding[r.code];
     var bandHtml = r.ok
       ? r.bandLo.toFixed(2) + '~' + r.hi.toFixed(2)
       : '<span class="void" title="最新最低价高于触发上限，开盘任何位置都不满足买入条件">无空间</span>';
-    if(r.ok) ok++; else no++;
-    var cls = r.ok ? ' class="tr-trigger"' : '';
+    if(r.ok && !held) ok++; else if(!held) no++;
+    var verdict = held ? '持有中' : (r.ok ? '可买' : '无空间');
+    var cls = (r.ok && !held) ? ' class="tr-trigger"' : (held ? ' class="tr-holding"' : '');
     html += '<tr' + cls + '>' +
       '<td>' + r.idx + '</td>' +
       '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
@@ -362,7 +368,7 @@ function renderStale(){
       '<td>' + r.lo.toFixed(2) + '~' + r.hi.toFixed(2) + '</td>' +
       '<td>' + bandHtml + '</td>' +
       '<td class="rise">' + num(r.stop) + '</td>' +
-      '<td>' + (r.ok ? '可买' : '无空间') + '</td>' +
+      '<td>' + verdict + '</td>' +
       '</tr>';
   }
   tb.innerHTML = html;
