@@ -1,44 +1,225 @@
-<!DOCTYPE html><html><head><meta charset="utf-8">
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>观察池 · 交易跟踪</title><style>
-body{font-family:-apple-system,sans-serif;margin:12px;background:#fafafa;color:#222}
-h1{font-size:18px}
-table{border-collapse:collapse;width:100%;margin:10px 0;background:#fff;font-size:12px}
-th,td{border:1px solid #ddd;padding:7px 4px;text-align:center;white-space:nowrap}
-th{background:#2a7;color:#fff;font-weight:600}
-tr:nth-child(even){background:#f6f9f7}
-.up{color:#d33;font-weight:700}.dn{color:#090;font-weight:700}
+<title>观察池 · 交易跟踪</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif}
+body{background:#f5f7fa;padding:14px;color:#222;-webkit-text-size-adjust:100%}
+.container{max-width:1400px;margin:0 auto}
+.card{background:#fff;border-radius:10px;padding:14px;margin-bottom:18px;box-shadow:0 2px 8px #00000012}
+.card-title{font-size:17px;font-weight:600;margin-bottom:3px}
+.card-title span{font-size:13px;font-weight:400;color:#889;margin-left:8px}
+.card-sub{font-size:12px;color:#889;margin-bottom:10px}
+.summary-bar{display:flex;gap:16px;font-size:13px;color:#556;margin-bottom:10px;flex-wrap:wrap}
+.summary-bar b{color:#222}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+th,td{border-bottom:1px solid #eef0f3;padding:8px 6px;white-space:nowrap;background:#fff}
+th{background:#f8f9fb;font-weight:600;color:#445;text-align:left;cursor:pointer;user-select:none}
+th.num,td.num{text-align:right}
+th.sort-asc:after{content:" \25B2";font-size:9px;color:#2a7}
+th.sort-desc:after{content:" \25BC";font-size:9px;color:#2a7}
+.fixed-col{position:sticky;z-index:2}
+th.fixed-col{z-index:4;background:#f8f9fb}
+tbody tr:hover td{background:#f7f9fb}
+.tr-trigger td{background:#ecfdf3}
+.tr-break td{background:#fef2f2}
+.tr-holding td{background:#eff8ff}
+.badge{display:inline-block;padding:1px 6px;border-radius:4px;font-size:12px;line-height:1.6}
+.badge-core{background:#dcfce7;color:#166534}
+.badge-relax{background:#fffbeb;color:#92400e}
+.badge-hold{background:#dbeafe;color:#1e40af}
+.badge-cut{background:#fee2e2;color:#b91c1c}
+.rise{color:#dc2626}
+.fall{color:#16a34a}
+.void{color:#bbb}
+.sold{color:#999;text-decoration:line-through}
 a.code{color:#0a58ca;text-decoration:none;font-weight:600}
-td.sold{color:#999;text-decoration:line-through}
 a.code:hover{text-decoration:underline}
-.note{color:#888;font-size:12px;line-height:1.6}
-.pool th{background:#357}
+.tip{position:relative;border-bottom:1px dashed #cbd5e1;cursor:help;color:#667}
+.tip .tt{visibility:hidden;position:absolute;right:0;top:135%;background:#1f2937;color:#fff;padding:6px 8px;border-radius:5px;font-size:12px;white-space:nowrap;z-index:20;opacity:0;transition:.15s}
+.tip:hover .tt{visibility:visible;opacity:1}
+.notes{font-size:12px;color:#889;line-height:1.8}
+.notes div{margin-top:2px}
+#watchTable .col1{width:46px;min-width:46px;left:0}
+#watchTable .col2{width:78px;min-width:78px;left:46px}
+#watchTable .col3{width:96px;min-width:96px;left:124px}
+#tradeTable .col1{width:98px;min-width:98px;left:0}
+#tradeTable .col2{width:76px;min-width:76px;left:98px}
+#tradeTable .col3{width:86px;min-width:86px;left:174px}
+@media(max-width:520px){body{padding:8px}.card{padding:10px;border-radius:8px}table{font-size:12px}th,td{padding:6px 4px}}
 </style></head><body>
-<h1>观察池</h1>
-<p class="note">最新观察池日期：2026-10-28 ｜ 共 12 只 ｜ 用于下一交易日判定</p>
-<table class="pool">
-<tr><th>#</th><th>代码</th><th>名称</th><th>T-2</th><th>T-1</th><th>昨收</th><th>前低</th><th>触发区间</th><th>止损</th><th>pos</th><th>vr</th><th>5日</th><th>dev20</th><th>市值(亿)</th><th>档</th></tr>
-<tr><td>1</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_000905/#&amp;atab=geguNews" target="_blank" rel="noopener">000905</a></td><td>厦门港务</td><td>8.24</td><td>8.13</td><td>8.21</td><td>8.06</td><td>7.96~8.13</td><td>7.68</td><td>0.13</td><td>0.57</td><td>-3.9%</td><td>-6.0%</td><td>126</td><td>核心</td></tr>
-<tr><td>2</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_605198/#&amp;atab=geguNews" target="_blank" rel="noopener">605198</a></td><td>安德利</td><td>54.83</td><td>52.72</td><td>57.32</td><td>53.40</td><td>55.60~56.75</td><td>53.64</td><td>0.16</td><td>0.71</td><td>-4.9%</td><td>-5.2%</td><td>186</td><td>核心</td></tr>
-<tr><td>3</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_000676/#&amp;atab=geguNews" target="_blank" rel="noopener">000676</a></td><td>智度股份</td><td>6.47</td><td>6.22</td><td>6.26</td><td>6.16</td><td>6.07~6.20</td><td>5.86</td><td>0.16</td><td>0.66</td><td>-3.4%</td><td>-4.8%</td><td>79</td><td>核心</td></tr>
-<tr><td>4</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_002030/#&amp;atab=geguNews" target="_blank" rel="noopener">002030</a></td><td>达安基因</td><td>5.37</td><td>5.23</td><td>5.36</td><td>5.20</td><td>5.20~5.31</td><td>5.02</td><td>0.18</td><td>0.59</td><td>-3.6%</td><td>-4.3%</td><td>75</td><td>核心</td></tr>
-<tr><td>5</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_001322/#&amp;atab=geguNews" target="_blank" rel="noopener">001322</a></td><td>箭牌家居</td><td>6.28</td><td>6.13</td><td>6.24</td><td>6.07</td><td>6.05~6.18</td><td>5.84</td><td>0.18</td><td>0.63</td><td>-6.2%</td><td>-5.0%</td><td>59</td><td>核心</td></tr>
-<tr><td>6</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_600032/#&amp;atab=geguNews" target="_blank" rel="noopener">600032</a></td><td>浙江新能</td><td>7.00</td><td>6.87</td><td>6.95</td><td>6.83</td><td>6.74~6.88</td><td>6.50</td><td>0.21</td><td>0.63</td><td>-7.1%</td><td>-5.0%</td><td>167</td><td>核心</td></tr>
-<tr><td>7</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_002467/#&amp;atab=geguNews" target="_blank" rel="noopener">002467</a></td><td>二六三</td><td>4.62</td><td>4.45</td><td>4.52</td><td>4.40</td><td>4.38~4.47</td><td>4.23</td><td>0.22</td><td>0.57</td><td>-4.2%</td><td>-6.0%</td><td>62</td><td>核心</td></tr>
-<tr><td>8</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_601949/#&amp;atab=geguNews" target="_blank" rel="noopener">601949</a></td><td>中国出版</td><td>5.61</td><td>5.55</td><td>5.64</td><td>5.41</td><td>5.47~5.58</td><td>5.28</td><td>0.26</td><td>0.56</td><td>-4.1%</td><td>-3.1%</td><td>107</td><td>核心</td></tr>
-<tr><td>9</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_600088/#&amp;atab=geguNews" target="_blank" rel="noopener">600088</a></td><td>中视传媒</td><td>12.65</td><td>12.60</td><td>12.81</td><td>12.48</td><td>12.43~12.68</td><td>11.99</td><td>0.31</td><td>0.71</td><td>-4.3%</td><td>-2.8%</td><td>51</td><td>核心</td></tr>
-<tr><td>10</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_600551/#&amp;atab=geguNews" target="_blank" rel="noopener">600551</a></td><td>时代出版</td><td>7.82</td><td>7.59</td><td>7.70</td><td>7.56</td><td>7.47~7.62</td><td>7.21</td><td>0.35</td><td>0.71</td><td>-3.1%</td><td>-2.4%</td><td>52</td><td>放宽</td></tr>
-<tr><td>11</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_002803/#&amp;atab=geguNews" target="_blank" rel="noopener">002803</a></td><td>吉宏股份</td><td>19.04</td><td>18.62</td><td>18.90</td><td>18.21</td><td>18.33~18.71</td><td>17.69</td><td>0.37</td><td>0.70</td><td>-4.1%</td><td>-1.4%</td><td>87</td><td>放宽</td></tr>
-<tr><td>12</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_688767/#&amp;atab=geguNews" target="_blank" rel="noopener">688767</a></td><td>博拓生物</td><td>38.08</td><td>36.70</td><td>38.15</td><td>36.75</td><td>37.01~37.77</td><td>35.70</td><td>0.43</td><td>0.66</td><td>-4.5%</td><td>-3.3%</td><td>57</td><td>放宽</td></tr>
-</table>
-<h1>交易跟踪记录</h1>
-<p class="note">最新交易日 2026-10-28 ｜ 生成于 2026-10-29 10:55</p>
-<table>
-<tr><th>时间</th><th>股票代码</th><th>股票名称</th><th>买入前价格</th><th>Day1收盘</th><th>Day2收盘</th><th>Day3收盘</th><th>相对买入前价格</th><th>状态</th><th>盈亏</th></tr>
-<tr><td>2026-10-29</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_600032/#&amp;atab=geguNews" target="_blank" rel="noopener">600032</a></td><td>浙江新能</td><td>6.95</td><td>—</td><td>—</td><td>—</td><td class="">—</td><td class="hold">持有</td><td class="">—</td></tr>
-<tr><td>2026-10-28</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_601949/#&amp;atab=geguNews" target="_blank" rel="noopener">601949</a></td><td>中国出版</td><td>5.55</td><td>5.64</td><td>—</td><td>—</td><td class="up">+1.62%</td><td class="sold">Day2割</td><td class="dn">-59.14</td></tr>
-<tr><td>2026-10-28</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_000930/#&amp;atab=geguNews" target="_blank" rel="noopener">000930</a></td><td>中粮科技</td><td>4.78</td><td>4.74</td><td>—</td><td>—</td><td class="dn">-0.84%</td><td class="hold">持有</td><td class="">—</td></tr>
-<tr><td>2026-10-28</td><td><a class="code" href="https://m.10jqka.com.cn/stockpage/hs_600863/#&amp;atab=geguNews" target="_blank" rel="noopener">600863</a></td><td>华能蒙电</td><td>4.95</td><td>5.13</td><td>—</td><td>—</td><td class="up">+3.64%</td><td class="hold">持有</td><td class="">—</td></tr>
-</table>
-<p class="note">「相对买入前价格」= 当前已可得的最近一天收盘 ÷ 买入前价格 − 1；取数顺序 D3 → D2 → D1，每天重跑自动前移。不含手续费。</p>
-</body></html>
+<div class="container">
+<div class="card">
+<div class="card-title">观察池<span>候选标的 · 可买带 = max(触发下限, 前低) ~ 触发上限</span></div>
+<div class="card-sub">基准日 2026-10-28 收盘筛选，用于下一交易日盘中判定 ｜ 共 12 只 ｜ 现价取自快照 2026-10-29 ｜ 点击表头可排序</div>
+<div class="summary-bar"><span>总数 <b id="watchTotal">0</b></span><span>✅ 现价进入可买带 <b id="triggerCount" class="rise">0</b></span><span>⚠ 已跌破前低 <b id="breakCount" class="fall">0</b></span><span>核心档 <b id="coreCount">0</b></span></div>
+<div class="table-wrap"><table id="watchTable"><thead><tr>
+<th class="col1 fixed-col" data-sort="idx">序号</th>
+<th class="col2 fixed-col" data-sort="code">代码</th>
+<th class="col3 fixed-col" data-sort="name">名称</th>
+<th class="" data-sort="levelTxt">档</th>
+<th class="num" data-sort="close">昨收</th>
+<th class="num" data-sort="now">现价</th>
+<th class="num" data-sort="chg">今涨</th>
+<th class="num" data-sort="bandLo">可买带</th>
+<th class="num" data-sort="stop">止损</th>
+<th class="num" data-sort="preLow">前低</th>
+<th class="num" data-sort="five">5日</th>
+<th class="num" data-sort="dev">dev20</th>
+<th class="num" data-sort="cap">市值(亿)</th>
+<th class="">附加因子</th>
+</tr></thead><tbody id="watchBody"></tbody></table></div>
+</div>
+<div class="card">
+<div class="card-title">交易跟踪<span>持仓 / 了结记录，已割标的保留用于统计</span></div>
+<div class="card-sub">最新交易日 2026-10-28 ｜ 生成于 2026-10-29 13:24 ｜ 点击表头可排序</div>
+<div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>🔵 持有中 <b id="holdingCnt">0</b></span><span>🔴 已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
+<div class="table-wrap"><table id="tradeTable"><thead><tr>
+<th class="col1 fixed-col" data-sort="dt">时间</th>
+<th class="col2 fixed-col" data-sort="code">代码</th>
+<th class="col3 fixed-col" data-sort="name">名称</th>
+<th class="num" data-sort="buy">买入前价格</th>
+<th class="" data-sort="statusText">状态</th>
+<th class="num" data-sort="d1">Day1收盘</th>
+<th class="num" data-sort="d2">Day2收盘</th>
+<th class="num" data-sort="d3">Day3收盘</th>
+<th class="num" data-sort="pct">相对买入前价格</th>
+<th class="num" data-sort="pnl">盈亏</th>
+</tr></thead><tbody id="tradeBody"></tbody></table></div>
+<div class="notes">
+<div>「相对买入前价格」= 当前已可得的最近一天收盘 ÷ 买入前价格 − 1；取数顺序 D3 → D2 → D1，每天重跑自动前移。不含手续费。</div>
+<div>「状态」列：持有 = 未卖出；DayN割 = 在第 N 个交易日卖出（N 从买入日当天算起，买入日为 Day1），该笔保留在表内用于统计。</div>
+<div>观察池行底色：绿色 = 现价已进入可买带；红色 = 现价已跌破前低。「可买带」= max(触发下限, 前低) ~ 触发上限，前低是形态判断线不是买点。</div>
+<div>「已了结盈亏」只累加已卖出记录的盈亏金额，不含在仓浮动盈亏；持仓行的「相对买入前价格」是收盘价对买入前价格的涨跌，不是本笔实际收益。</div>
+</div>
+</div>
+<script>
+var WATCH = [{"idx": 1.0, "code": "000905", "name": "厦门港务", "t2": "8.24", "t1": "8.13", "close": 8.21, "preLow": 8.06, "lo": 7.96, "hi": 8.13, "bandLo": 8.06, "stop": 7.68, "pos": 0.13, "vr": 0.57, "five": -3.9, "dev": -6.0, "cap": 126.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_000905/#&amp;atab=geguNews", "now": 8.26, "chg": 0.6090133982947554}, {"idx": 2.0, "code": "605198", "name": "安德利", "t2": "54.83", "t1": "52.72", "close": 57.32, "preLow": 53.4, "lo": 55.6, "hi": 56.75, "bandLo": 55.6, "stop": 53.64, "pos": 0.16, "vr": 0.71, "five": -4.9, "dev": -5.2, "cap": 186.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_605198/#&amp;atab=geguNews", "now": 55.02, "chg": -4.012561060711784}, {"idx": 3.0, "code": "000676", "name": "智度股份", "t2": "6.47", "t1": "6.22", "close": 6.26, "preLow": 6.16, "lo": 6.07, "hi": 6.2, "bandLo": 6.16, "stop": 5.86, "pos": 0.16, "vr": 0.66, "five": -3.4, "dev": -4.8, "cap": 79.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_000676/#&amp;atab=geguNews", "now": 6.11, "chg": -2.396166134185296}, {"idx": 4.0, "code": "002030", "name": "达安基因", "t2": "5.37", "t1": "5.23", "close": 5.36, "preLow": 5.2, "lo": 5.2, "hi": 5.31, "bandLo": 5.2, "stop": 5.02, "pos": 0.18, "vr": 0.59, "five": -3.6, "dev": -4.3, "cap": 75.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_002030/#&amp;atab=geguNews", "now": 5.32, "chg": -0.7462686567164201}, {"idx": 5.0, "code": "001322", "name": "箭牌家居", "t2": "6.28", "t1": "6.13", "close": 6.24, "preLow": 6.07, "lo": 6.05, "hi": 6.18, "bandLo": 6.07, "stop": 5.84, "pos": 0.18, "vr": 0.63, "five": -6.2, "dev": -5.0, "cap": 59.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_001322/#&amp;atab=geguNews", "now": 6.13, "chg": -1.7628205128205177}, {"idx": 6.0, "code": "600032", "name": "浙江新能", "t2": "7.00", "t1": "6.87", "close": 6.95, "preLow": 6.83, "lo": 6.74, "hi": 6.88, "bandLo": 6.83, "stop": 6.5, "pos": 0.21, "vr": 0.63, "five": -7.1, "dev": -5.0, "cap": 167.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_600032/#&amp;atab=geguNews", "now": 6.91, "chg": -0.575539568345329}, {"idx": 7.0, "code": "002467", "name": "二六三", "t2": "4.62", "t1": "4.45", "close": 4.52, "preLow": 4.4, "lo": 4.38, "hi": 4.47, "bandLo": 4.4, "stop": 4.23, "pos": 0.22, "vr": 0.57, "five": -4.2, "dev": -6.0, "cap": 62.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_002467/#&amp;atab=geguNews", "now": 4.55, "chg": 0.6637168141592875}, {"idx": 8.0, "code": "601949", "name": "中国出版", "t2": "5.61", "t1": "5.55", "close": 5.64, "preLow": 5.41, "lo": 5.47, "hi": 5.58, "bandLo": 5.47, "stop": 5.28, "pos": 0.26, "vr": 0.56, "five": -4.1, "dev": -3.1, "cap": 107.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_601949/#&amp;atab=geguNews", "now": 5.52, "chg": -2.127659574468088}, {"idx": 9.0, "code": "600088", "name": "中视传媒", "t2": "12.65", "t1": "12.60", "close": 12.81, "preLow": 12.48, "lo": 12.43, "hi": 12.68, "bandLo": 12.48, "stop": 11.99, "pos": 0.31, "vr": 0.71, "five": -4.3, "dev": -2.8, "cap": 51.0, "levelTxt": "核心", "level": "core", "url": "https://m.10jqka.com.cn/stockpage/hs_600088/#&amp;atab=geguNews", "now": 12.88, "chg": 0.5464480874316946}, {"idx": 10.0, "code": "600551", "name": "时代出版", "t2": "7.82", "t1": "7.59", "close": 7.7, "preLow": 7.56, "lo": 7.47, "hi": 7.62, "bandLo": 7.56, "stop": 7.21, "pos": 0.35, "vr": 0.71, "five": -3.1, "dev": -2.4, "cap": 52.0, "levelTxt": "放宽", "level": "relax", "url": "https://m.10jqka.com.cn/stockpage/hs_600551/#&amp;atab=geguNews", "now": 7.54, "chg": -2.0779220779220786}, {"idx": 11.0, "code": "002803", "name": "吉宏股份", "t2": "19.04", "t1": "18.62", "close": 18.9, "preLow": 18.21, "lo": 18.33, "hi": 18.71, "bandLo": 18.33, "stop": 17.69, "pos": 0.37, "vr": 0.7, "five": -4.1, "dev": -1.4, "cap": 87.0, "levelTxt": "放宽", "level": "relax", "url": "https://m.10jqka.com.cn/stockpage/hs_002803/#&amp;atab=geguNews", "now": 18.41, "chg": -2.5925925925925797}, {"idx": 12.0, "code": "688767", "name": "博拓生物", "t2": "38.08", "t1": "36.70", "close": 38.15, "preLow": 36.75, "lo": 37.01, "hi": 37.77, "bandLo": 37.01, "stop": 35.7, "pos": 0.43, "vr": 0.66, "five": -4.5, "dev": -3.3, "cap": 57.0, "levelTxt": "放宽", "level": "relax", "url": "https://m.10jqka.com.cn/stockpage/hs_688767/#&amp;atab=geguNews", "now": 38.05, "chg": -0.2621231979030192}];
+var TRADE = [{"dt": "2026-10-29", "code": "600032", "name": "浙江新能", "buy": 6.95, "status": "hold", "statusText": "持有", "d1": null, "d2": null, "d3": null, "pct": null, "pnl": null, "url": "https://m.10jqka.com.cn/stockpage/hs_600032/#&amp;atab=geguNews"}, {"dt": "2026-10-28", "code": "601949", "name": "中国出版", "buy": 5.55, "status": "cut", "statusText": "Day2割", "d1": 5.64, "d2": null, "d3": null, "pct": 1.6216216216216193, "pnl": -59.14, "url": "https://m.10jqka.com.cn/stockpage/hs_601949/#&amp;atab=geguNews"}, {"dt": "2026-10-28", "code": "000930", "name": "中粮科技", "buy": 4.78, "status": "hold", "statusText": "持有", "d1": 4.74, "d2": null, "d3": null, "pct": -0.836820083682009, "pnl": null, "url": "https://m.10jqka.com.cn/stockpage/hs_000930/#&amp;atab=geguNews"}, {"dt": "2026-10-28", "code": "600863", "name": "华能蒙电", "buy": 4.95, "status": "hold", "statusText": "持有", "d1": 5.13, "d2": null, "d3": null, "pct": 3.6363636363636305, "pnl": null, "url": "https://m.10jqka.com.cn/stockpage/hs_600863/#&amp;atab=geguNews"}];
+
+function sortList(list, st){
+  var a = list.slice();
+  if(!st.key) return a;
+  a.sort(function(x,y){
+    var vx = x[st.key], vy = y[st.key];
+    if(vx === null || vx === undefined) return 1;
+    if(vy === null || vy === undefined) return -1;
+    if(typeof vx === 'string') return st.asc ? vx.localeCompare(vy) : vy.localeCompare(vx);
+    return st.asc ? vx - vy : vy - vx;
+  });
+  return a;
+}
+function num(v){ return v === null ? '<span class="void">\u2014</span>' : v.toFixed(2); }
+function pctCell(p){
+  if(p === null) return '<span class="void">\u2014</span>';
+  return '<span class="' + (p >= 0 ? 'rise' : 'fall') + '">' +
+         (p >= 0 ? '+' : '') + p.toFixed(2) + '%</span>';
+}
+function moneyCell(v){
+  if(v === null) return '<span class="void">\u2014</span>';
+  return '<span class="' + (v >= 0 ? 'rise' : 'fall') + '">' +
+         (v >= 0 ? '+' : '') + v.toFixed(2) + '</span>';
+}
+function setSortMark(tableId, st){
+  var ths = document.querySelectorAll('#' + tableId + ' th[data-sort]');
+  for(var i = 0; i < ths.length; i++){
+    var th = ths[i];
+    th.classList.remove('sort-asc');
+    th.classList.remove('sort-desc');
+    if(st.key && th.dataset.sort === st.key){
+      th.classList.add(st.asc ? 'sort-asc' : 'sort-desc');
+    }
+  }
+}
+function renderWatch(){
+  var tb = document.getElementById('watchBody');
+  var list = sortList(WATCH, watchSort);
+  var html = '', trig = 0, brk = 0, core = 0;
+  for(var i = 0; i < list.length; i++){
+    var r = list[i];
+    var inBand = (r.now !== null && r.lo !== null && r.hi !== null &&
+                  r.now >= r.bandLo && r.now <= r.hi);
+    var broken = (r.now !== null && r.preLow !== null && r.now < r.preLow);
+    if(inBand) trig++;
+    if(broken) brk++;
+    if(r.level === 'core') core++;
+    var cls = inBand ? ' class="tr-trigger"' : (broken ? ' class="tr-break"' : '');
+    html += '<tr' + cls + '>' +
+      '<td class="fixed-col col1">' + r.idx + '</td>' +
+      '<td class="fixed-col col2"><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
+      '<td class="fixed-col col3">' + r.name + '</td>' +
+      '<td><span class="badge ' + (r.level === 'core' ? 'badge-core' : 'badge-relax') + '">' + r.levelTxt + '</span></td>' +
+      '<td class="num">' + num(r.close) + '</td>' +
+      '<td class="num">' + num(r.now) + '</td>' +
+      '<td class="num">' + pctCell(r.chg) + '</td>' +
+      '<td class="num">' + num(r.bandLo) + '~' + num(r.hi) + '</td>' +
+      '<td class="num rise">' + num(r.stop) + '</td>' +
+      '<td class="num">' + num(r.preLow) + '</td>' +
+      '<td class="num">' + pctCell(r.five) + '</td>' +
+      '<td class="num">' + pctCell(r.dev) + '</td>' +
+      '<td class="num">' + (r.cap === null ? '<span class="void">\u2014</span>' : r.cap.toFixed(0)) + '</td>' +
+      '<td class="tip">因子<span class="tt">T-2 ' + r.t2 + '<br>T-1 ' + r.t1 + '<br>pos ' + r.pos + '<br>vr ' + r.vr + '</span></td>' +
+      '</tr>';
+  }
+  tb.innerHTML = html;
+  document.getElementById('watchTotal').textContent = list.length;
+  document.getElementById('triggerCount').textContent = trig;
+  document.getElementById('breakCount').textContent = brk;
+  document.getElementById('coreCount').textContent = core;
+  setSortMark('watchTable', watchSort);
+}
+function renderTrade(){
+  var tb = document.getElementById('tradeBody');
+  var list = sortList(TRADE, tradeSort);
+  var html = '', hold = 0, cut = 0, sum = 0;
+  for(var i = 0; i < list.length; i++){
+    var r = list[i];
+    if(r.status === 'hold') hold++; else cut++;
+    if(r.pnl !== null) sum += r.pnl;
+    var cls = r.status === 'hold' ? ' class="tr-holding"' : '';
+    var badge = r.status === 'hold'
+      ? '<span class="badge badge-hold">' + r.statusText + '</span>'
+      : '<span class="badge badge-cut">' + r.statusText + '</span>';
+    html += '<tr' + cls + '>' +
+      '<td class="fixed-col col1">' + r.dt + '</td>' +
+      '<td class="fixed-col col2"><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
+      '<td class="fixed-col col3">' + r.name + '</td>' +
+      '<td class="num">' + num(r.buy) + '</td>' +
+      '<td class="' + (r.status === 'hold' ? '' : 'sold') + '">' + badge + '</td>' +
+      '<td class="num">' + num(r.d1) + '</td>' +
+      '<td class="num">' + num(r.d2) + '</td>' +
+      '<td class="num">' + num(r.d3) + '</td>' +
+      '<td class="num">' + pctCell(r.pct) + '</td>' +
+      '<td class="num">' + moneyCell(r.pnl) + '</td>' +
+      '</tr>';
+  }
+  tb.innerHTML = html;
+  document.getElementById('tradeTotal').textContent = list.length;
+  document.getElementById('holdingCnt').textContent = hold;
+  document.getElementById('cutCnt').textContent = cut;
+  document.getElementById('pnlSum').textContent = (sum >= 0 ? '+' : '') + sum.toFixed(2);
+  document.getElementById('pnlSum').className = sum >= 0 ? 'rise' : 'fall';
+  setSortMark('tradeTable', tradeSort);
+}
+var watchSort = {key:null, asc:true};
+var tradeSort = {key:null, asc:true};
+function bindSort(tableId, st, renderFn){
+  var ths = document.querySelectorAll('#' + tableId + ' th[data-sort]');
+  for(var i = 0; i < ths.length; i++){
+    (function(th){
+      th.onclick = function(){
+        var key = th.dataset.sort;
+        if(st.key === key) st.asc = !st.asc;
+        else { st.key = key; st.asc = true; }
+        renderFn();
+      };
+    })(ths[i]);
+  }
+}
+renderWatch();
+renderTrade();
+bindSort('watchTable', watchSort, renderWatch);
+bindSort('tradeTable', tradeSort, renderTrade);
+
+</script></body></html>
