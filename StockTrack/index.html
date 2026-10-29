@@ -49,27 +49,24 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 }
 </style></head><body>
 <div class="container">
-<div class="card">
-<div class="card-title">观察池</div>
-<div class="sub-line">基准日 2026-10-28 收盘筛选，用于下一交易日盘中判定 ｜ 共 12 只</div>
-<div class="sub-line">现价取自快照 2026-10-29<span id="quoteStamp"></span></div>
-<div class="summary-bar"><span>总数 <b id="watchTotal">0</b></span><span>进可买带 <b id="triggerCount" class="rise">0</b></span><span>跌破前低 <b id="breakCount" class="fall">0</b></span><span>核心档 <b id="coreCount">0</b></span></div>
-<table id="watchTable"><thead><tr>
+<div class="card card-stale">
+<div class="card-title">观察池重算<span class="badge badge-expired">基准日已过期</span></div>
+<div class="sub-line">名单基准日 2026-10-28 ｜ 最新交易日 2026-10-29，已差一个交易日</div>
+<div class="sub-line">按最新收盘价重算触发区间，前低改用最新交易日最低价；因子值仍是旧基准日的，本表只看价格结构 ｜ 现价取自 2026-10-29<span id="quoteStamp"></span></div>
+<div class="summary-bar"><span>条目 <b id="staleTotal">0</b></span><span>有可买区间 <b id="staleOkCnt" class="rise">0</b></span><span>无空间 <b id="staleNoCnt" class="fall">0</b></span></div>
+<table id="staleTable"><thead><tr>
 <th data-sort="idx">序号</th>
 <th data-sort="code">代码</th>
 <th data-sort="name">名称</th>
-<th data-sort="levelTxt">档</th>
-<th data-sort="close">昨收</th>
-<th data-sort="now">现价</th>
+<th data-sort="oldClose">旧收盘</th>
+<th data-sort="newClose">最新收盘</th>
 <th data-sort="chg">今涨</th>
+<th data-sort="newLow">最新最低</th>
+<th data-sort="lo">新触发区间</th>
 <th data-sort="bandLo">可买带</th>
-<th data-sort="stop">止损</th>
-<th data-sort="preLow">前低</th>
-<th data-sort="five">5日</th>
-<th data-sort="dev">dev</th>
-<th data-sort="cap">市值</th>
-<th data-sort="pos">pos</th>
-</tr></thead><tbody id="watchBody"></tbody></table>
+<th data-sort="stop">新止损</th>
+<th data-sort="ok">结论</th>
+</tr></thead><tbody id="staleBody"></tbody></table>
 </div>
 <div class="card card-cand">
 <div class="card-title">形态候选<span class="badge badge-warn">判据未通过</span></div>
@@ -93,28 +90,9 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <th data-sort="pos">pos</th>
 </tr></thead><tbody id="candBody"></tbody></table>
 </div>
-<div class="card card-stale">
-<div class="card-title">观察池重算<span class="badge badge-expired">基准日已过期</span></div>
-<div class="sub-line">名单基准日 2026-10-28 ｜ 最新交易日 2026-10-29，已差一个交易日</div>
-<div class="sub-line">按最新收盘价重算触发区间，前低改用最新交易日最低价；因子值仍是旧基准日的，本表只看价格结构</div>
-<div class="summary-bar"><span>条目 <b id="staleTotal">0</b></span><span>有可买区间 <b id="staleOkCnt" class="rise">0</b></span><span>无空间 <b id="staleNoCnt" class="fall">0</b></span></div>
-<table id="staleTable"><thead><tr>
-<th data-sort="idx">序号</th>
-<th data-sort="code">代码</th>
-<th data-sort="name">名称</th>
-<th data-sort="oldClose">旧收盘</th>
-<th data-sort="newClose">最新收盘</th>
-<th data-sort="chg">今涨</th>
-<th data-sort="newLow">最新最低</th>
-<th data-sort="lo">新触发区间</th>
-<th data-sort="bandLo">可买带</th>
-<th data-sort="stop">新止损</th>
-<th data-sort="ok">结论</th>
-</tr></thead><tbody id="staleBody"></tbody></table>
-</div>
 <div class="card">
 <div class="card-title">交易跟踪</div>
-<div class="sub-line">最新交易日 2026-10-29 ｜ 生成于 2026-10-29 15:47</div>
+<div class="sub-line">最新交易日 2026-10-29 ｜ 生成于 2026-10-29 15:58</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -226,6 +204,7 @@ function setSortMark(tableId, st){
 }
 function renderWatch(){
   var tb = document.getElementById('watchBody');
+  if(!tb) return;
   var list = sortList(WATCH, watchSort);
   var html = '', trig = 0, brk = 0, core = 0;
   for(var i = 0; i < list.length; i++){
