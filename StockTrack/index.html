@@ -55,8 +55,8 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <div class="card card-stale">
 <div class="card-title">观察池重算<span class="badge badge-expired">基准日已过期</span></div>
 <div class="sub-line">名单基准日 2026-10-28 ｜ 最新交易日 2026-10-30，已差一个交易日</div>
-<div class="sub-line">按最新收盘价重算触发区间，前低改用最新交易日最低价；因子值仍是旧基准日的，本表只看价格结构 ｜ 现价取自 2026-10-30<span id="quoteStamp"></span></div>
-<div class="summary-bar"><span>条目 <b id="staleTotal">0</b></span><span>有可买区间 <b id="staleOkCnt" class="rise">0</b></span><span>无空间 <b id="staleNoCnt" class="fall">0</b></span></div>
+<div class="sub-line">按最新收盘价重算触发区间，前低改用最新交易日最低价；因子值仍是旧基准日的；本表只算价格结构，不判开盘形态（低开幅度/是否破前低），能不能买看下方交易跟踪与 6 条开盘规则 ｜ 现价取自 2026-10-30<span id="quoteStamp"></span></div>
+<div class="summary-bar"><span>条目 <b id="staleTotal">0</b></span><span>区间成立（等回踩） <b id="staleOkCnt">0</b></span><span>区间被前低吃掉 <b id="staleNoCnt">0</b></span></div>
 <table id="staleTable"><thead><tr>
 <th data-sort="idx">序号</th>
 <th data-sort="code">代码</th>
@@ -95,7 +95,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <div class="card card-trade">
 <div class="card-title">交易跟踪<span class="badge badge-hold">持仓跟踪</span></div>
-<div class="sub-line">最新交易日 2026-10-30 ｜ 生成于 2026-10-30 10:15</div>
+<div class="sub-line">最新交易日 2026-10-30 ｜ 生成于 2026-10-30 10:22</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -335,9 +335,9 @@ function renderStale(){
     var held = !!holding[r.code];
     var bandHtml = r.ok
       ? r.bandLo.toFixed(2) + '~' + r.hi.toFixed(2)
-      : '<span class="void" title="最新最低价高于触发上限，开盘任何位置都不满足买入条件">无空间</span>';
+      : '<span class="void" title="最新最低价高于触发上限，开盘跌到任何位置都进不了区间">区间被吃</span>';
     if(r.ok && !held) ok++; else if(!held) no++;
-    var verdict = held ? '持有中' : (r.ok ? '可买' : '无空间');
+    var verdict = held ? '持有中' : (r.ok ? '等回踩' : '区间被吃');
     var cls = (r.ok && !held) ? ' class="tr-trigger"' : (held ? ' class="tr-holding"' : '');
     html += '<tr' + cls + '>' +
       '<td>' + r.idx + '</td>' +
