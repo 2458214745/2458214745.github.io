@@ -98,7 +98,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <div class="card card-self">
 <div class="card-title">自选池<span class="badge badge-self">自定义</span></div>
 <div class="sub-line">用户手工指定名单 ｜ 共 2 只</div>
-<div class="summary-bar"><span>总数 <b id="selfTotal">0</b></span><span>满判据 <b id="selfFull">0</b></span><span>≥2/3 <b id="selfTwo">0</b></span><span>缩量 <b id="selfShrink">0</b></span></div>
+<div class="summary-bar"><span>候选 <b id="selfTotal">0</b></span><span>进可买带 <b id="selfTriggerCount" class="rise">0</b></span><span>跌破前低 <b id="selfBreakCount" class="fall">0</b></span><span>核心档 <b id="selfCoreCount">0</b></span></div>
 <table id="selfTable"><thead><tr>
 <th data-sort="code">代码</th>
 <th data-sort="name">名称</th>
@@ -117,7 +117,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <div class="card card-trade">
 <div class="card-title">交易跟踪<span class="badge badge-hold">持仓跟踪</span></div>
-<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-02 10:12</div>
+<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-02 10:17</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -452,17 +452,16 @@ function renderSelf(){
   if(!tb || typeof SELF === 'undefined') return;
   var list = sortList(SELF, selfSort);
   var html = '';
-  var full = 0, two = 0, shr = 0;
+  var sTrig = 0, sBrk = 0, sCore = 0;
   for(var i = 0; i < list.length; i++){
     var r = list[i], v = selfVals(r), live = qnow(r.code) !== null && inSession();
-    var rowCls = '';
-    if(v.now !== null && r.stop !== null && r.stop !== undefined && v.now <= r.stop){
-      rowCls = ' class="tr-break"';
-    } else if(r.valid !== false && r.bl !== null && r.bl !== undefined &&
-              r.bh !== null && r.bh !== undefined && v.now !== null &&
-              v.now >= r.bl && v.now <= r.bh){
-      rowCls = ' class="tr-trigger"';
-    }
+    var inBand = (r.valid !== false && r.bl !== null && r.bl !== undefined &&
+                  r.bh !== null && r.bh !== undefined && v.now !== null &&
+                  v.now >= r.bl && v.now <= r.bh);
+    var broken = (v.now !== null && r.lo !== null && r.lo !== undefined && v.now < r.lo);
+    var rowCls = broken ? ' class="tr-break"' : (inBand ? ' class="tr-trigger"' : '');
+    if(inBand) sTrig++;
+    if(broken) sBrk++;
     var fg = selfFlags(r, v);
     html += '<tr' + rowCls + ' data-code="' + r.code + '">' +
       '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
@@ -479,15 +478,13 @@ function renderSelf(){
       '<td>' + vrCell(r.vr) + '</td>' +
       '<td>' + (v.pos === null ? '<span class="void">—</span>' : v.pos.toFixed(1) + '%') + '</td>' +
       '</tr>';
-    if(fg.sc === 3) full++;
-    else if(fg.sc !== null && fg.sc >= 2) two++;
-    if(fg.vs === true) shr++;
+    if(fg.sc === 3) sCore++;
   }
   setHtml(tb, html);
   setText(document.getElementById('selfTotal'), list.length);
-  setText(document.getElementById('selfFull'), full);
-  setText(document.getElementById('selfTwo'), two);
-  setText(document.getElementById('selfShrink'), shr);
+  setText(document.getElementById('selfTriggerCount'), sTrig);
+  setText(document.getElementById('selfBreakCount'), sBrk);
+  setText(document.getElementById('selfCoreCount'), sCore);
   setSortMark('selfTable', selfSort);
 }
 var watchSort = {key:null, asc:true};
@@ -627,14 +624,23 @@ function patchQuotes(){
   }
   var stb = document.getElementById('selfBody');
   if(stb && typeof SELF !== 'undefined'){
+    var sTrig2 = 0, sBrk2 = 0, sCore2 = 0;
     for(i = 0; i < SELF.length; i++){
       var s = SELF[i];
+      var sv = selfVals(s), slive = qnow(s.code) !== null && inSession();
+      var sinBand = (s.valid !== false && s.bl !== null && s.bl !== undefined &&
+                     s.bh !== null && s.bh !== undefined && sv.now !== null &&
+                     sv.now >= s.bl && sv.now <= s.bh);
+      var sBroken = (sv.now !== null && s.lo !== null && s.lo !== undefined && sv.now < s.lo);
+      if(sinBand) sTrig2++;
+      if(sBroken) sBrk2++;
+      var sfg = selfFlags(s, sv);
+      if(sfg.sc === 3) sCore2++;
       var sel = stb.querySelector('tr[data-code="' + s.code + '"]');
       if(!sel) continue;
+      setCls(sel, sBroken ? 'tr-break' : (sinBand ? 'tr-trigger' : ''));
       var stds = sel.children;
       if(stds.length > 12){
-        var sv = selfVals(s), slive = qnow(s.code) !== null && inSession();
-        var sfg = selfFlags(s, sv);
         setHtml(stds[2], (sfg.sc === null || sfg.sc === undefined ? '<span class="void">—</span>' : '<span class="badge ' + (sfg.sc === 3 ? 'badge-core' : 'badge-relax') + '">' + sfg.sc + '/3</span>'));
         setHtml(stds[4], '<span class="' + (slive ? 'live' : '') + '">' + selfNum(sv.now) + '</span>');
         setHtml(stds[5], pctCell(sv.chg, slive));
@@ -642,6 +648,10 @@ function patchQuotes(){
         setHtml(stds[12], (sv.pos === null ? '<span class="void">—</span>' : sv.pos.toFixed(1) + '%'));
       }
     }
+    setText(document.getElementById('selfTotal'), SELF.length);
+    setText(document.getElementById('selfTriggerCount'), sTrig2);
+    setText(document.getElementById('selfBreakCount'), sBrk2);
+    setText(document.getElementById('selfCoreCount'), sCore2);
   }
 }
 
