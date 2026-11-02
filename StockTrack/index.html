@@ -83,7 +83,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <div class="card card-trade">
 <div class="card-title">交易跟踪<span class="badge badge-hold">持仓跟踪</span></div>
-<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-02 10:46</div>
+<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-02 12:58</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -195,13 +195,17 @@ function setSortMark(tableId, st){
   var ths = document.querySelectorAll('#' + tableId + ' th[data-sort]');
   for(var i = 0; i < ths.length; i++){
     var th = ths[i];
-    th.classList.remove('sort-asc');
-    th.classList.remove('sort-desc');
+    if(th.classList.contains('sort-asc')) th.classList.remove('sort-asc');
+    if(th.classList.contains('sort-desc')) th.classList.remove('sort-desc');
     if(st.key && th.dataset.sort === st.key){
-      th.classList.add(st.asc ? 'sort-asc' : 'sort-desc');
+      var mk = st.asc ? 'sort-asc' : 'sort-desc';
+      if(!th.classList.contains(mk)) th.classList.add(mk);
     }
   }
 }
+function setHtml(el, h){ if(el && el.innerHTML !== h) el.innerHTML = h; }
+function setText(el, s){ if(el){ var v = String(s); if(el.textContent !== v) el.textContent = v; } }
+function setCls(el, c){ if(el && el.className !== c) el.className = c; }
 function renderWatch(){
   var tb = document.getElementById('watchBody');
   if(!tb) return;
@@ -216,7 +220,7 @@ function renderWatch(){
     if(broken) brk++;
     if(r.level === 'core') core++;
     var cls = inBand ? ' class="tr-trigger"' : (broken ? ' class="tr-break"' : '');
-    html += '<tr' + cls + '>' +
+    html += '<tr' + cls + ' data-code="' + r.code + '">' +
       '<td>' + r.idx + '</td>' +
       '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
       '<td>' + r.name + '</td>' +
@@ -233,11 +237,11 @@ function renderWatch(){
       '<td>' + (r.pos === null ? '<span class="void">\u2014</span>' : r.pos.toFixed(2)) + '</td>' +
       '</tr>';
   }
-  tb.innerHTML = html;
-  document.getElementById('watchTotal').textContent = list.length;
-  document.getElementById('triggerCount').textContent = trig;
-  document.getElementById('breakCount').textContent = brk;
-  document.getElementById('coreCount').textContent = core;
+  setHtml(tb, html);
+  setText(document.getElementById('watchTotal'), list.length);
+  setText(document.getElementById('triggerCount'), trig);
+  setText(document.getElementById('breakCount'), brk);
+  setText(document.getElementById('coreCount'), core);
   setSortMark('watchTable', watchSort);
 }
 function renderTrade(){
@@ -252,7 +256,7 @@ function renderTrade(){
     var badge = r.status === 'hold'
       ? '<span class="badge badge-hold">' + r.statusText + '</span>'
       : '<span class="badge badge-cut">' + r.statusText + '</span>';
-    html += '<tr' + cls + '>' +
+    html += '<tr' + cls + ' data-code="' + r.code + '">' +
       '<td>' + r.dt + '</td>' +
       '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
       '<td>' + r.name + '</td>' +
@@ -271,12 +275,12 @@ function renderTrade(){
       '<td>' + moneyCell(r.pnl) + '</td>' +
       '</tr>';
   }
-  tb.innerHTML = html;
-  document.getElementById('tradeTotal').textContent = list.length;
-  document.getElementById('holdingCnt').textContent = hold;
-  document.getElementById('cutCnt').textContent = cut;
-  document.getElementById('pnlSum').textContent = (sum >= 0 ? '+' : '') + sum.toFixed(2);
-  document.getElementById('pnlSum').className = sum >= 0 ? 'rise' : 'fall';
+  setHtml(tb, html);
+  setText(document.getElementById('tradeTotal'), list.length);
+  setText(document.getElementById('holdingCnt'), hold);
+  setText(document.getElementById('cutCnt'), cut);
+  setText(document.getElementById('pnlSum'), (sum >= 0 ? '+' : '') + sum.toFixed(2));
+  setCls(document.getElementById('pnlSum'), sum >= 0 ? 'rise' : 'fall');
   setSortMark('tradeTable', tradeSort);
 }
 function candBandCell(r){
@@ -298,7 +302,7 @@ function renderCand(){
     if(broken) brk++;
     if(r.level === 'core') core++;
     var cls = inBand ? ' class="tr-trigger"' : (broken ? ' class="tr-break"' : '');
-    html += '<tr' + cls + '>' +
+    html += '<tr' + cls + ' data-code="' + r.code + '">' +
       '<td>' + r.idx + '</td>' +
       '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
       '<td>' + r.name + '</td>' +
@@ -315,11 +319,11 @@ function renderCand(){
       '<td>' + (r.pos === null ? '<span class="void">\u2014</span>' : r.pos.toFixed(2)) + '</td>' +
       '</tr>';
   }
-  tb.innerHTML = html;
-  document.getElementById('candTotal').textContent = list.length;
-  document.getElementById('candTriggerCount').textContent = trig;
-  document.getElementById('candBreakCount').textContent = brk;
-  document.getElementById('candCoreCount').textContent = core;
+  setHtml(tb, html);
+  setText(document.getElementById('candTotal'), list.length);
+  setText(document.getElementById('candTriggerCount'), trig);
+  setText(document.getElementById('candBreakCount'), brk);
+  setText(document.getElementById('candCoreCount'), core);
   setSortMark('candTable', candSort);
 }
 var watchSort = {key:null, asc:true};var watchSort = {key:null, asc:true};
@@ -346,6 +350,63 @@ bindSort('watchTable', watchSort, renderWatch);
 bindSort('tradeTable', tradeSort, renderTrade);
 if(typeof CAND !== 'undefined') bindSort('candTable', candSort, renderCand);
 
+// ---------- 就地补丁：行情刷新只碰有变化的格子（值没变一格不动） ----------
+function patchQuotes(){
+  var i, el, tds;
+  var wtb = document.getElementById('watchBody');
+  if(wtb){
+    var trig = 0, brk = 0;
+    for(i = 0; i < WATCH.length; i++){
+      var r = WATCH[i];
+      var inBand = (r.now !== null && r.lo !== null && r.hi !== null && r.now >= r.bandLo && r.now <= r.hi);
+      var broken = (r.now !== null && r.preLow !== null && r.now < r.preLow);
+      if(inBand) trig++;
+      if(broken) brk++;
+      el = wtb.querySelector('tr[data-code="' + r.code + '"]');
+      if(!el) continue;
+      setCls(el, inBand ? 'tr-trigger' : (broken ? 'tr-break' : ''));
+      tds = el.children;
+      if(tds.length > 6){ setHtml(tds[5], num(r.now)); setHtml(tds[6], pctCell(r.chg)); }
+    }
+    setText(document.getElementById('triggerCount'), trig);
+    setText(document.getElementById('breakCount'), brk);
+  }
+  var ttb = document.getElementById('tradeBody');
+  if(ttb){
+    for(i = 0; i < TRADE.length; i++){
+      var t = TRADE[i];
+      if(t.status !== 'hold') continue;  // 已割行与实时行情无关，一格不碰
+      el = ttb.querySelector('tr[data-code="' + t.code + '"]');
+      if(!el) continue;
+      var cs = el.children;
+      if(cs.length > 12){
+        for(var d = 0; d < 7; d++) setHtml(cs[5 + d], dayCellOf(t, d));
+        setHtml(cs[12], pctCell(tradeRel(t), usingLive(t)));
+      }
+    }
+  }
+  if(typeof CAND !== 'undefined'){
+    var ctb = document.getElementById('candBody');
+    if(ctb){
+      var ctrig = 0, cbrk = 0;
+      for(i = 0; i < CAND.length; i++){
+        var q = CAND[i];
+        var cBand = (q.now !== null && q.lo !== null && q.hi !== null && q.bandLo <= q.hi && q.now >= q.bandLo && q.now <= q.hi);
+        var cBroken = (q.now !== null && q.preLow !== null && q.now < q.preLow);
+        if(cBand) ctrig++;
+        if(cBroken) cbrk++;
+        var cel = ctb.querySelector('tr[data-code="' + q.code + '"]');
+        if(!cel) continue;
+        setCls(cel, cBand ? 'tr-trigger' : (cBroken ? 'tr-break' : ''));
+        var ctds = cel.children;
+        if(ctds.length > 6){ setHtml(ctds[5], num(q.now)); setHtml(ctds[6], pctCell(q.chg)); }
+      }
+      setText(document.getElementById('candTriggerCount'), ctrig);
+      setText(document.getElementById('candBreakCount'), cbrk);
+    }
+  }
+}
+
 // ---------- 实时行情：页面加载即拉一次，覆盖服务端快照价 ----------
 function hhmmss(){
   var d = new Date();
@@ -362,8 +423,8 @@ function qLabel(){
 function setStamp(txt, warn){
   var el = document.getElementById('quoteStamp');
   if(!el) return;
-  el.textContent = txt;
-  el.className = 'quote-stamp' + (warn ? ' warn' : '');
+  setText(el, txt);
+  setCls(el, 'quote-stamp' + (warn ? ' warn' : ''));
 }
 function emSec(code){
   var c = code.charAt(0);
@@ -432,7 +493,7 @@ function txFallback(codes){
       n++;
     }
     QMAP = map;
-    if(n){ applyQuotes(map); renderWatch(); renderTrade(); if(typeof CAND !== 'undefined') renderCand(); setStamp(qLabel() + hhmmss()); }
+    if(n){ applyQuotes(map); patchQuotes(); setStamp(qLabel() + hhmmss()); }
     else { setStamp('快照价（实时获取失败）', true); }
     if(sc.parentNode) sc.parentNode.removeChild(sc);
   };
@@ -443,7 +504,6 @@ function txFallback(codes){
   document.head.appendChild(sc);
 }
 function refreshQuotes(){
-  setStamp('实时价拉取中…');
   var codes = quoteCodes(), secids = [];
   for(var i = 0; i < codes.length; i++){
     var s = emSec(codes[i]);
@@ -466,7 +526,7 @@ function refreshQuotes(){
       }
       QMAP = map;
       var hit = applyQuotes(map);
-      if(hit){ renderWatch(); renderTrade(); if(typeof CAND !== 'undefined') renderCand(); setStamp(qLabel() + hhmmss()); }
+      if(hit){ patchQuotes(); setStamp(qLabel() + hhmmss()); }
       else { txFallback(codes); }
     })
     .catch(function(){ txFallback(codes); });
