@@ -70,7 +70,6 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <div class="sub-line">反转因子当日统计无优势（组合 5 日为负），本表仅供观察，不作为买入依据，不生成正式名单</div>
 <div class="summary-bar"><span>候选 <b id="candTotal">0</b></span><span>进可买带 <b id="candTriggerCount" class="rise">0</b></span><span>跌破前低 <b id="candBreakCount" class="fall">0</b></span><span>核心档 <b id="candCoreCount">0</b></span></div>
 <table id="candTable"><thead><tr>
-<th data-sort="idx">序号</th>
 <th data-sort="code">代码</th>
 <th data-sort="name">名称</th>
 <th data-sort="levelTxt">档</th>
@@ -94,7 +93,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <div class="card-title">ETF候选池<span class="badge badge-warn">独立判据未过</span></div>
 <div class="sub-line">基准日 2026-11-02 收盘筛选 ｜ 共 3 只形态合格 ｜ 独立池（与A股池隔离）</div>
 <div class="summary-bar"><span>候选 <b id="etfTotal">0</b></span><span>进可买带 <b id="etfTriggerCount" class="rise">0</b></span><span>跌破前低 <b id="etfBreakCount" class="fall">0</b></span><span>核心档 <b id="etfCoreCount">0</b></span></div>
-<table id="etfTable"><thead><tr><th data-sort="idx">序号</th><th data-sort="code">代码</th><th data-sort="name">名称</th><th data-sort="levelTxt">判据</th><th data-sort="close">昨收</th><th data-sort="now">现价</th><th data-sort="chg">今涨</th><th data-sort="bandLo">可买带</th><th data-sort="stop">止损</th><th data-sort="preLow">前低</th><th data-sort="five">5日</th><th data-sort="dev">dev</th><th data-sort="vr">VR</th><th data-sort="pos">pos</th></tr></thead><tbody id="etfBody"></tbody></table>
+<table id="etfTable"><thead><tr><th data-sort="code">代码</th><th data-sort="name">名称</th><th data-sort="levelTxt">判据</th><th data-sort="close">昨收</th><th data-sort="now">现价</th><th data-sort="chg">今涨</th><th data-sort="bandLo">可买带</th><th data-sort="stop">止损</th><th data-sort="preLow">前低</th><th data-sort="five">5日</th><th data-sort="dev">dev</th><th data-sort="vr">VR</th><th data-sort="pos">pos</th></tr></thead><tbody id="etfBody"></tbody></table>
 </div>
 <div class="card card-self">
 <div class="card-title">自选池<span class="badge badge-self">自定义</span></div>
@@ -103,24 +102,24 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <table id="selfTable"><thead><tr>
 <th data-sort="code">代码</th>
 <th data-sort="name">名称</th>
+<th data-sort="score">判据</th>
 <th data-sort="pc">昨收</th>
 <th data-sort="now">现价</th>
 <th data-sort="chg">今涨</th>
+<th data-sort="band">可买带</th>
+<th data-sort="stop">止损</th>
 <th data-sort="p5">5日</th>
-<th data-sort="vr">缩量比VR</th>
-<th data-sort="pos">位置</th>
+<th data-sort="vr">VR</th>
+<th data-sort="pos">pos</th>
 <th data-sort="tp">位低</th>
 <th data-sort="vs">缩量</th>
 <th data-sort="ws">温跌</th>
-<th data-sort="score">判据</th>
-<th data-sort="band">可买带</th>
-<th data-sort="stop">止损</th>
 <th data-sort="bst">状态</th>
 </tr></thead><tbody id="selfBody"></tbody></table>
 </div>
 <div class="card card-trade">
 <div class="card-title">交易跟踪<span class="badge badge-hold">持仓跟踪</span></div>
-<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-02 09:49</div>
+<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-02 09:51</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -260,7 +259,6 @@ function renderWatch(){
     if(r.level === 'core') core++;
     var cls = inBand ? ' class="tr-trigger"' : (broken ? ' class="tr-break"' : '');
     html += '<tr' + cls + ' data-code="' + r.code + '">' +
-      '<td>' + r.idx + '</td>' +
       '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
       '<td>' + r.name + '</td>' +
       '<td><span class="badge ' + (r.level === 'core' ? 'badge-core' : 'badge-relax') + '">' + r.levelTxt + '</span></td>' +
@@ -342,7 +340,6 @@ function renderCand(){
     if(r.level === 'core') core++;
     var cls = inBand ? ' class="tr-trigger"' : (broken ? ' class="tr-break"' : '');
     html += '<tr' + cls + ' data-code="' + r.code + '">' +
-      '<td>' + r.idx + '</td>' +
       '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
       '<td>' + r.name + '</td>' +
       '<td><span class="badge ' + (r.level === 'core' ? 'badge-core' : 'badge-relax') + '">' + r.levelTxt + '</span></td>' +
@@ -387,7 +384,6 @@ function renderETF(){
     if(r.level === 'core') core++;
     var cls = inBand ? ' class="tr-trigger"' : (broken ? ' class="tr-break"' : '');
     html += '<tr' + cls + ' data-code="' + r.code + '">' +
-      '<td>' + r.idx + '</td>' +
       '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
       '<td>' + r.name + '</td>' +
       '<td><span class="badge ' + (r.level === 'core' ? 'badge-core' : 'badge-relax') + '">' + r.levelTxt + '</span></td>' +
@@ -466,18 +462,18 @@ function renderSelf(){
     html += '<tr' + rowCls + ' data-code="' + r.code + '">' +
       '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
       '<td>' + r.name + '</td>' +
+      '<td>' + scoreCell(fg.sc) + '</td>' +
       '<td>' + selfNum(r.pc) + '</td>' +
       '<td><span class="' + (live ? 'live' : '') + '">' + selfNum(v.now) + '</span></td>' +
       '<td>' + pctCell(v.chg, live) + '</td>' +
+      '<td>' + bandCell(r) + '</td>' +
+      '<td>' + stopCell(r) + '</td>' +
       '<td>' + pctCell(v.p5, live) + '</td>' +
       '<td>' + vrCell(r.vr) + '</td>' +
       '<td>' + (v.pos === null ? '<span class="void">—</span>' : v.pos.toFixed(1) + '%') + '</td>' +
       '<td>' + flagCell(fg.tp) + '</td>' +
       '<td>' + flagCell(fg.vs) + '</td>' +
       '<td>' + flagCell(fg.ws) + '</td>' +
-      '<td>' + scoreCell(fg.sc) + '</td>' +
-      '<td>' + bandCell(r) + '</td>' +
-      '<td>' + stopCell(r) + '</td>' +
       '<td>' + bandStateCell(r, v) + '</td>' +
       '</tr>';
     if(fg.sc === 3) full++;
