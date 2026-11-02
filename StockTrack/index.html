@@ -72,7 +72,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <table id="candTable"><thead><tr>
 <th data-sort="code">代码</th>
 <th data-sort="name">名称</th>
-<th data-sort="levelTxt">档</th>
+<th data-sort="levelTxt">判据</th>
 <th data-sort="close">昨收</th>
 <th data-sort="now">现价</th>
 <th data-sort="chg">今涨</th>
@@ -81,7 +81,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <th data-sort="preLow">前低</th>
 <th data-sort="five">5日</th>
 <th data-sort="dev">dev</th>
-<th data-sort="cap">市值</th>
+<th data-sort="vr">VR</th>
 <th data-sort="pos">pos</th>
 </tr></thead><tbody id="candBody"></tbody></table>
 </div>
@@ -108,18 +108,16 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 <th data-sort="chg">今涨</th>
 <th data-sort="band">可买带</th>
 <th data-sort="stop">止损</th>
+<th data-sort="lo">前低</th>
 <th data-sort="p5">5日</th>
+<th data-sort="dev">dev</th>
 <th data-sort="vr">VR</th>
 <th data-sort="pos">pos</th>
-<th data-sort="tp">位低</th>
-<th data-sort="vs">缩量</th>
-<th data-sort="ws">温跌</th>
-<th data-sort="bst">状态</th>
 </tr></thead><tbody id="selfBody"></tbody></table>
 </div>
 <div class="card card-trade">
 <div class="card-title">交易跟踪<span class="badge badge-hold">持仓跟踪</span></div>
-<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-02 09:51</div>
+<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-02 10:02</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -146,7 +144,7 @@ var WATCH = [{"idx": 1.0, "code": "000905", "name": "厦门港务", "t2": "8.24"
 var CAND = [{"idx": 1, "code": "002761", "name": "浙江建投", "t2": 7.1, "t1": 6.94, "close": 7.01, "preLow": 6.95, "lo": 6.8, "hi": 6.94, "bandLo": 6.95, "stop": 6.56, "pos": 0.112, "vr": 0.6863, "five": -3.97, "dev": -4.34, "cap": 93.0, "levelTxt": "核心", "level": "core", "industry": "N/A", "url": "https://m.10jqka.com.cn/stockpage/hs_002761/#&amp;atab=geguNews", "now": 7.01, "chg": 1.0086455331411948}, {"idx": 2, "code": "002366", "name": "融发核电", "t2": 5.18, "t1": 5.12, "close": 5.21, "preLow": 5.07, "lo": 5.05, "hi": 5.16, "bandLo": 5.07, "stop": 4.88, "pos": 0.1194, "vr": 0.6873, "five": -3.16, "dev": -5.07, "cap": 108.0, "levelTxt": "核心", "level": "core", "industry": "N/A", "url": "https://m.10jqka.com.cn/stockpage/hs_002366/#&amp;atab=geguNews", "now": 5.21, "chg": 1.7578125}, {"idx": 3, "code": "301238", "name": "瑞泰新材", "t2": 14.01, "t1": 13.9, "close": 14.27, "preLow": 13.91, "lo": 13.84, "hi": 14.13, "bandLo": 13.91, "stop": 13.35, "pos": 0.1778, "vr": 0.5206, "five": -3.25, "dev": -5.95, "cap": 105.0, "levelTxt": "核心", "level": "core", "industry": "N/A", "url": "https://m.10jqka.com.cn/stockpage/hs_301238/#&amp;atab=geguNews", "now": 14.27, "chg": 2.661870503597119}, {"idx": 4, "code": "600777", "name": "新潮能源", "t2": 4.08, "t1": 4.03, "close": 4.09, "preLow": 4.0, "lo": 3.97, "hi": 4.05, "bandLo": 4.0, "stop": 3.83, "pos": 0.2135, "vr": 0.5355, "five": -5.1, "dev": -3.5, "cap": 278.0, "levelTxt": "核心", "level": "core", "industry": "N/A", "url": "https://m.10jqka.com.cn/stockpage/hs_600777/#&amp;atab=geguNews", "now": 4.09, "chg": 1.4888337468982549}, {"idx": 5, "code": "002467", "name": "二六三", "t2": 4.49, "t1": 4.31, "close": 4.48, "preLow": 4.22, "lo": 4.35, "hi": 4.44, "bandLo": 4.35, "stop": 4.19, "pos": 0.2301, "vr": 0.6135, "five": -3.03, "dev": -5.44, "cap": 62.0, "levelTxt": "核心", "level": "core", "industry": "N/A", "url": "https://m.10jqka.com.cn/stockpage/hs_002467/#&amp;atab=geguNews", "now": 4.48, "chg": 3.9443155452436374}, {"idx": 6, "code": "002675", "name": "东诚药业", "t2": 12.78, "t1": 12.77, "close": 12.77, "preLow": 12.64, "lo": 12.39, "hi": 12.64, "bandLo": 12.64, "stop": 11.95, "pos": 0.2428, "vr": 0.5103, "five": -3.33, "dev": -2.17, "cap": 105.0, "levelTxt": "核心", "level": "core", "industry": "N/A", "url": "https://m.10jqka.com.cn/stockpage/hs_002675/#&amp;atab=geguNews", "now": 12.77, "chg": 0.0}, {"idx": 7, "code": "002755", "name": "奥赛康", "t2": 11.79, "t1": 11.65, "close": 11.91, "preLow": 11.46, "lo": 11.55, "hi": 11.79, "bandLo": 11.55, "stop": 11.14, "pos": 0.2625, "vr": 0.6545, "five": -3.01, "dev": -3.99, "cap": 111.0, "levelTxt": "核心", "level": "core", "industry": "N/A", "url": "https://m.10jqka.com.cn/stockpage/hs_002755/#&amp;atab=geguNews", "now": 11.91, "chg": 2.2317596566523656}, {"idx": 8, "code": "600551", "name": "时代出版", "t2": 7.49, "t1": 7.0, "close": 7.49, "preLow": 6.97, "lo": 7.27, "hi": 7.42, "bandLo": 7.27, "stop": 7.01, "pos": 0.2664, "vr": 0.7031, "five": -4.22, "dev": -4.38, "cap": 51.0, "levelTxt": "核心", "level": "core", "industry": "N/A", "url": "https://m.10jqka.com.cn/stockpage/hs_600551/#&amp;atab=geguNews", "now": 7.49, "chg": 7.000000000000006}, {"idx": 9, "code": "002244", "name": "滨江集团", "t2": 9.6, "t1": 9.44, "close": 9.11, "preLow": 8.97, "lo": 8.84, "hi": 9.02, "bandLo": 8.97, "stop": 8.52, "pos": 0.4894, "vr": 0.6223, "five": -6.08, "dev": -5.34, "cap": 283.0, "levelTxt": "放宽", "level": "relax", "industry": "N/A", "url": "https://m.10jqka.com.cn/stockpage/hs_002244/#&amp;atab=geguNews", "now": 9.11, "chg": -3.495762711864403}];
 var ETF = [{"idx": 1, "code": "159768", "name": "房地产ETF银华", "url": "https://quote.eastmoney.com/sz159768.html", "level": "core", "levelTxt": "3/3", "close": 0.433, "now": null, "chg": null, "bandLo": 0.428, "hi": 0.429, "lo": 0.428, "stop": 0.405, "preLow": 0.428, "five": -5.68, "dev": -5.2, "vr": 0.65, "pos": 0.226}, {"idx": 2, "code": "159378", "name": "通用航空ETF永赢", "url": "https://quote.eastmoney.com/sz159378.html", "level": "core", "levelTxt": "3/3", "close": 0.888, "now": null, "chg": null, "bandLo": 0.887, "hi": 0.879, "lo": 0.887, "stop": 0.831, "preLow": 0.887, "five": -6.18, "dev": -5.1, "vr": 0.716, "pos": 0.2}, {"idx": 3, "code": "159707", "name": "地产ETF华宝", "url": "https://quote.eastmoney.com/sz159707.html", "level": "core", "levelTxt": "3/3", "close": 0.484, "now": null, "chg": null, "bandLo": 0.477, "hi": 0.479, "lo": 0.477, "stop": 0.453, "preLow": 0.477, "five": -6.05, "dev": -5.44, "vr": 0.717, "pos": 0.221}];
 var TRADE = [{"dt": "2026-10-29", "code": "600032", "name": "浙江新能", "buy": 6.95, "src": "watch", "bp": 6.897, "live": null, "status": "cut", "statusText": "Day3割", "d1": 6.98, "d2": 6.66, "d3": 6.81, "d4": null, "d5": null, "d6": null, "d7": null, "pct": -2.0143884892086414, "chgBp": -1.2614180078295, "sp": 6.76, "pnl": -47.05, "url": "https://m.10jqka.com.cn/stockpage/hs_600032/#&amp;atab=geguNews"}, {"dt": "2026-10-28", "code": "601949", "name": "中国出版", "buy": 5.55, "src": "watch", "bp": 5.63, "live": null, "status": "cut", "statusText": "Day2割", "d1": 5.64, "d2": 5.46, "d3": 5.19, "d4": 5.53, "d5": null, "d6": null, "d7": null, "pct": -0.3603603603603527, "chgBp": -1.776198934280633, "sp": 5.51, "pnl": -59.14, "url": "https://m.10jqka.com.cn/stockpage/hs_601949/#&amp;atab=geguNews"}, {"dt": "2026-10-28", "code": "000930", "name": "中粮科技", "buy": 4.78, "src": "watch", "bp": 4.735, "live": null, "status": "cut", "statusText": "Day2割", "d1": 4.74, "d2": 4.63, "d3": 4.55, "d4": 4.65, "d5": null, "d6": null, "d7": null, "pct": -2.719665271966525, "chgBp": -1.7951425554382252, "sp": 4.64, "pnl": -102.41, "url": "https://m.10jqka.com.cn/stockpage/hs_000930/#&amp;atab=geguNews"}, {"dt": "2026-10-28", "code": "600863", "name": "华能蒙电", "buy": 4.95, "src": "watch", "bp": 5.118, "live": 3, "status": "hold", "statusText": "持有", "d1": 5.13, "d2": 5.27, "d3": 5.33, "d4": 5.32, "d5": null, "d6": null, "d7": null, "pct": 7.474747474747477, "chgBp": 3.9468542399374744, "sp": null, "pnl": null, "url": "https://m.10jqka.com.cn/stockpage/hs_600863/#&amp;atab=geguNews"}];
-var SELF = [{"code": "518850", "name": "黄金ETF华夏", "now": 8.028, "pc": 8.204, "p5": -2.949709864603478, "p20": -7.3193257908104385, "p60": -5.730389854391726, "hi60": 9.715, "lo60": 8.015, "pos": 0.7647058823529357, "b5": 8.272, "b20": 8.662, "b60": 8.516, "vr": 0.7962990717269124, "tp": true, "vs": true, "ws": true, "score": 3, "bl": 8.2, "bh": 8.122, "stop": 7.677, "valid": false, "bst": 0, "url": "https://m.10jqka.com.cn/stockpage/hs_518850/#&amp;atab=geguNews"}, {"code": "588170", "name": "科创半导体ETF华夏", "now": 0.617, "pc": 0.586, "p5": -11.477761836441891, "p20": -34.08119658119658, "p60": -32.934782608695656, "hi60": 1.107, "lo60": 0.585, "pos": 6.130268199233722, "b5": 0.697, "b20": 0.936, "b60": 0.92, "vr": 1.0205765912137017, "tp": true, "vs": false, "ws": false, "score": 1, "bl": 0.585, "bh": 0.58, "stop": 0.548, "valid": false, "bst": 0, "url": "https://m.10jqka.com.cn/stockpage/hs_588170/#&amp;atab=geguNews"}];
+var SELF = [{"code": "518850", "name": "黄金ETF华夏", "now": 8.028, "pc": 8.204, "p5": -2.949709864603478, "p20": -7.3193257908104385, "p60": -5.730389854391726, "hi60": 9.715, "lo60": 8.015, "pos": 0.7647058823529357, "b5": 8.272, "b20": 8.662, "b60": 8.516, "vr": 0.7962990717269124, "tp": true, "vs": true, "ws": true, "score": 3, "bl": 8.2, "bh": 8.122, "stop": 7.677, "valid": false, "bst": 0, "lo": 8.2, "dev": -5.33, "url": "https://m.10jqka.com.cn/stockpage/hs_518850/#&amp;atab=geguNews"}, {"code": "588170", "name": "科创半导体ETF华夏", "now": 0.617, "pc": 0.586, "p5": -11.477761836441891, "p20": -34.08119658119658, "p60": -32.934782608695656, "hi60": 1.107, "lo60": 0.585, "pos": 6.130268199233722, "b5": 0.697, "b20": 0.936, "b60": 0.92, "vr": 1.0205765912137017, "tp": true, "vs": false, "ws": false, "score": 1, "bl": 0.585, "bh": 0.58, "stop": 0.548, "valid": false, "bst": 0, "lo": 0.585, "dev": -20.4, "url": "https://m.10jqka.com.cn/stockpage/hs_588170/#&amp;atab=geguNews"}];
 
 function sortList(list, st){
   var a = list.slice();
@@ -270,7 +268,7 @@ function renderWatch(){
       '<td>' + num(r.preLow) + '</td>' +
       '<td>' + pctCell(r.five) + '</td>' +
       '<td>' + pctCell(r.dev) + '</td>' +
-      '<td>' + (r.cap === null ? '<span class="void">\u2014</span>' : r.cap.toFixed(0)) + '</td>' +
+      '<td>' + vrCell(r.vr) + '</td>' +
       '<td>' + (r.pos === null ? '<span class="void">\u2014</span>' : r.pos.toFixed(2)) + '</td>' +
       '</tr>';
   }
@@ -351,7 +349,7 @@ function renderCand(){
       '<td>' + num(r.preLow) + '</td>' +
       '<td>' + pctCell(r.five) + '</td>' +
       '<td>' + pctCell(r.dev) + '</td>' +
-      '<td>' + (r.cap === null ? '<span class="void">\u2014</span>' : r.cap.toFixed(0)) + '</td>' +
+      '<td>' + vrCell(r.vr) + '</td>' +
       '<td>' + (r.pos === null ? '<span class="void">\u2014</span>' : r.pos.toFixed(2)) + '</td>' +
       '</tr>';
   }
@@ -423,7 +421,7 @@ function selfVals(r){
     pos: (n !== null && r.hi60 !== null && r.lo60 !== null && r.hi60 > r.lo60) ? (n - r.lo60) / (r.hi60 - r.lo60) * 100 : null
   };
 }
-function selfNum(v){ return (v === null || v === undefined) ? '<span class="void">—</span>' : v.toFixed(3); }
+function selfNum(v){ return (v === null || v === undefined) ? '<span class="void">—</span>' : v.toFixed(2); }
 function selfFlags(r, v){
   var tp = (v.pos === null || v.pos === undefined) ? null : (v.pos < 35);
   var vs = (r.vr === null || r.vr === undefined) ? null : (r.vr < 1);
@@ -434,8 +432,8 @@ function selfFlags(r, v){
 function flagCell(b){ return (b === null || b === undefined) ? '<span class="void">—</span>' : (b ? '<span class="rise">✓</span>' : '<span class="fall">✗</span>'); }
 function scoreCell(n){ return (n === null || n === undefined) ? '<span class="void">—</span>' : (n === 3 ? '<span class="rise">3/3</span>' : (n >= 2 ? n + '/3' : '<span class="void">' + n + '/3</span>')); }
 function vrCell(v){ return (v === null || v === undefined) ? '<span class="void">—</span>' : v.toFixed(2); }
-function bandCell(r){ return (r.bl === null || r.bl === undefined || r.valid === false) ? '<span class="void">无</span>' : r.bl.toFixed(3) + '~' + r.bh.toFixed(3); }
-function stopCell(r){ return (r.stop === null || r.stop === undefined) ? '<span class="void">—</span>' : r.stop.toFixed(3); }
+function bandCell(r){ return (r.bl === null || r.bl === undefined || r.valid === false) ? '<span class="void">无</span>' : r.bl.toFixed(2) + '~' + r.bh.toFixed(2); }
+function stopCell(r){ return (r.stop === null || r.stop === undefined) ? '<span class="void">—</span>' : r.stop.toFixed(2); }
 function bandStateCell(r, v){
   if(v.now !== null && r.stop !== null && r.stop !== undefined && v.now <= r.stop) return '<span class="fall">✗破位</span>';
   if(r.valid === false || r.bl === null || r.bl === undefined || v.now === null) return '<span class="void">无</span>';
@@ -462,19 +460,17 @@ function renderSelf(){
     html += '<tr' + rowCls + ' data-code="' + r.code + '">' +
       '<td><a class="code" href="' + r.url + '" target="_blank" rel="noopener">' + r.code + '</a></td>' +
       '<td>' + r.name + '</td>' +
-      '<td>' + scoreCell(fg.sc) + '</td>' +
+      '<td>' + (fg.sc === null || fg.sc === undefined ? '<span class="void">—</span>' : '<span class="badge ' + (fg.sc === 3 ? 'badge-core' : 'badge-relax') + '">' + fg.sc + '/3</span>') + '</td>' +
       '<td>' + selfNum(r.pc) + '</td>' +
       '<td><span class="' + (live ? 'live' : '') + '">' + selfNum(v.now) + '</span></td>' +
       '<td>' + pctCell(v.chg, live) + '</td>' +
       '<td>' + bandCell(r) + '</td>' +
       '<td>' + stopCell(r) + '</td>' +
+      '<td>' + (r.lo === null || r.lo === undefined ? '<span class="void">—</span>' : r.lo.toFixed(2)) + '</td>' +
       '<td>' + pctCell(v.p5, live) + '</td>' +
+      '<td>' + pctCell(r.dev) + '</td>' +
       '<td>' + vrCell(r.vr) + '</td>' +
       '<td>' + (v.pos === null ? '<span class="void">—</span>' : v.pos.toFixed(1) + '%') + '</td>' +
-      '<td>' + flagCell(fg.tp) + '</td>' +
-      '<td>' + flagCell(fg.vs) + '</td>' +
-      '<td>' + flagCell(fg.ws) + '</td>' +
-      '<td>' + bandStateCell(r, v) + '</td>' +
       '</tr>';
     if(fg.sc === 3) full++;
     else if(fg.sc !== null && fg.sc >= 2) two++;
