@@ -117,7 +117,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <div class="card card-trade">
 <div class="card-title">交易跟踪<span class="badge badge-hold">持仓跟踪</span></div>
-<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-02 10:06</div>
+<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-02 10:10</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -159,6 +159,13 @@ function sortList(list, st){
   return a;
 }
 function num(v){ return v === null ? '<span class="void">\u2014</span>' : v.toFixed(2); }
+function inSession(){
+  var d = new Date();
+  var w = d.getDay();
+  if(w === 0 || w === 6) return false;
+  var m = d.getHours() * 60 + d.getMinutes();
+  return (m >= 555 && m < 690) || (m >= 780 && m <= 900);
+}
 function pctCell(p, live){
   if(p === null) return '<span class="void">\u2014</span>';
   return '<span class="' + (p >= 0 ? 'rise' : 'fall') + (live ? ' live' : '') + '">' +
@@ -198,7 +205,7 @@ function dayCellOf(r, i){ return dayCell(dayVal(r, i), r.buy, usingLive(r) && r.
 function usingLive(r){
   if(r.status !== 'hold' || r.live === null || r.live === undefined) return false;
   var q = qnow(r.code);
-  return q !== null && q > 0;
+  return q !== null && q > 0 && inSession();
 }
 function lastPrice(r){
   var last = null;
@@ -447,7 +454,7 @@ function renderSelf(){
   var html = '';
   var full = 0, two = 0, shr = 0;
   for(var i = 0; i < list.length; i++){
-    var r = list[i], v = selfVals(r), live = qnow(r.code) !== null;
+    var r = list[i], v = selfVals(r), live = qnow(r.code) !== null && inSession();
     var rowCls = '';
     if(v.now !== null && r.stop !== null && r.stop !== undefined && v.now <= r.stop){
       rowCls = ' class="tr-break"';
@@ -623,7 +630,7 @@ function patchQuotes(){
       if(!sel) continue;
       var stds = sel.children;
       if(stds.length > 12){
-        var sv = selfVals(s), slive = qnow(s.code) !== null;
+        var sv = selfVals(s), slive = qnow(s.code) !== null && inSession();
         var sfg = selfFlags(s, sv);
         setHtml(stds[2], (sfg.sc === null || sfg.sc === undefined ? '<span class="void">—</span>' : '<span class="badge ' + (sfg.sc === 3 ? 'badge-core' : 'badge-relax') + '">' + sfg.sc + '/3</span>'));
         setHtml(stds[4], '<span class="' + (slive ? 'live' : '') + '">' + selfNum(sv.now) + '</span>');
