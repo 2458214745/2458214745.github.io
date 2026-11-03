@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">02:15:15</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">02:17:50</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>17607</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-408.03</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -519,7 +519,7 @@ setInterval(function(){apply();},60000);
 apply();
 })();
 </script><script>
-/*pnl-mode-v6*/
+/*pnl-mode-v7*/
 (function(){
 function dayKey(){var d=new Date();var b=new Date(d.getTime()+(d.getTimezoneOffset()+480)*60000);return b.getFullYear()+'-'+('0'+(b.getMonth()+1)).slice(-2)+'-'+('0'+b.getDate()).slice(-2);}
 var DAY=dayKey();
@@ -539,6 +539,7 @@ if(iT<0||iQ<0)continue;var rows=ts[ti].querySelectorAll('tbody tr');
 for(var r=0;r<rows.length;r++){var c=rows[r].cells;if(!c||c.length<=Math.max(iT,iQ))continue;
 var a=num(c[iT].textContent),b1=num(c[iQ].textContent);if(a===null||b1===null)continue;if(Math.abs(a-b1)>1e-4)return true;}}
 return false;}
+function prevBj(){var p=DAY.split('-');var t=Date.UTC(+p[0],+p[1]-1,+p[2])-86400000;var g=new Date(t);while(g.getUTCDay()===0||g.getUTCDay()===6){t-=86400000;g=new Date(t);}return g.toISOString().slice(0,10);}
 function apply(){
 var tm=anyTailToday()||anyTdiff();
 var ts=document.querySelectorAll('table');
@@ -556,8 +557,10 @@ var amt=num(c[iA].textContent),t1=num(c[iQ].textContent),t0=num(c[iT].textConten
 var hc=histCache(code);
 var rate=hc?hc[1]:(t0!==null?t0:t1);
 if(rate===null||amt===null)continue;
-var dRef=tm?DAY:null;
-if(!dRef){try{var c6=JSON.parse(localStorage.getItem('hist:'+code+':'+DAY)||'null');if(c6&&c6.length>=6&&typeof c6[0]==='string'){dRef=c6[0];}}catch(e){}}
+var c6=null;try{c6=JSON.parse(localStorage.getItem('hist:'+code+':'+DAY)||'null');}catch(e){}
+var dRef=null;
+if(tm){var td=(c6&&c6.length>=6&&typeof c6[0]==='string')?c6[0]:null;var bp=prevBj();dRef=(td&&td<bp)?bp:DAY;}
+else{if(c6&&c6.length>=6&&typeof c6[0]==='string')dRef=c6[0];}
 var adjAmt=amt;
 var LED=window.__COST||[];
 if(dRef&&LED.length){for(var li=0;li<LED.length;li++){var L=LED[li];if(L.code===code&&L.tdate>=dRef){adjAmt-=L.amount;}}if(adjAmt<0)adjAmt=0;}
