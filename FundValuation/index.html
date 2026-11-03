@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">00:30:38</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">00:40:29</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>17607</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-408.03</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -516,5 +516,58 @@ document.addEventListener("visibilitychange",function(){if(!document.hidden)appl
 window.addEventListener("focus",function(){apply();});
 setInterval(function(){apply();},60000);
 apply();
+})();
+</script><script>
+/*pnl-mode-v1*/
+(function(){
+var HOL={'2026-01-01':1,'2026-01-02':1,'2026-01-03':1,'2026-02-15':1,'2026-02-16':1,'2026-02-17':1,'2026-02-18':1,'2026-02-19':1,'2026-02-20':1,'2026-02-21':1,'2026-02-22':1,'2026-02-23':1,'2026-04-04':1,'2026-04-05':1,'2026-04-06':1,'2026-05-01':1,'2026-05-02':1,'2026-05-03':1,'2026-05-04':1,'2026-05-05':1,'2026-06-19':1,'2026-06-20':1,'2026-06-21':1,'2026-09-25':1,'2026-09-26':1,'2026-09-27':1,'2026-10-01':1,'2026-10-02':1,'2026-10-03':1,'2026-10-04':1,'2026-10-05':1,'2026-10-06':1,'2026-10-07':1};
+function bj(){var d=new Date();return new Date(d.getTime()+(d.getTimezoneOffset()+480)*60000);}
+function todayMode(){var b=bj();var w=b.getDay();if(w===0||w===6)return false;
+var k=b.getFullYear()+'-'+('0'+(b.getMonth()+1)).slice(-2)+'-'+('0'+b.getDate()).slice(-2);
+if(HOL[k])return false;return (b.getHours()*60+b.getMinutes())>=570;}
+function num(x){var m=(x||'').match(/-?[0-9]+(\.[0-9]+)?/);return m?parseFloat(m[0]):null;}
+function fmtV(v){return v>=0?('+'+v.toFixed(2)):v.toFixed(2);}
+function clsOf(v){return v>0?'rise':(v<0?'fall':'');}
+function setCell(td,s,cl){var cur=(td.textContent||'').trim();var ch=false;if(cur!==s){td.textContent=s;ch=true;}if(cl!==undefined&&td.className!==cl){td.className=cl;ch=true;}return ch;}
+function setLabel(b,txt){var sp=b.parentNode;if(!sp)return;var kids=sp.childNodes;
+for(var i=0;i<kids.length;i++){if(kids[i].nodeType===3){var cur=(kids[i].data||'').replace(/\s+$/,'');if(cur!==txt){kids[i].data=txt+' ';}return;}}
+sp.insertBefore(document.createTextNode(txt+' '),b);}
+function apply(){
+var tm=todayMode();
+var ts=document.querySelectorAll('table');
+var total=0,seen=false;
+for(var ti=0;ti<ts.length;ti++){
+var trs=ts[ti].querySelectorAll('tr');
+if(!trs.length)continue;
+var hdr=trs[0].cells;
+var iA=-1,iP=-1,iT=-1,iQ=-1;
+for(var i=0;i<hdr.length;i++){var t=(hdr[i].textContent||'').trim();
+if(t==='持仓金额')iA=i;else if(t.indexOf('估算盈亏')===0)iP=i;else if(t==='T')iT=i;else if(t==='T-1')iQ=i;}
+if(iA<0||iP<0||iT<0||iQ<0)continue;
+var rows=ts[ti].querySelectorAll('tbody tr');
+for(var r=0;r<rows.length;r++){
+var c=rows[r].cells;
+if(!c||c.length<=Math.max(iA,iP,iT,iQ))continue;
+if(!/^[0-9]{6}$/.test((c[0].textContent||'').trim()))continue;
+var amt=num(c[iA].textContent),t1=num(c[iQ].textContent),t0=num(c[iT].textContent);
+var rate=tm?(t0!==null?t0:t1):t1;
+if(rate===null||amt===null)continue;
+var raw=rate*amt/100;
+total+=raw;seen=true;
+setCell(c[iP],fmtV(raw),clsOf(raw));
+}
+var wantH=tm?'估算盈亏T':'估算盈亏T-1';
+if((hdr[iP].textContent||'').trim()!==wantH){hdr[iP].textContent=wantH;}
+}
+if(seen){
+var pt=document.getElementById('pnlTotal');
+if(pt){setLabel(pt,tm?'今日预计总盈亏':'上一个交易日预计总盈亏');setCell(pt,fmtV(total),clsOf(total));}
+var sg=document.getElementById('subGT');
+if(sg){setCell(sg,fmtV(total),clsOf(total));}
+}
+}
+apply();
+try{var mo=new MutationObserver(function(){apply();});mo.observe(document.body,{childList:true,subtree:true,characterData:true});}catch(e){}
+try{setInterval(apply,60000);}catch(e){}
 })();
 </script></body></html>
