@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">00:55:38</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">01:04:26</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>17607</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-408.03</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -518,13 +518,10 @@ setInterval(function(){apply();},60000);
 apply();
 })();
 </script><script>
-/*pnl-mode-v1*/
+/*pnl-mode-v2*/
 (function(){
-var HOL={'2026-01-01':1,'2026-01-02':1,'2026-01-03':1,'2026-02-15':1,'2026-02-16':1,'2026-02-17':1,'2026-02-18':1,'2026-02-19':1,'2026-02-20':1,'2026-02-21':1,'2026-02-22':1,'2026-02-23':1,'2026-04-04':1,'2026-04-05':1,'2026-04-06':1,'2026-05-01':1,'2026-05-02':1,'2026-05-03':1,'2026-05-04':1,'2026-05-05':1,'2026-06-19':1,'2026-06-20':1,'2026-06-21':1,'2026-09-25':1,'2026-09-26':1,'2026-09-27':1,'2026-10-01':1,'2026-10-02':1,'2026-10-03':1,'2026-10-04':1,'2026-10-05':1,'2026-10-06':1,'2026-10-07':1};
-function bj(){var d=new Date();return new Date(d.getTime()+(d.getTimezoneOffset()+480)*60000);}
-function todayMode(){var b=bj();var w=b.getDay();if(w===0||w===6)return false;
-var k=b.getFullYear()+'-'+('0'+(b.getMonth()+1)).slice(-2)+'-'+('0'+b.getDate()).slice(-2);
-if(HOL[k])return false;return (b.getHours()*60+b.getMinutes())>=570;}
+function dayKey(){var d=new Date();var b=new Date(d.getTime()+(d.getTimezoneOffset()+480)*60000);return b.getFullYear()+'-'+('0'+(b.getMonth()+1)).slice(-2)+'-'+('0'+b.getDate()).slice(-2);}
+var DAY=dayKey();
 function num(x){var m=(x||'').match(/-?[0-9]+(\.[0-9]+)?/);return m?parseFloat(m[0]):null;}
 function fmtV(v){return v>=0?('+'+v.toFixed(2)):v.toFixed(2);}
 function clsOf(v){return v>0?'rise':(v<0?'fall':'');}
@@ -532,33 +529,36 @@ function setCell(td,s,cl){var cur=(td.textContent||'').trim();var ch=false;if(cu
 function setLabel(b,txt){var sp=b.parentNode;if(!sp)return;var kids=sp.childNodes;
 for(var i=0;i<kids.length;i++){if(kids[i].nodeType===3){var cur=(kids[i].data||'').replace(/\s+$/,'');if(cur!==txt){kids[i].data=txt+' ';}return;}}
 sp.insertBefore(document.createTextNode(txt+' '),b);}
+function histCache(code){try{var v=localStorage.getItem('hist:'+code+':'+DAY);var p=v?JSON.parse(v):null;return (p&&p.length===6&&p[0]===DAY)?p:null;}catch(e){return null;}}
+function anyTailToday(){try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(!k||k.indexOf('hist:')!==0)continue;if(k.slice(-(DAY.length+1))!==':'+DAY)continue;var p=JSON.parse(localStorage.getItem(k)||'null');if(p&&p.length===6&&p[0]===DAY)return true;}}catch(e){}return false;}
+function anyTdiff(){var ts=document.querySelectorAll('table');
+for(var ti=0;ti<ts.length;ti++){var trs=ts[ti].querySelectorAll('tr');if(!trs.length)continue;var hdr=trs[0].cells;var iT=-1,iQ=-1;
+for(var i=0;i<hdr.length;i++){var t=(hdr[i].textContent||'').trim();if(t==='T')iT=i;else if(t==='T-1')iQ=i;}
+if(iT<0||iQ<0)continue;var rows=ts[ti].querySelectorAll('tbody tr');
+for(var r=0;r<rows.length;r++){var c=rows[r].cells;if(!c||c.length<=Math.max(iT,iQ))continue;
+var a=num(c[iT].textContent),b1=num(c[iQ].textContent);if(a===null||b1===null)continue;if(Math.abs(a-b1)>1e-4)return true;}}
+return false;}
 function apply(){
-var tm=todayMode();
+var tm=anyTailToday()||anyTdiff();
 var ts=document.querySelectorAll('table');
 var total=0,seen=false;
 for(var ti=0;ti<ts.length;ti++){
-var trs=ts[ti].querySelectorAll('tr');
-if(!trs.length)continue;
-var hdr=trs[0].cells;
-var iA=-1,iP=-1,iT=-1,iQ=-1;
+var trs=ts[ti].querySelectorAll('tr');if(!trs.length)continue;var hdr=trs[0].cells;var iA=-1,iP=-1,iT=-1,iQ=-1;
 for(var i=0;i<hdr.length;i++){var t=(hdr[i].textContent||'').trim();
 if(t==='持仓金额')iA=i;else if(t.indexOf('估算盈亏')===0)iP=i;else if(t==='T')iT=i;else if(t==='T-1')iQ=i;}
 if(iA<0||iP<0||iT<0||iQ<0)continue;
 var rows=ts[ti].querySelectorAll('tbody tr');
-for(var r=0;r<rows.length;r++){
-var c=rows[r].cells;
+for(var r=0;r<rows.length;r++){var c=rows[r].cells;
 if(!c||c.length<=Math.max(iA,iP,iT,iQ))continue;
-if(!/^[0-9]{6}$/.test((c[0].textContent||'').trim()))continue;
+var code=(c[0].textContent||'').trim();if(!/^[0-9]{6}$/.test(code))continue;
 var amt=num(c[iA].textContent),t1=num(c[iQ].textContent),t0=num(c[iT].textContent);
-var rate=tm?(t0!==null?t0:t1):t1;
+var hc=histCache(code);
+var rate=hc?hc[1]:(t0!==null?t0:t1);
 if(rate===null||amt===null)continue;
-var raw=rate*amt/100;
-total+=raw;seen=true;
-setCell(c[iP],fmtV(raw),clsOf(raw));
-}
+var raw=rate*amt/100;total+=raw;seen=true;
+setCell(c[iP],fmtV(raw),clsOf(raw));}
 var wantH=tm?'估算盈亏T':'估算盈亏T-1';
-if((hdr[iP].textContent||'').trim()!==wantH){hdr[iP].textContent=wantH;}
-}
+if((hdr[iP].textContent||'').trim()!==wantH){hdr[iP].textContent=wantH;}}
 if(seen){
 var pt=document.getElementById('pnlTotal');
 if(pt){setLabel(pt,tm?'今日预计总盈亏':'上一个交易日预计总盈亏');setCell(pt,fmtV(total),clsOf(total));}
@@ -569,11 +569,13 @@ if(sg){setCell(sg,fmtV(total),clsOf(total));}
 apply();
 try{var mo=new MutationObserver(function(){apply();});mo.observe(document.body,{childList:true,subtree:true,characterData:true});}catch(e){}
 try{setInterval(apply,60000);}catch(e){}
+try{document.addEventListener('histready',function(){apply();});}catch(e){}
 })();
 </script><script>
-/*hist-live-v2*/
+/*hist-live-v3*/
 (function(){
 function dayKey(){var d=new Date();var b=new Date(d.getTime()+(d.getTimezoneOffset()+480)*60000);return b.getFullYear()+'-'+('0'+(b.getMonth()+1)).slice(-2)+'-'+('0'+b.getDate()).slice(-2);}
+function bjDate(ms){return new Date(ms+28800000).toISOString().slice(0,10);}
 function num(x){var m=(x||'').match(/-?[0-9]+(\.[0-9]+)?/);return m?parseFloat(m[0]):null;}
 function fmtV(v){return v>=0?('+'+v.toFixed(2)):v.toFixed(2);}
 function clsOf(v){return v>0?'rise':(v<0?'fall':'');}
@@ -597,12 +599,9 @@ var T=histTables();
 for(var i=0;i<T.length;i++){
 var rows=T[i].t.querySelectorAll('tbody tr');
 for(var r=0;r<rows.length;r++){
-var c=rows[r].cells;
-if(!c)continue;
+var c=rows[r].cells;if(!c)continue;
 if((c[0].textContent||'').trim()!==code)continue;
-var v=num(c[T[i].idx.q1].textContent);
-if(v!==null)return v;
-}}
+var v=num(c[T[i].idx.q1].textContent);if(v!==null)return v;}}
 return null;}
 function recompute5(ta){
 var c5=ta.idx;
@@ -611,14 +610,11 @@ for(var r=0;r<rows.length;r++){
 var c=rows[r].cells;
 if(!c||c.length<=c5.d5)continue;
 if(!/^[0-9]{6}$/.test((c[0].textContent||'').trim()))continue;
-var t1=num(c[c5.q1].textContent);
-if(t1===null)continue;
-var pr=(1+t1/100),ok=true;
-var ps=[c5.h2,c5.h3,c5.h4,c5.h5];
+var t1=num(c[c5.q1].textContent);if(t1===null)continue;
+var pr=(1+t1/100),ok=true;var ps=[c5.h2,c5.h3,c5.h4,c5.h5];
 for(var k=0;k<4;k++){var v=num(c[ps[k]].textContent);if(v===null){ok=false;break;}pr*=(1+v/100);}
 if(!ok)continue;
-var d5=(pr-1)*100;
-setCell(c[c5.d5],fmtV(d5),clsOf(d5));
+var d5=(pr-1)*100;setCell(c[c5.d5],fmtV(d5),clsOf(d5));
 }}
 function apply5(){var T=histTables();for(var i=0;i<T.length;i++)recompute5(T[i]);}
 function paint(code,rets){
@@ -642,19 +638,20 @@ function fin(arr){if(done)return;done=true;try{window.Data_netWorthTrend=undefin
 sc.onload=function(){var arr=null;try{arr=window.Data_netWorthTrend;}catch(e){}fin(arr);};
 sc.onerror=function(){fin(null);};
 document.head.appendChild(sc);}
-function extract5(arr){
+function extract6(arr){
 if(!arr||arr.length<5)return null;
 var n=arr.length;
-var t=arr[n-1].equityReturn,r2=arr[n-2].equityReturn,r3=arr[n-3].equityReturn,r4=arr[n-4].equityReturn,r5=arr[n-5].equityReturn;
-if(isFinite(t)&&isFinite(r2)&&isFinite(r3)&&isFinite(r4)&&isFinite(r5))return [t,r2,r3,r4,r5];
+var tail=arr[n-1];
+var d=bjDate(tail.x);
+var t=tail.equityReturn,r2=arr[n-2].equityReturn,r3=arr[n-3].equityReturn,r4=arr[n-4].equityReturn,r5=arr[n-5].equityReturn;
+if(d&&d.length===10&&isFinite(t)&&isFinite(r2)&&isFinite(r3)&&isFinite(r4)&&isFinite(r5))return [d,t,r2,r3,r4,r5];
 return null;}
 function readCache(code){try{var v=localStorage.getItem('hist:'+code+':'+DAY);return v?JSON.parse(v):null;}catch(e){return null;}}
-function writeCache(code,arr5){try{localStorage.setItem('hist:'+code+':'+DAY,JSON.stringify(arr5));}catch(e){}}
-function valid(c5,code){
-if(!c5||c5.length!==5)return false;
-var t1=t1Of(code);
-if(t1===null)return false;
-return Math.abs(c5[0]-t1)<1e-4;}
+function writeCache(code,c6){try{localStorage.setItem('hist:'+code+':'+DAY,JSON.stringify(c6));}catch(e){}}
+function valid(c6,code){
+if(!c6||c6.length!==6)return false;
+var t1=t1Of(code);if(t1===null)return false;
+return Math.abs(c6[1]-t1)<1e-4;}
 var T=histTables();
 if(!T.length)return;
 var seen={},LIST=[];
@@ -672,10 +669,10 @@ function step(){
 if(ri>=LIST.length){finish();return;}
 var code=LIST[ri++];
 var cached=readCache(code);
-if(valid(cached,code)){paint(code,cached.slice(1));setTimeout(step,0);return;}
+if(valid(cached,code)){paint(code,cached.slice(2));setTimeout(step,0);return;}
 loadOne(code,function(arr){
-var r5=extract5(arr);
-if(r5){writeCache(code,r5);paint(code,r5.slice(1));}
+var c6=extract6(arr);
+if(c6){writeCache(code,c6);paint(code,c6.slice(2));}
 setTimeout(step,60);
 });}
 function revalidate(){
@@ -684,12 +681,13 @@ var code=LIST[i];
 if(tried[code])continue;
 var cached=readCache(code);
 if(valid(cached,code))continue;
-if(cached&&cached.length===5){
+if(cached&&cached.length===6){
 tried[code]=1;
-(function(cd){loadOne(cd,function(arr){var r5=extract5(arr);if(r5){writeCache(cd,r5);paint(cd,r5.slice(1));}});})(code);
+(function(cd){loadOne(cd,function(arr){var c6=extract6(arr);if(c6){writeCache(cd,c6);paint(cd,c6.slice(2));try{document.dispatchEvent(new CustomEvent('histready'));}catch(e){}}});})(code);
 }}}
 function finish(){
 apply5();
+try{document.dispatchEvent(new CustomEvent('histready'));}catch(e){}
 try{var mo=new MutationObserver(function(){apply5();revalidate();});mo.observe(document.body,{childList:true,subtree:true,characterData:true});}catch(e){}
 }
 step();
