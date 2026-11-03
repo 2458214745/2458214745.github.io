@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">00:48:52</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">00:55:38</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>17607</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-408.03</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -571,7 +571,7 @@ try{var mo=new MutationObserver(function(){apply();});mo.observe(document.body,{
 try{setInterval(apply,60000);}catch(e){}
 })();
 </script><script>
-/*hist-live-v1*/
+/*hist-live-v2*/
 (function(){
 function dayKey(){var d=new Date();var b=new Date(d.getTime()+(d.getTimezoneOffset()+480)*60000);return b.getFullYear()+'-'+('0'+(b.getMonth()+1)).slice(-2)+'-'+('0'+b.getDate()).slice(-2);}
 function num(x){var m=(x||'').match(/-?[0-9]+(\.[0-9]+)?/);return m?parseFloat(m[0]):null;}
@@ -592,6 +592,18 @@ if(t==='T-1')idx.q1=i;else if(t==='T-2')idx.h2=i;else if(t==='T-3')idx.h3=i;else
 if(idx.q1!==undefined&&idx.h2!==undefined&&idx.h3!==undefined&&idx.h4!==undefined&&idx.h5!==undefined&&idx.d5!==undefined)res.push({t:ts[ti],idx:idx});
 }
 return res;}
+function t1Of(code){
+var T=histTables();
+for(var i=0;i<T.length;i++){
+var rows=T[i].t.querySelectorAll('tbody tr');
+for(var r=0;r<rows.length;r++){
+var c=rows[r].cells;
+if(!c)continue;
+if((c[0].textContent||'').trim()!==code)continue;
+var v=num(c[T[i].idx.q1].textContent);
+if(v!==null)return v;
+}}
+return null;}
 function recompute5(ta){
 var c5=ta.idx;
 var rows=ta.t.querySelectorAll('tbody tr');
@@ -630,12 +642,22 @@ function fin(arr){if(done)return;done=true;try{window.Data_netWorthTrend=undefin
 sc.onload=function(){var arr=null;try{arr=window.Data_netWorthTrend;}catch(e){}fin(arr);};
 sc.onerror=function(){fin(null);};
 document.head.appendChild(sc);}
+function extract5(arr){
+if(!arr||arr.length<5)return null;
+var n=arr.length;
+var t=arr[n-1].equityReturn,r2=arr[n-2].equityReturn,r3=arr[n-3].equityReturn,r4=arr[n-4].equityReturn,r5=arr[n-5].equityReturn;
+if(isFinite(t)&&isFinite(r2)&&isFinite(r3)&&isFinite(r4)&&isFinite(r5))return [t,r2,r3,r4,r5];
+return null;}
 function readCache(code){try{var v=localStorage.getItem('hist:'+code+':'+DAY);return v?JSON.parse(v):null;}catch(e){return null;}}
-function writeCache(code,rets){try{localStorage.setItem('hist:'+code+':'+DAY,JSON.stringify(rets));}catch(e){}}
+function writeCache(code,arr5){try{localStorage.setItem('hist:'+code+':'+DAY,JSON.stringify(arr5));}catch(e){}}
+function valid(c5,code){
+if(!c5||c5.length!==5)return false;
+var t1=t1Of(code);
+if(t1===null)return false;
+return Math.abs(c5[0]-t1)<1e-4;}
 var T=histTables();
 if(!T.length)return;
-var seen={};
-var LIST=[];
+var seen={},LIST=[];
 for(var i=0;i<T.length;i++){
 var rows=T[i].t.querySelectorAll('tbody tr');
 for(var r=0;r<rows.length;r++){
@@ -645,22 +667,31 @@ var code=(c[0].textContent||'').trim();
 if(/^[0-9]{6}$/.test(code)&&!seen[code]){seen[code]=1;LIST.push(code);}
 }}
 if(!LIST.length)return;
-var ri=0;
+var tried={},ri=0;
 function step(){
-if(ri>=LIST.length){apply5();try{var mo=new MutationObserver(function(){apply5();});mo.observe(document.body,{childList:true,subtree:true,characterData:true});}catch(e){}return;}
+if(ri>=LIST.length){finish();return;}
 var code=LIST[ri++];
 var cached=readCache(code);
-if(cached&&cached.length===4){paint(code,cached);setTimeout(step,0);return;}
+if(valid(cached,code)){paint(code,cached.slice(1));setTimeout(step,0);return;}
 loadOne(code,function(arr){
-var rets=null;
-if(arr&&arr.length>=5){
-var n=arr.length;
-var r2=arr[n-2].equityReturn,r3=arr[n-3].equityReturn,r4=arr[n-4].equityReturn,r5=arr[n-5].equityReturn;
-if(isFinite(r2)&&isFinite(r3)&&isFinite(r4)&&isFinite(r5))rets=[r2,r3,r4,r5];
-}
-if(rets){writeCache(code,rets);paint(code,rets);}
+var r5=extract5(arr);
+if(r5){writeCache(code,r5);paint(code,r5.slice(1));}
 setTimeout(step,60);
 });}
+function revalidate(){
+for(var i=0;i<LIST.length;i++){
+var code=LIST[i];
+if(tried[code])continue;
+var cached=readCache(code);
+if(valid(cached,code))continue;
+if(cached&&cached.length===5){
+tried[code]=1;
+(function(cd){loadOne(cd,function(arr){var r5=extract5(arr);if(r5){writeCache(cd,r5);paint(cd,r5.slice(1));}});})(code);
+}}}
+function finish(){
+apply5();
+try{var mo=new MutationObserver(function(){apply5();revalidate();});mo.observe(document.body,{childList:true,subtree:true,characterData:true});}catch(e){}
+}
 step();
 })();
 </script></body></html>
