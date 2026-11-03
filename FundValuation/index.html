@@ -58,7 +58,7 @@
 @media (prefers-reduced-motion:reduce){.fbody{transition:none}}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">00:11:33</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">00:18:54</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>17607</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-408.03</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -80,7 +80,7 @@
 <h3>近期操作 · 2026-11-03（上一交易日）</h3>
 
 <p>买入</p>
-<table><thead><tr><th>代码</th><th>基金名称</th><th>金额</th><th>T</th><th>T-1</th><th>T-2</th><th>T-3</th><th>T-4</th><th>T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/011370" target="_blank" rel="noopener">011370</a></td><td>华商均衡成长混合C😭</td><td>2000.00</td><td class="fall">-8.19</td><td class="fall">-8.19</td><td class="fall">-0.29</td><td class="fall">-6.60</td><td class="fall">-8.25</td><td class="rise">+4.93</td><td class="fall">-17.68</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/016665" target="_blank" rel="noopener">016665</a></td><td>天弘全球高端制造混合(QDII)C😭</td><td>1000.00</td><td class="fall">-1.55</td><td class="fall">-1.55</td><td class="fall">-6.85</td><td class="fall">-3.76</td><td class="rise">+4.84</td><td class="rise">+1.44</td><td class="fall">-6.14</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/018147" target="_blank" rel="noopener">018147</a></td><td>建信新兴市场优选混合(QDII)C😭</td><td>100.00</td><td class="fall">-2.77</td><td class="fall">-2.77</td><td class="fall">-6.34</td><td class="fall">-1.44</td><td class="rise">+3.87</td><td class="rise">+3.23</td><td class="fall">-3.76</td></tr></tbody></table>
+<table><thead><tr><th>代码</th><th>基金名称</th><th>金额</th><th>T</th><th>T-1</th><th>T-2</th><th>T-3</th><th>T-4</th><th>T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/011370" target="_blank" rel="noopener">011370</a></td><td>华商均衡成长混合C</td><td>2000.00</td><td class="fall">-8.19</td><td class="fall">-8.19</td><td class="fall">-0.29</td><td class="fall">-6.60</td><td class="fall">-8.25</td><td class="rise">+4.93</td><td class="fall">-17.68</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/016665" target="_blank" rel="noopener">016665</a></td><td>天弘全球高端制造混合(QDII)C</td><td>1000.00</td><td class="fall">-1.55</td><td class="fall">-1.55</td><td class="fall">-6.85</td><td class="fall">-3.76</td><td class="rise">+4.84</td><td class="rise">+1.44</td><td class="fall">-6.14</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/018147" target="_blank" rel="noopener">018147</a></td><td>建信新兴市场优选混合(QDII)C</td><td>100.00</td><td class="fall">-2.77</td><td class="fall">-2.77</td><td class="fall">-6.34</td><td class="fall">-1.44</td><td class="rise">+3.87</td><td class="rise">+3.23</td><td class="fall">-3.76</td></tr></tbody></table>
 </section></div><script>
 /* 基金估值页面实时刷新（2026-11-01 用户定案：页面不内嵌推送凭据）
    打开/手动刷新 = 立即拉最新估值，不设定时刷新；
@@ -428,5 +428,64 @@ b.style.maxHeight="0";b.style.opacity="0";
 tm=setTimeout(function(){if(c.getAttribute("data-want")==="open"){b.style.maxHeight="";b.style.opacity="";}b.style.willChange="";},360);
 });
 })(cs[ci]);}
+})();
+</script><script>
+/*emoji-live-v1*/
+(function(){
+function showWindow(){
+var d=new Date();
+var wd=d.getDay();
+if(wd===0||wd===6)return false;
+return (d.getHours()*60+d.getMinutes())>=570;
+}
+function parseT(txt){
+if(!txt)return null;
+var m=txt.match(/-?\d+(\.\d+)?/);
+if(!m)return null;
+var v=parseFloat(m[0]);
+return isNaN(v)?null:v;
+}
+function apply(){
+var cards=document.querySelectorAll(".card");
+for(var ci=0;ci<cards.length;ci++){
+var h=cards[ci].querySelector("h3");
+var ht=h?(h.textContent||""):"";
+if(ht.indexOf("上一交易日")<0)continue;
+var tbl=cards[ci].querySelector("table");
+if(!tbl)continue;
+var ths=tbl.querySelectorAll("thead th");
+if(!ths.length)continue;
+var ti=-1,ni=-1;
+for(var i=0;i<ths.length;i++){
+var t=(ths[i].textContent||"").trim();
+if(t==="T")ti=i;
+if(t==="基金名称")ni=i;
+}
+if(ti<0||ni<0)continue;
+var ok=showWindow();
+var rows=tbl.querySelectorAll("tbody tr");
+for(var r=0;r<rows.length;r++){
+var tds=rows[r].querySelectorAll("td");
+if(tds.length<=ti||tds.length<=ni)continue;
+var emo="";
+if(ok){
+var v=parseT(tds[ti].textContent||"");
+if(v!==null){if(v<0)emo="\ud83d\ude2d";else if(v>0)emo="\ud83d\ude0e";}
+}
+var nameTd=tds[ni];
+var sp=nameTd.querySelector("span.t-emo");
+if(!sp){sp=document.createElement("span");sp.className="t-emo";nameTd.appendChild(sp);}
+if(sp.textContent!==emo){sp.textContent=emo;}
+}
+}
+}
+if("MutationObserver" in window){
+var mo=new MutationObserver(function(){apply();});
+mo.observe(document.body,{childList:true,subtree:true,characterData:true});
+}
+document.addEventListener("visibilitychange",function(){if(!document.hidden)apply();});
+window.addEventListener("focus",function(){apply();});
+setInterval(function(){apply();},60000);
+apply();
 })();
 </script></body></html>
