@@ -51,6 +51,11 @@
     .card { padding: 8px; border-radius: 8px; }
     h3 { font-size: 15px; }
   }
+</style><style>
+/*card-fold-css-v1*/
+.card>h3{cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.fbody{overflow:hidden;transition:max-height .34s cubic-bezier(.4,0,.2,1),opacity .22s ease}
+@media (prefers-reduced-motion:reduce){.fbody{transition:none}}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
 <div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">00:02:03</span></div>
@@ -388,5 +393,37 @@ for(var i=0;i<rows.length;i++){
   nameCell.setAttribute('title','点击复制代码 '+code);
   (function(cd){nameCell.addEventListener('click',function(){copyText(cd);});})(code);
 }
+})();
+</script><script>
+/*card-fold-js-v1*/
+(function(){
+var cs=document.querySelectorAll(".card");
+for(var ci=0;ci<cs.length;ci++){(function(c){
+var t=null,kids=c.children;
+for(var i=0;i<kids.length;i++){if(kids[i].tagName==="H3"){t=kids[i];break;}}
+if(!t)return;
+var b=document.createElement("div");b.className="fbody";
+while(t.nextSibling){b.appendChild(t.nextSibling);}
+c.appendChild(b);c.setAttribute("data-want","open");
+var key="card-fold:"+(t.textContent||"").trim();
+var saved=null;try{saved=sessionStorage.getItem(key);}catch(e){}
+if(saved==="closed"){c.setAttribute("data-want","closed");b.style.maxHeight="0";}
+if(saved===null){if(!c.querySelectorAll("tbody tr").length){c.setAttribute("data-want","closed");b.style.maxHeight="0";}}
+var tm=null;
+t.addEventListener("click",function(){
+var want=c.getAttribute("data-want")==="open"?"closed":"open";
+c.setAttribute("data-want",want);try{sessionStorage.setItem(key,want);}catch(e){}clearTimeout(tm);
+b.style.willChange="max-height,opacity";
+if(want==="open"){
+b.style.transition="none";b.style.maxHeight="0";b.style.opacity="0";void b.offsetHeight;b.style.transition="";
+b.style.maxHeight=b.scrollHeight+"px";b.style.opacity="1";
+}else{
+var cur=b.getBoundingClientRect().height;
+b.style.transition="none";b.style.maxHeight=cur+"px";void b.offsetHeight;b.style.transition="";
+b.style.maxHeight="0";b.style.opacity="0";
+}
+tm=setTimeout(function(){if(c.getAttribute("data-want")==="open"){b.style.maxHeight="";b.style.opacity="";}b.style.willChange="";},360);
+});
+})(cs[ci]);}
 })();
 </script></body></html>
