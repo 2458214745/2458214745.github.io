@@ -125,7 +125,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <div class="card card-trade">
 <div class="card-title">交易跟踪<span class="badge badge-hold">持仓跟踪</span></div>
-<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-03 12:50</div>
+<div class="sub-line">最新交易日 2026-11-02 ｜ 生成于 2026-11-03 12:54</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>已了结盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -172,7 +172,7 @@ function inSession(){
   var w = d.getDay();
   if(w === 0 || w === 6) return false;
   var m = d.getHours() * 60 + d.getMinutes();
-  return m >= 555 && m <= 905;  // 规范§二/§七: 交易时段09:15-15:05(含午休), 与服务端live槽同窗
+  return m >= 570 && m <= 900;  // 用户2026-11-03定: 加粗窗09:30-15:00含午休(服务端live槽窗仍09:15-15:05)
 }
 function pctCell(p, live){
   if(p === null) return '<span class="void">\u2014</span>';
