@@ -468,7 +468,7 @@ function renderSelf(){
   var html = '';
   var sTrig = 0, sBrk = 0, sCore = 0;
   for(var i = 0; i < list.length; i++){
-    var r = list[i], v = selfVals(r), live = qnow(r.code) !== null && inSession();
+    var r = list[i], v = selfVals(r), live = false;  // 自选池无加粗规则(用户2026-11-03定)
     var inBand = (r.valid !== false && r.bl !== null && r.bl !== undefined &&
                   r.bh !== null && r.bh !== undefined && v.now !== null &&
                   v.now >= r.bl && v.now <= r.bh);
@@ -674,7 +674,7 @@ function patchQuotes(){
     var sTrig2 = 0, sBrk2 = 0, sCore2 = 0;
     for(i = 0; i < SELF.length; i++){
       var s = SELF[i];
-      var sv = selfVals(s), slive = qnow(s.code) !== null && inSession();
+      var sv = selfVals(s), slive = false;  // 自选池无加粗规则
       var sinBand = (s.valid !== false && s.bl !== null && s.bl !== undefined &&
                      s.bh !== null && s.bh !== undefined && sv.now !== null &&
                      sv.now >= s.bl && sv.now <= s.bh);
