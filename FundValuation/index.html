@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">01:04:26</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">01:12:31</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>17607</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-408.03</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -518,7 +518,7 @@ setInterval(function(){apply();},60000);
 apply();
 })();
 </script><script>
-/*pnl-mode-v2*/
+/*pnl-mode-v3*/
 (function(){
 function dayKey(){var d=new Date();var b=new Date(d.getTime()+(d.getTimezoneOffset()+480)*60000);return b.getFullYear()+'-'+('0'+(b.getMonth()+1)).slice(-2)+'-'+('0'+b.getDate()).slice(-2);}
 var DAY=dayKey();
@@ -556,7 +556,11 @@ var hc=histCache(code);
 var rate=hc?hc[1]:(t0!==null?t0:t1);
 if(rate===null||amt===null)continue;
 var raw=rate*amt/100;total+=raw;seen=true;
-setCell(c[iP],fmtV(raw),clsOf(raw));}
+setCell(c[iP],fmtV(raw),clsOf(raw));
+var ef=c[iP];
+if(ef.dataset.efl!=='1'){ef.dataset.efl='1';ef.style.cursor='pointer';ef.setAttribute('title','点击查看东财详情');
+(function(cd){ef.addEventListener('click',function(){try{window.open('https://fund.eastmoney.com/'+cd+'.html','_blank');}catch(e){}});})(code);}
+}
 var wantH=tm?'估算盈亏T':'估算盈亏T-1';
 if((hdr[iP].textContent||'').trim()!==wantH){hdr[iP].textContent=wantH;}}
 if(seen){
