@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">01:12:31</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">01:23:11</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>17607</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-408.03</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -518,7 +518,7 @@ setInterval(function(){apply();},60000);
 apply();
 })();
 </script><script>
-/*pnl-mode-v3*/
+/*pnl-mode-v4*/
 (function(){
 function dayKey(){var d=new Date();var b=new Date(d.getTime()+(d.getTimezoneOffset()+480)*60000);return b.getFullYear()+'-'+('0'+(b.getMonth()+1)).slice(-2)+'-'+('0'+b.getDate()).slice(-2);}
 var DAY=dayKey();
@@ -531,6 +531,8 @@ for(var i=0;i<kids.length;i++){if(kids[i].nodeType===3){var cur=(kids[i].data||'
 sp.insertBefore(document.createTextNode(txt+' '),b);}
 function histCache(code){try{var v=localStorage.getItem('hist:'+code+':'+DAY);var p=v?JSON.parse(v):null;return (p&&p.length===6&&p[0]===DAY)?p:null;}catch(e){return null;}}
 function anyTailToday(){try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(!k||k.indexOf('hist:')!==0)continue;if(k.slice(-(DAY.length+1))!==':'+DAY)continue;var p=JSON.parse(localStorage.getItem(k)||'null');if(p&&p.length===6&&p[0]===DAY)return true;}}catch(e){}return false;}
+function anyGzToday(){var G=window.__GZ||{};for(var c in G){var g=G[c];if(g&&g.gztime&&g.gztime.slice(0,10)===DAY)return true;}return false;}
+function anyPdateToday(){var G=window.__GZ||{};for(var c in G){var g=G[c];if(g&&g.pdate===DAY)return true;}return false;}
 function anyTdiff(){var ts=document.querySelectorAll('table');
 for(var ti=0;ti<ts.length;ti++){var trs=ts[ti].querySelectorAll('tr');if(!trs.length)continue;var hdr=trs[0].cells;var iT=-1,iQ=-1;
 for(var i=0;i<hdr.length;i++){var t=(hdr[i].textContent||'').trim();if(t==='T')iT=i;else if(t==='T-1')iQ=i;}
@@ -539,7 +541,7 @@ for(var r=0;r<rows.length;r++){var c=rows[r].cells;if(!c||c.length<=Math.max(iT,
 var a=num(c[iT].textContent),b1=num(c[iQ].textContent);if(a===null||b1===null)continue;if(Math.abs(a-b1)>1e-4)return true;}}
 return false;}
 function apply(){
-var tm=anyTailToday()||anyTdiff();
+var tm=anyTailToday()||anyGzToday()||anyPdateToday()||anyTdiff();
 var ts=document.querySelectorAll('table');
 var total=0,seen=false;
 for(var ti=0;ti<ts.length;ti++){
@@ -553,7 +555,12 @@ if(!c||c.length<=Math.max(iA,iP,iT,iQ))continue;
 var code=(c[0].textContent||'').trim();if(!/^[0-9]{6}$/.test(code))continue;
 var amt=num(c[iA].textContent),t1=num(c[iQ].textContent),t0=num(c[iT].textContent);
 var hc=histCache(code);
-var rate=hc?hc[1]:(t0!==null?t0:t1);
+var g=(window.__GZ||{})[code];
+var rate=null;
+if(hc){rate=hc[1];}
+else if(g&&g.pdate===DAY&&isFinite(parseFloat(g.navchg))){rate=parseFloat(g.navchg);}
+else if(g&&g.gztime&&g.gztime.slice(0,10)===DAY&&isFinite(parseFloat(g.gszzl))){rate=parseFloat(g.gszzl);}
+else{rate=(t0!==null?t0:t1);}
 if(rate===null||amt===null)continue;
 var raw=rate*amt/100;total+=raw;seen=true;
 setCell(c[iP],fmtV(raw),clsOf(raw));
@@ -574,6 +581,7 @@ apply();
 try{var mo=new MutationObserver(function(){apply();});mo.observe(document.body,{childList:true,subtree:true,characterData:true});}catch(e){}
 try{setInterval(apply,60000);}catch(e){}
 try{document.addEventListener('histready',function(){apply();});}catch(e){}
+try{document.addEventListener('gzready',function(){apply();});}catch(e){}
 })();
 </script><script>
 /*hist-live-v3*/
@@ -695,5 +703,29 @@ try{document.dispatchEvent(new CustomEvent('histready'));}catch(e){}
 try{var mo=new MutationObserver(function(){apply5();revalidate();});mo.observe(document.body,{childList:true,subtree:true,characterData:true});}catch(e){}
 }
 step();
+})();
+</script><script>
+/*gz-live-v1*/
+(function(){
+var seen={},codes=[];
+try{
+var ts=document.querySelectorAll('table');
+for(var ti=0;ti<ts.length;ti++){
+var rows=ts[ti].querySelectorAll('tbody tr');
+for(var r=0;r<rows.length;r++){var c=rows[r].cells;if(!c||!c.length)continue;
+var cd=(c[0].textContent||'').trim();
+if(/^[0-9]{6}$/.test(cd)&&!seen[cd]){seen[cd]=1;codes.push(cd);}}
+}}catch(e){}
+if(!codes.length)return;
+window.__GZ={};
+var url='https://fundmobapi.eastmoney.com/FundMNewApi/FundMNFInfo?pageIndex=1&pageSize=100&plat=Android&appType=ttjj&product=EFund&Version=1&deviceid=1&Fcodes='+codes.join(',');
+try{
+fetch(url,{mode:'cors'}).then(function(r){return r.json();}).then(function(j){
+var ds=(j&&j.Datas)||[];
+for(var i=0;i<ds.length;i++){var d=ds[i];if(!d||!d.FCODE)continue;
+window.__GZ[d.FCODE]={pdate:d.PDATE||'',navchg:(d.NAVCHGRT==null?'':String(d.NAVCHGRT)),gztime:(d.GZTIME==null?'':String(d.GZTIME)),gszzl:(d.GSZZL==null?'':String(d.GSZZL))};}
+try{document.dispatchEvent(new CustomEvent('gzready'));}catch(e){}
+}).catch(function(){});
+}catch(e){}
 })();
 </script></body></html>
