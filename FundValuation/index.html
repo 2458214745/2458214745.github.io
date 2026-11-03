@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">02:35:15</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-04</span> ⏰ 估值拉取时间 <span id="stampTime">02:38:35</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>17607</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-408.03</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -382,6 +382,9 @@
 
 </script>
 <script>
+/*daybuy-v1*/
+window.__DAYBUY={};window.__YBUY={"011370": 2000.0, "016665": 1000.0, "018147": 100.0};
+</script><script>
 /*cost-ledger-v1*/
 window.__COST=[{"code": "016665", "tdate": "2026-11-02", "amount": 1000.0}, {"code": "011370", "tdate": "2026-11-03", "amount": 2000.0}, {"code": "016665", "tdate": "2026-11-03", "amount": 1000.0}, {"code": "018147", "tdate": "2026-11-03", "amount": 100.0}];
 </script><script>
@@ -525,7 +528,7 @@ setInterval(function(){apply();},60000);
 apply();
 })();
 </script><script>
-/*pnl-mode-v8*/
+/*pnl-mode-v9*/
 (function(){
 function dayKey(){var d=new Date();var b=new Date(d.getTime()+(d.getTimezoneOffset()+480)*60000);return b.getFullYear()+'-'+('0'+(b.getMonth()+1)).slice(-2)+'-'+('0'+b.getDate()).slice(-2);}
 var DAY=dayKey();
@@ -563,8 +566,14 @@ var amt=num(c[iA].textContent),t1=num(c[iQ].textContent),t0=num(c[iT].textConten
 var hc=histCache(code);
 var rate=hc?hc[1]:(t0!==null?t0:t1);
 if(rate===null||amt===null)continue;
+var isQ=(c.length>1)&&((c[1].textContent||'').indexOf('QDII')>=0);
+var dayBuy=(window.__DAYBUY&&window.__DAYBUY[code])?window.__DAYBUY[code]:0;
+var yBuy=(window.__YBUY&&window.__YBUY[code])?window.__YBUY[code]:0;
 var base=(iS>=0&&c[iS])?num(c[iS].textContent):null;
 if(base===null)base=amt;
+base=base-dayBuy;
+if(tm){base=isQ?(amt-dayBuy-yBuy):(amt-dayBuy);}
+if(base<0)base=0;
 var raw=rate*base/100;total+=raw;seen=true;
 setCell(c[iP],fmtV(raw),clsOf(raw));
 var ef=c[iP];
