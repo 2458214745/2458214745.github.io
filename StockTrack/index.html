@@ -129,7 +129,7 @@ a.code{color:#0a58ca;text-decoration:none;font-weight:600}
 </div>
 <div class="card card-trade">
 <div class="card-title">交易池</div>
-<div class="sub-line">更新时间 2026-11-05 01:52</div>
+<div class="sub-line">更新时间 2026-11-05 02:03</div>
 <div class="summary-bar"><span>总记录 <b id="tradeTotal">0</b></span><span>持有中 <b id="holdingCnt">0</b></span><span>已割 <b id="cutCnt">0</b></span><span>总盈亏 <b id="pnlSum">0.00</b></span></div>
 <table id="tradeTable"><thead><tr>
 <th data-sort="dt">时间</th>
@@ -429,6 +429,7 @@ function renderETF(){
   setSortMark('etfTable', etfSort);
 }
 function selfNow(r){
+  if(isPreMkt()) return (r.now === undefined ? null : r.now);  // 开盘前不取QMAP实时值
   var q = (typeof QMAP === 'object' && QMAP && QMAP[r.code]) ? QMAP[r.code] : null;
   if(q && q.now !== null && q.now !== undefined && q.now > 0) return q.now;
   return (r.now === undefined ? null : r.now);
@@ -553,6 +554,7 @@ function bindSort(tableId, st, renderFn){
   }
 }
 loadStoredQuotes();
+preMktBlank();
 function copyCode(c){
   if(!c) return;
   var tip = function(ok){
@@ -615,7 +617,7 @@ function patchQuotes(){
       if(tds.length > 6){ setHtml(tds[5], num(r.now)); setHtml(tds[6], pctCell(r.chg));
         var rq = (typeof QMAP === 'object' && QMAP) ? QMAP[r.code] : null;
         if(rq && rq.prev > 0) setHtml(tds[3], num(rq.prev));
-        if(rq && rq.opn > 0) setHtml(tds[4], num(rq.opn)); }
+        if(isPreMkt()) setHtml(tds[4], num(null)); else if(rq && rq.opn > 0) setHtml(tds[4], num(rq.opn)); }
     }
     setText(document.getElementById('triggerCount'), trig);
     setText(document.getElementById('breakCount'), brk);
@@ -651,7 +653,7 @@ function patchQuotes(){
         if(ctds.length > 6){ setHtml(ctds[5], num(q.now)); setHtml(ctds[6], pctCell(q.chg));
           var cqq = (typeof QMAP === 'object' && QMAP) ? QMAP[q.code] : null;
           if(cqq && cqq.prev > 0) setHtml(ctds[3], num(cqq.prev));
-          if(cqq && cqq.opn > 0) setHtml(ctds[4], num(cqq.opn)); }
+          if(isPreMkt()) setHtml(ctds[4], num(null)); else if(cqq && cqq.opn > 0) setHtml(ctds[4], num(cqq.opn)); }
       }
       setText(document.getElementById('candTriggerCount'), ctrig);
       setText(document.getElementById('candBreakCount'), cbrk);
@@ -676,7 +678,7 @@ function patchQuotes(){
         if(etds.length > 6){ setHtml(etds[5], etfNum(qe.now)); setHtml(etds[6], pctCell(qe.chg));
           var eqq = (typeof QMAP === 'object' && QMAP) ? QMAP[qe.code] : null;
           if(eqq && eqq.prev > 0) setHtml(etds[3], etfNum(eqq.prev));
-          if(eqq && eqq.opn > 0) setHtml(etds[4], etfNum(eqq.opn)); }
+          if(isPreMkt()) setHtml(etds[4], etfNum(null)); else if(eqq && eqq.opn > 0) setHtml(etds[4], etfNum(eqq.opn)); }
       }
       setText(document.getElementById('etfTotal'), ETF.length);
       setText(document.getElementById('etfTriggerCount'), etrig);
@@ -708,7 +710,7 @@ function patchQuotes(){
         setHtml(stds[6], pctCell(sv.chg, slive));
         var sqq = (typeof QMAP === 'object' && QMAP) ? QMAP[s.code] : null;
         if(sqq && sqq.prev > 0) setHtml(stds[3], selfNum(sqq.prev, s.code));
-        if(sqq && sqq.opn > 0) setHtml(stds[4], selfNum(sqq.opn, s.code));
+        if(isPreMkt()) setHtml(stds[4], selfNum(null, s.code)); else if(sqq && sqq.opn > 0) setHtml(stds[4], selfNum(sqq.opn, s.code));
         setHtml(stds[10], pctCell(sv.p5, slive));
         setHtml(stds[13], (sv.pos === null ? '<span class="void">—</span>' : sv.pos.toFixed(1) + '%'));
       }
@@ -755,6 +757,22 @@ function txPrefix(code){
   if(c === '4' || c === '8' || c === '9') return 'bj' + code;
   return 'sz' + code;
 }
+function isPreMkt(){var d=new Date(),w=d.getDay(),hm=d.getHours()*60+d.getMinutes();return w>=1&&w<=5&&hm<570;}
+// 开盘前门禁(2026-11-05用户规则): 交易日09:30前 现价/今开/今涨留空, 昨收=最新收盘价(取现价源)
+function preMktBlank(){
+  if(!isPreMkt()) return;
+  function f(o, pcKey){
+    if(!o) return;
+    if(o.now !== null && o.now !== undefined && o.now > 0 && pcKey) o[pcKey] = o.now;
+    o.now = null; o.chg = null; o.open = null;
+  }
+  var i;
+  for(i=0;i<WATCH.length;i++) f(WATCH[i], 'close');
+  for(i=0;i<TRADE.length;i++){ if(TRADE[i].status === 'hold') TRADE[i].now = null; }
+  if(typeof CAND !== 'undefined'){ for(i=0;i<CAND.length;i++) f(CAND[i], 'close'); }
+  if(typeof ETF !== 'undefined'){ for(i=0;i<ETF.length;i++) f(ETF[i], 'close'); }
+  if(typeof SELF !== 'undefined'){ for(i=0;i<SELF.length;i++) f(SELF[i], 'pc'); }
+}
 function applyQuotes(map){
   var hit = 0;
   for(var i = 0; i < WATCH.length; i++){
@@ -794,6 +812,7 @@ function applyQuotes(map){
       hit++;
     }
   }
+  preMktBlank();
   return hit;
 }
 function quoteCodes(){
@@ -807,6 +826,7 @@ function quoteCodes(){
   return codes;
 }
 function qnow(code){
+  if(isPreMkt()) return null;  // 开盘前不取实时值: 交易池当日DayX留空, 相对走最后dayX
   if(typeof QMAP === 'object' && QMAP && QMAP[code]) return QMAP[code].now;
   return null;
 }
