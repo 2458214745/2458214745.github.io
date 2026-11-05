@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="utf-8">
+<html lang="zh-CN"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>基金估值汇报</title>
 <style>
@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">23:44:21</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">23:53:30</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-27.34</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -95,7 +95,7 @@
    2026-11-02 定案：所有数据首帧直接写当下最准的已知值(不隐藏)；数据到位后只就地更新有变化的格子；值没变绝不碰 DOM(写入一律走守卫助手)。
    2026-11-02 续定案：当日 localStorage 留底——成功拉取即存 {d,t,m}；首渲染前同步读，仅当日且比构建快照新才套用(首帧=上次实时值)；失败提示分双态。
    2026-11-04 定案：估算盈亏/卡汇总(subGT)/总盈亏不再由本脚本写——基数口径归 v9 结算链(结算格×实时T)专属，
-   本脚本只刷 T/T-1、时间戳与留底；同域单写手，消除双写打架与全额基数闪值(总额仍由v9随T实时重算)。 */
+   本脚本只刷 T、时间戳与留底(T-1~T-5 归后端静态值)；同域单写手，消除双写打架与全额基数闪值(总额仍由v9随T实时重算)。 */
 (function () {
   "use strict";
   var API = "https://www.xqy2024.com/fundsApi/api";
@@ -271,7 +271,9 @@
         if (!q) continue;
         var v = Number(q.valuation), rz = Number(q.rzzl);
         setCell(tds[o.vi], fmt(v), v > 0 ? "rise" : (v < 0 ? "fall" : ""));
-        setCell(tds[o.ri], fmt(rz), rz > 0 ? "rise" : (rz < 0 ? "fall" : ""));
+        /* 2026-11-05 修复：不再用 rzzl 覆盖 T-1。
+           接口 valuation 与 rzzl 同源同值，会导致 T-1 恒等于 T；
+           T-1~T-5 由后端按净值日期严格对齐生成，前端不得覆盖。 */
       }
     }
   }
@@ -481,7 +483,7 @@ function setCell(td,s,cl){var cur=(td.textContent||'').trim();var ch=false;if(cu
 function setLabel(b,txt){var sp=b.parentNode;if(!sp)return;var kids=sp.childNodes;
 for(var i=0;i<kids.length;i++){if(kids[i].nodeType===3){var cur=(kids[i].data||'').replace(/\s+$/,'');if(cur!==txt){kids[i].data=txt+' ';}return;}}
 sp.insertBefore(document.createTextNode(txt+' '),b);}
-function histCache(code){try{var v=localStorage.getItem('hist:'+code+':'+DAY);var p=v?JSON.parse(v):null;return (p&&p.length>=6&&p[0]===DAY)?p:null;}catch(e){return null;}}
+function histCache(code){try{var v=localStorage.getItem('histv2:'+code+':'+DAY);var p=v?JSON.parse(v):null;return (p&&p.length>=6&&p[0]===DAY)?p:null;}catch(e){return null;}}
 function anyTailToday(){try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(!k||k.indexOf('hist:')!==0)continue;if(k.slice(-(DAY.length+1))!==':'+DAY)continue;var p=JSON.parse(localStorage.getItem(k)||'null');if(p&&p.length>=6&&p[0]===DAY)return true;}}catch(e){}return false;}
 function anyTdiff(){var ts=document.querySelectorAll('table');
 for(var ti=0;ti<ts.length;ti++){var trs=ts[ti].querySelectorAll('tr');if(!trs.length)continue;var hdr=trs[0].cells;var iT=-1,iQ=-1;
@@ -560,136 +562,6 @@ apply();
 try{var mo=new MutationObserver(function(){apply();});mo.observe(document.body,{childList:true,subtree:true,characterData:true});}catch(e){}
 try{setInterval(apply,60000);}catch(e){}
 try{document.addEventListener('histready',function(){apply();});}catch(e){}
-})();
-</script><script>
-/*hist-live-v4*/
-(function(){
-function dayKey(){var d=new Date();var b=new Date(d.getTime()+(d.getTimezoneOffset()+480)*60000);return b.getFullYear()+'-'+('0'+(b.getMonth()+1)).slice(-2)+'-'+('0'+b.getDate()).slice(-2);}
-function bjDate(ms){return new Date(ms+28800000).toISOString().slice(0,10);}
-function num(x){var m=(x||'').match(/-?[0-9]+(\.[0-9]+)?/);return m?parseFloat(m[0]):null;}
-function fmtV(v){return v>=0?('+'+v.toFixed(2)):v.toFixed(2);}
-function clsOf(v){return v>0?'rise':(v<0?'fall':'');}
-function setCell(td,s,cl){var cur=(td.textContent||'').trim();if(cur!==s){td.textContent=s;}if(cl!==undefined&&td.className!==cl){td.className=cl;}}
-var DAY=dayKey();
-function histTables(){
-var res=[];
-var ts=document.querySelectorAll('table');
-for(var ti=0;ti<ts.length;ti++){
-var trs=ts[ti].querySelectorAll('tr');
-if(!trs.length)continue;
-var hdr=trs[0].cells;
-var idx={};
-for(var i=0;i<hdr.length;i++){var t=(hdr[i].textContent||'').trim();
-if(t==='T')idx.T=i;else if(t==='T-1')idx.q1=i;else if(t==='T-2')idx.h2=i;else if(t==='T-3')idx.h3=i;else if(t==='T-4')idx.h4=i;else if(t==='T-5')idx.h5=i;else if(t==='5日')idx.d5=i;}
-if(idx.q1!==undefined&&idx.h2!==undefined&&idx.h3!==undefined&&idx.h4!==undefined&&idx.h5!==undefined&&idx.d5!==undefined)res.push({t:ts[ti],idx:idx});
-}
-return res;}
-function t1Of(code){
-var T=histTables();
-for(var i=0;i<T.length;i++){
-var rows=T[i].t.querySelectorAll('tbody tr');
-for(var r=0;r<rows.length;r++){
-var c=rows[r].cells;if(!c)continue;
-if((c[0].textContent||'').trim()!==code)continue;
-var v=num(c[T[i].idx.q1].textContent);if(v!==null)return v;}}
-return null;}
-function tTopOf(code){
-var T=histTables();
-for(var i=0;i<T.length;i++){
-var rows=T[i].t.querySelectorAll('tbody tr');
-for(var r=0;r<rows.length;r++){
-var c=rows[r].cells;if(!c)continue;
-if((c[0].textContent||'').trim()!==code)continue;
-var v=num(c[T[i].idx.T].textContent);if(v!==null)return v;}}
-return null;}
-function recompute5(ta){
-var c5=ta.idx;
-var rows=ta.t.querySelectorAll('tbody tr');
-for(var r=0;r<rows.length;r++){
-var c=rows[r].cells;
-if(!c||c.length<=c5.d5)continue;
-if(!/^[0-9]{6}$/.test((c[0].textContent||'').trim()))continue;
-var t1=num(c[c5.q1].textContent);if(t1===null)continue;
-var pr=(1+t1/100),ok=true;var ps=[c5.h2,c5.h3,c5.h4,c5.h5];
-for(var k=0;k<4;k++){var v=num(c[ps[k]].textContent);if(v===null){ok=false;break;}pr*=(1+v/100);}
-if(!ok)continue;
-var d5=(pr-1)*100;setCell(c[c5.d5],fmtV(d5),clsOf(d5));
-}}
-function apply5(){var T=histTables();for(var i=0;i<T.length;i++)recompute5(T[i]);}
-function paint(code,rets){
-var T=histTables();
-for(var i=0;i<T.length;i++){
-var c5=T[i].idx;
-var rows=T[i].t.querySelectorAll('tbody tr');
-for(var r=0;r<rows.length;r++){
-var c=rows[r].cells;
-if(!c||c.length<=c5.d5)continue;
-if((c[0].textContent||'').trim()!==code)continue;
-var ps=[c5.q1,c5.h2,c5.h3,c5.h4,c5.h5];
-for(var k=0;k<5;k++){var v=rets[k];if(v===null||v===undefined||!isFinite(v))continue;setCell(c[ps[k]],fmtV(v),clsOf(v));}
-}}
-apply5();}
-function loadOne(code,cb){
-var sc=document.createElement('script');
-sc.src='https://fund.eastmoney.com/pingzhongdata/'+code+'.js';
-var done=false;
-function fin(arr){if(done)return;done=true;try{window.Data_netWorthTrend=undefined;}catch(e){}if(sc.parentNode)sc.parentNode.removeChild(sc);cb(arr);}
-sc.onload=function(){var arr=null;try{arr=window.Data_netWorthTrend;}catch(e){}fin(arr);};
-sc.onerror=function(){fin(null);};
-document.head.appendChild(sc);}
-function extract6(arr){
-if(!arr||arr.length<6)return null;
-var n=arr.length;
-var d=bjDate(arr[n-1].x);
-var v=[];
-for(var k=0;k<6;k++){var e=arr[n-1-k].equityReturn;if(!isFinite(e))return null;v.push(e);}
-if(!d||d.length!==10)return null;
-return [d,v[0],v[1],v[2],v[3],v[4],v[5]];}
-function readCache(code){try{var v=localStorage.getItem('hist:'+code+':'+DAY);return v?JSON.parse(v):null;}catch(e){return null;}}
-function writeCache(code,c6){try{localStorage.setItem('hist:'+code+':'+DAY,JSON.stringify(c6));}catch(e){}}
-function valid(c7,code){
-if(!c7||c7.length!==7)return false;
-var tv=tTopOf(code);if(tv===null)return false;
-return Math.abs(c7[1]-tv)<1e-4;}
-var T=histTables();
-if(!T.length)return;
-var seen={},LIST=[];
-for(var i=0;i<T.length;i++){
-var rows=T[i].t.querySelectorAll('tbody tr');
-for(var r=0;r<rows.length;r++){
-var c=rows[r].cells;
-if(!c||c.length<=T[i].idx.d5)continue;
-var code=(c[0].textContent||'').trim();
-if(/^[0-9]{6}$/.test(code)&&!seen[code]){seen[code]=1;LIST.push(code);}
-}}
-if(!LIST.length)return;
-var tried={},ri=0;
-function step(){
-if(ri>=LIST.length){finish();return;}
-var code=LIST[ri++];
-var cached=readCache(code);
-if(valid(cached,code)){paint(code,cached.slice(2));setTimeout(step,0);return;}
-loadOne(code,function(arr){
-var c6=extract6(arr);
-if(c6){writeCache(code,c6);paint(code,c6.slice(2));}
-setTimeout(step,60);
-});}
-function revalidate(){
-for(var i=0;i<LIST.length;i++){
-var code=LIST[i];
-if(tried[code])continue;
-var cached=readCache(code);
-if(valid(cached,code))continue;
-if(cached&&cached.length===7){
-tried[code]=1;
-(function(cd){loadOne(cd,function(arr){var c6=extract6(arr);if(c6){writeCache(cd,c6);paint(cd,c6.slice(2));try{document.dispatchEvent(new CustomEvent('histready'));}catch(e){}}});})(code);
-}}}
-function finish(){
-apply5();
-try{document.dispatchEvent(new CustomEvent('histready'));}catch(e){}
-try{var mo=new MutationObserver(function(){apply5();revalidate();});mo.observe(document.body,{childList:true,subtree:true,characterData:true});}catch(e){}
-}
-step();
 })();
 </script><script>
 /*card-hit-v21*/
