@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">23:40:33</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">23:44:21</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-27.34</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -470,7 +470,7 @@ window.addEventListener("focus",apply);
 setInterval(apply,60000);
 })();
 </script><script>
-/*pnl-mode-v9*/
+/*pnl-mode-v10*/
 (function(){
 function dayKey(){var d=new Date();var b=new Date(d.getTime()+(d.getTimezoneOffset()+480)*60000);return b.getFullYear()+'-'+('0'+(b.getMonth()+1)).slice(-2)+'-'+('0'+b.getDate()).slice(-2);}
 var DAY=dayKey();
@@ -481,8 +481,8 @@ function setCell(td,s,cl){var cur=(td.textContent||'').trim();var ch=false;if(cu
 function setLabel(b,txt){var sp=b.parentNode;if(!sp)return;var kids=sp.childNodes;
 for(var i=0;i<kids.length;i++){if(kids[i].nodeType===3){var cur=(kids[i].data||'').replace(/\s+$/,'');if(cur!==txt){kids[i].data=txt+' ';}return;}}
 sp.insertBefore(document.createTextNode(txt+' '),b);}
-function histCache(code){try{var v=localStorage.getItem('hist:'+code+':'+DAY);var p=v?JSON.parse(v):null;return (p&&p.length===6&&p[0]===DAY)?p:null;}catch(e){return null;}}
-function anyTailToday(){try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(!k||k.indexOf('hist:')!==0)continue;if(k.slice(-(DAY.length+1))!==':'+DAY)continue;var p=JSON.parse(localStorage.getItem(k)||'null');if(p&&p.length===6&&p[0]===DAY)return true;}}catch(e){}return false;}
+function histCache(code){try{var v=localStorage.getItem('hist:'+code+':'+DAY);var p=v?JSON.parse(v):null;return (p&&p.length>=6&&p[0]===DAY)?p:null;}catch(e){return null;}}
+function anyTailToday(){try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(!k||k.indexOf('hist:')!==0)continue;if(k.slice(-(DAY.length+1))!==':'+DAY)continue;var p=JSON.parse(localStorage.getItem(k)||'null');if(p&&p.length>=6&&p[0]===DAY)return true;}}catch(e){}return false;}
 function anyTdiff(){var ts=document.querySelectorAll('table');
 for(var ti=0;ti<ts.length;ti++){var trs=ts[ti].querySelectorAll('tr');if(!trs.length)continue;var hdr=trs[0].cells;var iT=-1,iQ=-1;
 for(var i=0;i<hdr.length;i++){var t=(hdr[i].textContent||'').trim();if(t==='T')iT=i;else if(t==='T-1')iQ=i;}
