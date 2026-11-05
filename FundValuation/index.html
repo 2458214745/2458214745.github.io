@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">16:43:13</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">16:47:36</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-98.08</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -773,22 +773,10 @@ try{var mo=new MutationObserver(function(){apply5();revalidate();});mo.observe(d
 step();
 })();
 </script><script>
-/*card-hit-v5*/
-/* 交互区=卡片主体区(标题行+时间行+摘要栏，并含表头行 thead)；左半=上下折叠，右半=左右折叠；分界=标题行宽度中点 */
+/*card-hit-v6*/
+/* 交互区=只有标题行(h3)那一行文字；左半=上下折叠，右半=左右折叠；分界=h3 自身宽度中点 */
 (function(){
 function titleOf(c){var k=c.children;for(var i=0;i<k.length;i++){if(k[i].tagName==="H3")return k[i];}return null;}
-function regionOf(c){
-var parts=[],k=c.children,i;
-for(i=0;i<k.length;i++){if(k[i].tagName==="TABLE")break;parts.push(k[i]);}
-var t=c.querySelector("table");
-if(t){var th=t.querySelector("thead");if(th)parts.push(th);}
-return parts;
-}
-function inRegion(c,node){
-var parts=regionOf(c);
-for(var i=0;i<parts.length;i++){var p=parts[i];if(p===node)return p;if(p.contains&&p.contains(node))return p;}
-return null;
-}
 function ensureBody(c,h){
 var k=c.children,i;
 for(i=0;i<k.length;i++){if((k[i].className||"").indexOf("fbody")>=0)return k[i];}
@@ -810,30 +798,31 @@ b.style.transition="none";b.style.maxHeight="0";b.style.opacity="0";
 void b.offsetHeight;b.style.transition="";b.style.maxHeight=b.scrollHeight+"px";b.style.opacity="1";
 setTimeout(function(){if(c.getAttribute("data-want")==="open"){b.style.maxHeight="";b.style.opacity="";}},340);}
 }
-function flash(el,right){
-if(!el||!el.style)return;
-var old=el.style.backgroundColor,ot=el.style.transition;
-el.style.transition="none";
-el.style.backgroundColor=right?"rgba(96,165,250,.20)":"rgba(251,191,36,.20)";
-setTimeout(function(){el.style.transition="background-color .22s ease";el.style.backgroundColor=old||"";setTimeout(function(){el.style.transition=ot;},240);},110);
+function flash(h,right){
+if(!h||!h.style)return;
+var bk=h.style.backgroundColor,bt=h.style.transition;
+h.style.transition="none";
+h.style.backgroundColor=right?"rgba(96,165,250,.22)":"rgba(251,191,36,.22)";
+setTimeout(function(){
+h.style.transition="background-color .22s ease";h.style.backgroundColor=bk||"";
+setTimeout(function(){h.style.transition=bt;},240);},120);
 }
 function hook(c){
-if(c.__hitHook)return;
-c.__hitHook=1;
-c.addEventListener("click",function(e){
-var tg=e.target;if(!tg||!tg.closest)return;
-if(tg.closest("a,button,input,select,textarea"))return;
-var reg=inRegion(c,tg);if(!reg)return;
+if(c.__hitHook6)return;
+var h=titleOf(c);if(!h)return;
+c.__hitHook6=1;
+h.style.cursor="pointer";
+h.addEventListener("click",function(e){
+var tg=e.target;if(tg&&tg.closest&&tg.closest("a,button,input,select,textarea"))return;
 e.stopPropagation();
-var h=titleOf(c)||c;
 var r=h.getBoundingClientRect();
-var mid=r.left+r.width/2;
-var right=e.clientX>=mid;
+if(r.width<8)return;
+var right=e.clientX>=(r.left+r.width/2);
 if(!right){
-flash(reg,0);
+flash(h,0);
 if(c.__foldToggle)c.__foldToggle();else selfFold(c);
 }else{
-flash(reg,1);
+flash(h,1);
 if(c.__colToggle)c.__colToggle();
 else if(c.__foldToggle)c.__foldToggle();
 else selfFold(c);
