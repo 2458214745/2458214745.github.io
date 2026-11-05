@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">16:41:49</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">16:43:13</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-98.08</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -774,76 +774,73 @@ step();
 })();
 </script><script>
 /*card-hit-v5*/
-/* 交互区=卡片主体(标题行以下，即 .fbody)；以卡片宽度中点分两半：
-   左半=上下折叠，右半=左右折叠，两边各占卡片宽度 1/2。
-   主体隐藏后由标题行担任展开入口，否则折叠后无从恢复。 */
+/* 交互区=卡片主体区(标题行+时间行+摘要栏，并含表头行 thead)；左半=上下折叠，右半=左右折叠；分界=标题行宽度中点 */
 (function(){
 function titleOf(c){var k=c.children;for(var i=0;i<k.length;i++){if(k[i].tagName==="H3")return k[i];}return null;}
-function bodyOf(c){var k=c.children;for(var i=0;i<k.length;i++){if((k[i].className||"").indexOf("fbody")>=0)return k[i];}return null;}
+function regionOf(c){
+var parts=[],k=c.children,i;
+for(i=0;i<k.length;i++){if(k[i].tagName==="TABLE")break;parts.push(k[i]);}
+var t=c.querySelector("table");
+if(t){var th=t.querySelector("thead");if(th)parts.push(th);}
+return parts;
+}
+function inRegion(c,node){
+var parts=regionOf(c);
+for(var i=0;i<parts.length;i++){var p=parts[i];if(p===node)return p;if(p.contains&&p.contains(node))return p;}
+return null;
+}
 function ensureBody(c,h){
-var b=bodyOf(c);if(b)return b;
-b=document.createElement("div");b.className="fbody";
+var k=c.children,i;
+for(i=0;i<k.length;i++){if((k[i].className||"").indexOf("fbody")>=0)return k[i];}
+var b=document.createElement("div");b.className="fbody";
 while(h.nextSibling){b.appendChild(h.nextSibling);}
 c.appendChild(b);return b;
 }
-function isClosed(c){
-if(c.getAttribute("data-want")==="closed")return true;
-var b=bodyOf(c);return !!(b&&b.getBoundingClientRect().height<2);
-}
-function selfFold(c,open){
+function selfFold(c){
 var h=titleOf(c);if(!h)return;
 var b=ensureBody(c,h);
-if(open===undefined)open=isClosed(c);
+var open=c.getAttribute("data-want")!=="closed";
 if(open){
-c.setAttribute("data-want","open");
-b.style.transition="none";b.style.maxHeight="0";b.style.opacity="0";
-void b.offsetHeight;b.style.transition="";b.style.maxHeight=b.scrollHeight+"px";b.style.opacity="1";
-setTimeout(function(){if(c.getAttribute("data-want")==="open"){b.style.maxHeight="";b.style.opacity="";}},340);
-}else{
 c.setAttribute("data-want","closed");
 b.style.transition="none";b.style.maxHeight=b.getBoundingClientRect().height+"px";
 void b.offsetHeight;b.style.transition="";b.style.maxHeight="0";b.style.opacity="0";
+}else{
+c.setAttribute("data-want","open");
+b.style.transition="none";b.style.maxHeight="0";b.style.opacity="0";
+void b.offsetHeight;b.style.transition="";b.style.maxHeight=b.scrollHeight+"px";b.style.opacity="1";
+setTimeout(function(){if(c.getAttribute("data-want")==="open"){b.style.maxHeight="";b.style.opacity="";}},340);}
 }
-}
-function flash(el,side){
-if(!el)return;
+function flash(el,right){
+if(!el||!el.style)return;
+var old=el.style.backgroundColor,ot=el.style.transition;
 el.style.transition="none";
-el.style.backgroundColor=side?"rgba(96,165,250,.10)":"rgba(251,191,36,.16)";
-setTimeout(function(){el.style.transition="background-color .22s ease";el.style.backgroundColor="";},110);
+el.style.backgroundColor=right?"rgba(96,165,250,.20)":"rgba(251,191,36,.20)";
+setTimeout(function(){el.style.transition="background-color .22s ease";el.style.backgroundColor=old||"";setTimeout(function(){el.style.transition=ot;},240);},110);
 }
-function toggleUp(c){ if(c.__foldToggle)c.__foldToggle(); else selfFold(c); }
-function toggleCol(c){ if(c.__colToggle)c.__colToggle(); else if(c.__foldToggle)c.__foldToggle(); else selfFold(c); }
-function bind(c){
-if(c.__hitHook5)return;
-c.__hitHook5=1;
-var h=titleOf(c);if(!h)return;
-var b=ensureBody(c,h);
-if(!b)return;
-b.addEventListener("click",function(e){
-var tg=e.target;
-if(tg&&tg.closest){
-  if(tg.closest("a,button,input,select,textarea"))return;
-  if(tg.closest("[title^="点击复制代码"]"))return;
+function hook(c){
+if(c.__hitHook)return;
+c.__hitHook=1;
+c.addEventListener("click",function(e){
+var tg=e.target;if(!tg||!tg.closest)return;
+if(tg.closest("a,button,input,select,textarea"))return;
+var reg=inRegion(c,tg);if(!reg)return;
+e.stopPropagation();
+var h=titleOf(c)||c;
+var r=h.getBoundingClientRect();
+var mid=r.left+r.width/2;
+var right=e.clientX>=mid;
+if(!right){
+flash(reg,0);
+if(c.__foldToggle)c.__foldToggle();else selfFold(c);
+}else{
+flash(reg,1);
+if(c.__colToggle)c.__colToggle();
+else if(c.__foldToggle)c.__foldToggle();
+else selfFold(c);
 }
-var r=c.getBoundingClientRect();
-var x=e.clientX;
-if(!(x>=r.left&&x<=r.right))return;
-var right=x>=(r.left+r.width/2);
-e.stopPropagation();
-if(!right){flash(b,0);toggleUp(c);}
-else{flash(b,1);toggleCol(c);}
-},false);
-/* 折叠后主体不可见：点标题行恢复展开，否则无从返回 */
-h.style.cursor="pointer";
-h.addEventListener("click",function(e){
-if(e.target&&e.target.closest&&e.target.closest("a,button,input,select,textarea"))return;
-if(!isClosed(c))return;
-e.stopPropagation();
-flash(h,0);
-if(c.__foldToggle)c.__foldToggle();else selfFold(c,true);
 },false);
 }
-function scan(){var cs=document.querySelectorAll(".card");for(var i=0;i<cs.length;i++)bind(cs[i]);}
+function scan(){var cs=document.querySelectorAll(".card");for(var i=0;i<cs.length;i++)hook(cs[i]);}
 scan();
 try{if(window.MutationObserver){new MutationObserver(function(){scan();}).observe(document.body,{childList:true,subtree:true});}}catch(e){}
 })();
