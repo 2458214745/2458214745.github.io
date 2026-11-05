@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">16:47:36</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">16:51:58</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-98.08</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -773,10 +773,21 @@ try{var mo=new MutationObserver(function(){apply5();revalidate();});mo.observe(d
 step();
 })();
 </script><script>
-/*card-hit-v6*/
-/* 交互区=只有标题行(h3)那一行文字；左半=上下折叠，右半=左右折叠；分界=h3 自身宽度中点 */
+/*card-hit-v7*/
+/* 交互区=只有标题行(h3)；左半=上下折叠，右半=左右折叠。?debug=1 显示实时诊断面板 */
 (function(){
+var DBG=/[?&]debug=1/.test(location.search);
 function titleOf(c){var k=c.children;for(var i=0;i<k.length;i++){if(k[i].tagName==="H3")return k[i];}return null;}
+var pan;
+function panel(){
+if(!DBG)return null;
+if(pan)return pan;
+pan=document.createElement("div");
+pan.style.cssText="position:fixed;right:6px;bottom:6px;max-width:78%;z-index:999999;background:rgba(0,0,0,.86);color:#9ef;font:11px/1.45 monospace;padding:7px 9px;border-radius:8px;white-space:pre-wrap;pointer-events:none;border:1px solid rgba(120,200,255,.4)";
+pan.textContent="card-hit-v7 已加载，点标题行试试";
+document.body.appendChild(pan);return pan;
+}
+function say(s){var p=panel();if(p)p.textContent=s;}
 function ensureBody(c,h){
 var k=c.children,i;
 for(i=0;i<k.length;i++){if((k[i].className||"").indexOf("fbody")>=0)return k[i];}
@@ -788,48 +799,48 @@ function selfFold(c){
 var h=titleOf(c);if(!h)return;
 var b=ensureBody(c,h);
 var open=c.getAttribute("data-want")!=="closed";
-if(open){
-c.setAttribute("data-want","closed");
-b.style.transition="none";b.style.maxHeight=b.getBoundingClientRect().height+"px";
-void b.offsetHeight;b.style.transition="";b.style.maxHeight="0";b.style.opacity="0";
-}else{
-c.setAttribute("data-want","open");
-b.style.transition="none";b.style.maxHeight="0";b.style.opacity="0";
-void b.offsetHeight;b.style.transition="";b.style.maxHeight=b.scrollHeight+"px";b.style.opacity="1";
-setTimeout(function(){if(c.getAttribute("data-want")==="open"){b.style.maxHeight="";b.style.opacity="";}},340);}
+if(open){c.setAttribute("data-want","closed");b.style.transition="none";b.style.maxHeight=b.getBoundingClientRect().height+"px";void b.offsetHeight;b.style.transition="";b.style.maxHeight="0";b.style.opacity="0";}
+else{c.setAttribute("data-want","open");b.style.transition="none";b.style.maxHeight="0";b.style.opacity="0";void b.offsetHeight;b.style.transition="";b.style.maxHeight=b.scrollHeight+"px";b.style.opacity="1";setTimeout(function(){if(c.getAttribute("data-want")==="open"){b.style.maxHeight="";b.style.opacity="";}},340);}
 }
-function flash(h,right){
+function flashel(h,right){
 if(!h||!h.style)return;
 var bk=h.style.backgroundColor,bt=h.style.transition;
 h.style.transition="none";
-h.style.backgroundColor=right?"rgba(96,165,250,.22)":"rgba(251,191,36,.22)";
-setTimeout(function(){
-h.style.transition="background-color .22s ease";h.style.backgroundColor=bk||"";
-setTimeout(function(){h.style.transition=bt;},240);},120);
+h.style.backgroundColor=right?"rgba(96,165,250,.30)":"rgba(251,191,36,.30)";
+setTimeout(function(){h.style.transition="background-color .25s ease";h.style.backgroundColor=bk||"";setTimeout(function(){h.style.transition=bt;},260);},140);
 }
 function hook(c){
-if(c.__hitHook6)return;
+if(c.__hitHook7)return;
 var h=titleOf(c);if(!h)return;
-c.__hitHook6=1;
+c.__hitHook7=1;
 h.style.cursor="pointer";
 h.addEventListener("click",function(e){
 var tg=e.target;if(tg&&tg.closest&&tg.closest("a,button,input,select,textarea"))return;
 e.stopPropagation();
+e.preventDefault();
 var r=h.getBoundingClientRect();
-if(r.width<8)return;
-var right=e.clientX>=(r.left+r.width/2);
-if(!right){
-flash(h,0);
-if(c.__foldToggle)c.__foldToggle();else selfFold(c);
-}else{
-flash(h,1);
-if(c.__colToggle)c.__colToggle();
-else if(c.__foldToggle)c.__foldToggle();
-else selfFold(c);
-}
+var mid=r.left+r.width/2;
+var right=e.clientX>=mid;
+var hasF=typeof c.__foldToggle==="function",hasC=typeof c.__colToggle==="function";
+var side=right?"右半":"左半";
+var act=right?(hasC?"__colToggle(左右)":(hasF?"__foldToggle(上下)兜底":"selfFold(上下)兜底"))
+              :(hasF?"__foldToggle(上下)":"selfFold(上下)兜底");
+flashel(h,right);
+try{
+if(!right){if(hasF)c.__foldToggle();else selfFold(c);}
+else{if(hasC)c.__colToggle();else if(hasF)c.__foldToggle();else selfFold(c);}
+}catch(err){say("异常: "+err.message);return;}
+say("命中 h3:「"+(h.textContent||"").trim().slice(0,10)+"」
+"+
+    "X="+Math.round(e.clientX)+"  行左="+Math.round(r.left)+" 行右="+Math.round(r.right)+" 中点="+Math.round(mid)+"
+"+
+    "判定: "+side+"  ->  "+act+"
+"+
+    "foldToggle="+(hasF?"有":"无")+"  colToggle="+(hasC?"有":"无"));
 },false);
 }
-function scan(){var cs=document.querySelectorAll(".card");for(var i=0;i<cs.length;i++)hook(cs[i]);}
+function scan(){var cs=document.querySelectorAll(".card");for(var i=0;i<cs.length;i++)hook(cs[i]);if(DBG){var n=cs.length,ok=0;for(var j=0;j<n;j++){if(cs[j].__hitHook7)ok++;}say("v7已挂载: 卡片"+n+" 已绑定"+ok+"
+点标题行试试（左=上下 右=左右）");}}
 scan();
 try{if(window.MutationObserver){new MutationObserver(function(){scan();}).observe(document.body,{childList:true,subtree:true});}}catch(e){}
 })();
