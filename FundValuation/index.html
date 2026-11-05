@@ -869,6 +869,22 @@ var b=document.createElement("div");b.className="fbody";
 while(h.nextSibling){b.appendChild(h.nextSibling);}
 c.appendChild(b);return b;
 }
+function vfoldDefault(c){
+var h=titleOf(c),t=((h&&h.textContent)||"").trim();
+if(t.indexOf("持仓概况")>=0)return "1";
+if(t.indexOf("清仓")>=0)return "1";
+if(!c.querySelector("table"))return "1";
+return "0";
+}
+function vfoldMemKey(c){var h=titleOf(c);return "vfold:"+(((h&&h.textContent)||"").trim());}
+function initV(c,h){
+if(c.getAttribute("data-vfold")!==null)return;
+var v=null;try{v=sessionStorage.getItem(vfoldMemKey(c));}catch(e){}
+if(v!=="0"&&v!=="1")v=vfoldDefault(c);
+var b=ensureBody(c,h);
+if(v==="1"){c.setAttribute("data-vfold","1");b.style.transition="none";b.style.maxHeight="0";b.style.opacity="0";b.style.overflow="hidden";}
+else{c.setAttribute("data-vfold","0");}
+}
 function vfold(c,h){
 var b=ensureBody(c,h);
 var closed=c.getAttribute("data-vfold")==="1";
@@ -888,6 +904,7 @@ b.style.maxHeight=b.scrollHeight+"px";b.style.opacity="1";
 c.setAttribute("data-vfold","0");
 setTimeout(function(){if(c.getAttribute("data-vfold")==="0"){b.style.maxHeight="";b.style.opacity="";}},380);
 }
+try{sessionStorage.setItem(vfoldMemKey(c),c.getAttribute("data-vfold"));}catch(e){}
 return closed?"EXPAND":"COLLAPSE";
 }
 function allCards(){return document.querySelectorAll(".card");}
@@ -995,7 +1012,7 @@ say("HIT 「"+(h.textContent||"").trim().slice(0,8)+"」 => "+done);
 function scan(){
 ensureBase();
 var cs=allCards();
-for(var i=0;i<cs.length;i++){var c=cs[i],h=titleOf(c);if(h)bind(h);enforce(c);}
+for(var i=0;i<cs.length;i++){var c=cs[i],h=titleOf(c);if(h)bind(h);enforce(c);if(h)initV(c,h);}
 bindDrag();
 }
 var rt=0;
