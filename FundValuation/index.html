@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">16:30:02</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">16:30:25</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-98.08</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -778,7 +778,7 @@ step();
 (function(){
 function titleOf(c){var k=c.children;for(var i=0;i<k.length;i++){if(k[i].tagName==="H3")return k[i];}return null;}
 function ensureBody(c,h){
-var b=c.querySelector(":scope > .fbody");
+var b=null,_k=c.children;for(var j=0;j<_k.length;j++){if((_k[j].className||"").indexOf("fbody")>=0){b=_k[j];break;}}
 if(b)return b;
 b=document.createElement("div");b.className="fbody";
 while(h.nextSibling){b.appendChild(h.nextSibling);}
