@@ -12,7 +12,7 @@
       width: fit-content; margin: 0 auto; }
   .container { width: auto; max-width: none; margin: 0 auto; }
   .card { background: #fff; border-radius: 10px; padding: 12px; margin-bottom: 16px;
-      box-shadow: 0 2px 8px #00000012; width: auto; max-width: none; }
+      box-shadow: 0 2px 8px #00000012; width: fit-content; max-width: none; }
   h1 { font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #111; max-width: 540px; }
   h2 { font-size: 17px; font-weight: 600; margin-bottom: 4px; color: #333; max-width: 540px; }
   h3 { font-size: 16px; font-weight: 600; margin-bottom: 3px; max-width: 540px; color: #222; }
@@ -102,9 +102,185 @@ table[data-tbl="ops"] th:nth-child(9),table[data-tbl="ops"] td:nth-child(9){widt
 table[data-tbl="ops"] th:nth-child(10),table[data-tbl="ops"] td:nth-child(10){width:5ch!important}
 table[data-tbl="ops"] th:nth-child(11),table[data-tbl="ops"] td:nth-child(11){width:5ch!important}
 table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){width:5ch!important}
+</style><style>
+/*tcol-css-v2  固定列宽：1ch ≈ 1 个字符宽*/
+table[data-tbl]{table-layout:fixed!important;border-collapse:collapse}
+table[data-tbl] th,table[data-tbl] td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/*---- 持仓表 ----*/
+table[data-tbl="hold"] th:nth-child(1),table[data-tbl="hold"] td:nth-child(1){width:6ch!important}
+table[data-tbl="hold"] th:nth-child(2),table[data-tbl="hold"] td:nth-child(2){width:10ch!important}
+table[data-tbl="hold"] th:nth-child(3),table[data-tbl="hold"] td:nth-child(3){width:3ch!important}
+table[data-tbl="hold"] th:nth-child(4),table[data-tbl="hold"] td:nth-child(4){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(5),table[data-tbl="hold"] td:nth-child(5){width:6ch!important}
+table[data-tbl="hold"] th:nth-child(6),table[data-tbl="hold"] td:nth-child(6){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(7),table[data-tbl="hold"] td:nth-child(7){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(8),table[data-tbl="hold"] td:nth-child(8){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(9),table[data-tbl="hold"] td:nth-child(9){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(10),table[data-tbl="hold"] td:nth-child(10){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(11),table[data-tbl="hold"] td:nth-child(11){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(12),table[data-tbl="hold"] td:nth-child(12){width:5ch!important}
+
+/*---- 已清仓表：名称列=10+5+6=21ch ----*/
+table[data-tbl="cleared"] th:nth-child(1),table[data-tbl="cleared"] td:nth-child(1){width:6ch!important}
+table[data-tbl="cleared"] th:nth-child(2),table[data-tbl="cleared"] td:nth-child(2){width:21ch!important}
+table[data-tbl="cleared"] th:nth-child(3),table[data-tbl="cleared"] td:nth-child(3){width:3ch!important}
+table[data-tbl="cleared"] th:nth-child(4),table[data-tbl="cleared"] td:nth-child(4){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(5),table[data-tbl="cleared"] td:nth-child(5){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(6),table[data-tbl="cleared"] td:nth-child(6){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(7),table[data-tbl="cleared"] td:nth-child(7){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(8),table[data-tbl="cleared"] td:nth-child(8){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(9),table[data-tbl="cleared"] td:nth-child(9){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(10),table[data-tbl="cleared"] td:nth-child(10){width:5ch!important}
+
+/*---- 近期操作表 ----*/
+table[data-tbl="ops"] th:nth-child(1),table[data-tbl="ops"] td:nth-child(1){width:6ch!important}
+table[data-tbl="ops"] th:nth-child(2),table[data-tbl="ops"] td:nth-child(2){width:10ch!important}
+table[data-tbl="ops"] th:nth-child(3),table[data-tbl="ops"] td:nth-child(3){width:3ch!important}
+table[data-tbl="ops"] th:nth-child(4),table[data-tbl="ops"] td:nth-child(4){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(5),table[data-tbl="ops"] td:nth-child(5){width:6ch!important}
+table[data-tbl="ops"] th:nth-child(6),table[data-tbl="ops"] td:nth-child(6){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(7),table[data-tbl="ops"] td:nth-child(7){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(8),table[data-tbl="ops"] td:nth-child(8){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(9),table[data-tbl="ops"] td:nth-child(9){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(10),table[data-tbl="ops"] td:nth-child(10){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(11),table[data-tbl="ops"] td:nth-child(11){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){width:5ch!important}
+</style><style>
+/*tcol-css-v2  固定列宽：1ch ≈ 1 个字符宽*/
+table[data-tbl]{table-layout:fixed!important;border-collapse:collapse}
+table[data-tbl] th,table[data-tbl] td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/*---- 持仓表 ----*/
+table[data-tbl="hold"] th:nth-child(1),table[data-tbl="hold"] td:nth-child(1){width:6ch!important}
+table[data-tbl="hold"] th:nth-child(2),table[data-tbl="hold"] td:nth-child(2){width:10ch!important}
+table[data-tbl="hold"] th:nth-child(3),table[data-tbl="hold"] td:nth-child(3){width:3ch!important}
+table[data-tbl="hold"] th:nth-child(4),table[data-tbl="hold"] td:nth-child(4){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(5),table[data-tbl="hold"] td:nth-child(5){width:6ch!important}
+table[data-tbl="hold"] th:nth-child(6),table[data-tbl="hold"] td:nth-child(6){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(7),table[data-tbl="hold"] td:nth-child(7){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(8),table[data-tbl="hold"] td:nth-child(8){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(9),table[data-tbl="hold"] td:nth-child(9){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(10),table[data-tbl="hold"] td:nth-child(10){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(11),table[data-tbl="hold"] td:nth-child(11){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(12),table[data-tbl="hold"] td:nth-child(12){width:5ch!important}
+
+/*---- 已清仓表：名称列=10+5+6=21ch ----*/
+table[data-tbl="cleared"] th:nth-child(1),table[data-tbl="cleared"] td:nth-child(1){width:6ch!important}
+table[data-tbl="cleared"] th:nth-child(2),table[data-tbl="cleared"] td:nth-child(2){width:21ch!important}
+table[data-tbl="cleared"] th:nth-child(3),table[data-tbl="cleared"] td:nth-child(3){width:3ch!important}
+table[data-tbl="cleared"] th:nth-child(4),table[data-tbl="cleared"] td:nth-child(4){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(5),table[data-tbl="cleared"] td:nth-child(5){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(6),table[data-tbl="cleared"] td:nth-child(6){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(7),table[data-tbl="cleared"] td:nth-child(7){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(8),table[data-tbl="cleared"] td:nth-child(8){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(9),table[data-tbl="cleared"] td:nth-child(9){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(10),table[data-tbl="cleared"] td:nth-child(10){width:5ch!important}
+
+/*---- 近期操作表 ----*/
+table[data-tbl="ops"] th:nth-child(1),table[data-tbl="ops"] td:nth-child(1){width:6ch!important}
+table[data-tbl="ops"] th:nth-child(2),table[data-tbl="ops"] td:nth-child(2){width:10ch!important}
+table[data-tbl="ops"] th:nth-child(3),table[data-tbl="ops"] td:nth-child(3){width:3ch!important}
+table[data-tbl="ops"] th:nth-child(4),table[data-tbl="ops"] td:nth-child(4){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(5),table[data-tbl="ops"] td:nth-child(5){width:6ch!important}
+table[data-tbl="ops"] th:nth-child(6),table[data-tbl="ops"] td:nth-child(6){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(7),table[data-tbl="ops"] td:nth-child(7){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(8),table[data-tbl="ops"] td:nth-child(8){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(9),table[data-tbl="ops"] td:nth-child(9){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(10),table[data-tbl="ops"] td:nth-child(10){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(11),table[data-tbl="ops"] td:nth-child(11){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){width:5ch!important}
+</style><style>
+/*tcol-css-v2  固定列宽：1ch ≈ 1 个字符宽*/
+table[data-tbl]{table-layout:fixed!important;border-collapse:collapse}
+table[data-tbl] th,table[data-tbl] td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/*---- 持仓表 ----*/
+table[data-tbl="hold"] th:nth-child(1),table[data-tbl="hold"] td:nth-child(1){width:6ch!important}
+table[data-tbl="hold"] th:nth-child(2),table[data-tbl="hold"] td:nth-child(2){width:10ch!important}
+table[data-tbl="hold"] th:nth-child(3),table[data-tbl="hold"] td:nth-child(3){width:3ch!important}
+table[data-tbl="hold"] th:nth-child(4),table[data-tbl="hold"] td:nth-child(4){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(5),table[data-tbl="hold"] td:nth-child(5){width:6ch!important}
+table[data-tbl="hold"] th:nth-child(6),table[data-tbl="hold"] td:nth-child(6){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(7),table[data-tbl="hold"] td:nth-child(7){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(8),table[data-tbl="hold"] td:nth-child(8){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(9),table[data-tbl="hold"] td:nth-child(9){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(10),table[data-tbl="hold"] td:nth-child(10){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(11),table[data-tbl="hold"] td:nth-child(11){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(12),table[data-tbl="hold"] td:nth-child(12){width:5ch!important}
+
+/*---- 已清仓表：名称列=10+5+6=21ch ----*/
+table[data-tbl="cleared"] th:nth-child(1),table[data-tbl="cleared"] td:nth-child(1){width:6ch!important}
+table[data-tbl="cleared"] th:nth-child(2),table[data-tbl="cleared"] td:nth-child(2){width:21ch!important}
+table[data-tbl="cleared"] th:nth-child(3),table[data-tbl="cleared"] td:nth-child(3){width:3ch!important}
+table[data-tbl="cleared"] th:nth-child(4),table[data-tbl="cleared"] td:nth-child(4){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(5),table[data-tbl="cleared"] td:nth-child(5){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(6),table[data-tbl="cleared"] td:nth-child(6){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(7),table[data-tbl="cleared"] td:nth-child(7){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(8),table[data-tbl="cleared"] td:nth-child(8){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(9),table[data-tbl="cleared"] td:nth-child(9){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(10),table[data-tbl="cleared"] td:nth-child(10){width:5ch!important}
+
+/*---- 近期操作表 ----*/
+table[data-tbl="ops"] th:nth-child(1),table[data-tbl="ops"] td:nth-child(1){width:6ch!important}
+table[data-tbl="ops"] th:nth-child(2),table[data-tbl="ops"] td:nth-child(2){width:10ch!important}
+table[data-tbl="ops"] th:nth-child(3),table[data-tbl="ops"] td:nth-child(3){width:3ch!important}
+table[data-tbl="ops"] th:nth-child(4),table[data-tbl="ops"] td:nth-child(4){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(5),table[data-tbl="ops"] td:nth-child(5){width:6ch!important}
+table[data-tbl="ops"] th:nth-child(6),table[data-tbl="ops"] td:nth-child(6){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(7),table[data-tbl="ops"] td:nth-child(7){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(8),table[data-tbl="ops"] td:nth-child(8){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(9),table[data-tbl="ops"] td:nth-child(9){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(10),table[data-tbl="ops"] td:nth-child(10){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(11),table[data-tbl="ops"] td:nth-child(11){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){width:5ch!important}
+</style><style>
+/*tcol-css-v2  固定列宽：1ch ≈ 1 个字符宽*/
+table[data-tbl]{table-layout:fixed!important;border-collapse:collapse;width:max-content!important}
+table[data-tbl] th,table[data-tbl] td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums;box-sizing:border-box}
+
+/*---- 持仓表 ----*/
+table[data-tbl="hold"] th:nth-child(1),table[data-tbl="hold"] td:nth-child(1){width:6ch!important}
+table[data-tbl="hold"] th:nth-child(2),table[data-tbl="hold"] td:nth-child(2){width:10ch!important}
+table[data-tbl="hold"] th:nth-child(3),table[data-tbl="hold"] td:nth-child(3){width:3ch!important}
+table[data-tbl="hold"] th:nth-child(4),table[data-tbl="hold"] td:nth-child(4){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(5),table[data-tbl="hold"] td:nth-child(5){width:6ch!important}
+table[data-tbl="hold"] th:nth-child(6),table[data-tbl="hold"] td:nth-child(6){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(7),table[data-tbl="hold"] td:nth-child(7){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(8),table[data-tbl="hold"] td:nth-child(8){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(9),table[data-tbl="hold"] td:nth-child(9){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(10),table[data-tbl="hold"] td:nth-child(10){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(11),table[data-tbl="hold"] td:nth-child(11){width:5ch!important}
+table[data-tbl="hold"] th:nth-child(12),table[data-tbl="hold"] td:nth-child(12){width:5ch!important}
+
+/*---- 已清仓表：名称列=10+5+6=21ch ----*/
+table[data-tbl="cleared"] th:nth-child(1),table[data-tbl="cleared"] td:nth-child(1){width:6ch!important}
+table[data-tbl="cleared"] th:nth-child(2),table[data-tbl="cleared"] td:nth-child(2){width:21ch!important}
+table[data-tbl="cleared"] th:nth-child(3),table[data-tbl="cleared"] td:nth-child(3){width:3ch!important}
+table[data-tbl="cleared"] th:nth-child(4),table[data-tbl="cleared"] td:nth-child(4){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(5),table[data-tbl="cleared"] td:nth-child(5){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(6),table[data-tbl="cleared"] td:nth-child(6){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(7),table[data-tbl="cleared"] td:nth-child(7){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(8),table[data-tbl="cleared"] td:nth-child(8){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(9),table[data-tbl="cleared"] td:nth-child(9){width:5ch!important}
+table[data-tbl="cleared"] th:nth-child(10),table[data-tbl="cleared"] td:nth-child(10){width:5ch!important}
+
+/*---- 近期操作表 ----*/
+table[data-tbl="ops"] th:nth-child(1),table[data-tbl="ops"] td:nth-child(1){width:6ch!important}
+table[data-tbl="ops"] th:nth-child(2),table[data-tbl="ops"] td:nth-child(2){width:10ch!important}
+table[data-tbl="ops"] th:nth-child(3),table[data-tbl="ops"] td:nth-child(3){width:3ch!important}
+table[data-tbl="ops"] th:nth-child(4),table[data-tbl="ops"] td:nth-child(4){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(5),table[data-tbl="ops"] td:nth-child(5){width:6ch!important}
+table[data-tbl="ops"] th:nth-child(6),table[data-tbl="ops"] td:nth-child(6){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(7),table[data-tbl="ops"] td:nth-child(7){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(8),table[data-tbl="ops"] td:nth-child(8){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(9),table[data-tbl="ops"] td:nth-child(9){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(10),table[data-tbl="ops"] td:nth-child(10){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(11),table[data-tbl="ops"] td:nth-child(11){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){width:5ch!important}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-06</span> ⏰ 估值拉取时间 <span id="stampTime">01:00:46</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-06</span> ⏰ 估值拉取时间 <span id="stampTime">01:30:22</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-27.34</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -824,9 +1000,10 @@ if(c.getAttribute("data-tcol")!==String(o.n))c.setAttribute("data-tcol",String(o
 if(c.getAttribute("data-cfold")===null){
 var cells=extraCells(c,o);
 for(var i=0;i<cells.length;i++){cells[i].style.transition="none";cells[i].style.opacity="1";}
-c.style.transition="none";c.style.overflow="hidden";
+c.style.transition="none";c.style.overflow="visible";
 c.style.width="fit-content";
-c.setAttribute("data-cfold","1");
+/* 默认不折叠：初始为展开态 */
+c.setAttribute("data-cfold","0");
 }
 return true;
 }
