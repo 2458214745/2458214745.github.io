@@ -65,7 +65,7 @@ table[data-tbl="hold"] th:nth-child(1),table[data-tbl="hold"] td:nth-child(1){wi
 table[data-tbl="hold"] th:nth-child(2),table[data-tbl="hold"] td:nth-child(2){width:10ch!important}
 table[data-tbl="hold"] th:nth-child(3),table[data-tbl="hold"] td:nth-child(3){width:3ch!important}
 table[data-tbl="hold"] th:nth-child(4),table[data-tbl="hold"] td:nth-child(4){width:5ch!important}
-table[data-tbl="hold"] th:nth-child(5),table[data-tbl="hold"] td:nth-child(5){width:6ch!important}
+table[data-tbl="hold"] th:nth-child(5),table[data-tbl="hold"] td:nth-child(5){width:5ch!important}
 table[data-tbl="hold"] th:nth-child(6),table[data-tbl="hold"] td:nth-child(6){width:5ch!important}
 table[data-tbl="hold"] th:nth-child(7),table[data-tbl="hold"] td:nth-child(7){width:5ch!important}
 table[data-tbl="hold"] th:nth-child(8),table[data-tbl="hold"] td:nth-child(8){width:5ch!important}
@@ -87,10 +87,11 @@ table[data-tbl="cleared"] th:nth-child(9),table[data-tbl="cleared"] td:nth-child
 table[data-tbl="cleared"] th:nth-child(10),table[data-tbl="cleared"] td:nth-child(10){width:5ch!important}
 
 /*---- 近期操作表 ----*/
+/* 金额列 = 持仓金额(5) + 盈亏(5) - 状态(6) = 4ch，使两表前5列同为 29ch，T 列纵向对齐 */
 table[data-tbl="ops"] th:nth-child(1),table[data-tbl="ops"] td:nth-child(1){width:6ch!important}
 table[data-tbl="ops"] th:nth-child(2),table[data-tbl="ops"] td:nth-child(2){width:10ch!important}
 table[data-tbl="ops"] th:nth-child(3),table[data-tbl="ops"] td:nth-child(3){width:3ch!important}
-table[data-tbl="ops"] th:nth-child(4),table[data-tbl="ops"] td:nth-child(4){width:5ch!important}
+table[data-tbl="ops"] th:nth-child(4),table[data-tbl="ops"] td:nth-child(4){width:4ch!important}
 table[data-tbl="ops"] th:nth-child(5),table[data-tbl="ops"] td:nth-child(5){width:6ch!important}
 table[data-tbl="ops"] th:nth-child(6),table[data-tbl="ops"] td:nth-child(6){width:5ch!important}
 table[data-tbl="ops"] th:nth-child(7),table[data-tbl="ops"] td:nth-child(7){width:5ch!important}
@@ -101,13 +102,13 @@ table[data-tbl="ops"] th:nth-child(11),table[data-tbl="ops"] td:nth-child(11){wi
 table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){width:5ch!important}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-06</span> ⏰ 估值拉取时间 <span id="stampTime">02:41:20</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-06</span> ⏰ 估值拉取时间 <span id="stampTime">02:56:35</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-27.34</b> 元</span></div>
 </section>
 <section class="card card-hold">
 <h3>持仓</h3>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>预计盈亏 <b id="subGT" class="fall">-27.34</b> 元</span></div>
-<table data-tbl="hold"><thead><tr><th>代码</th><th>基金名称</th><th>类型</th><th>持仓金额</th><th>估算盈亏</th><th class="tcol">T</th><th class="tcol">T-1</th><th class="tcol">T-2</th><th class="tcol">T-3</th><th class="tcol">T-4</th><th class="tcol">T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/019548" target="_blank" rel="noopener">019548</a></td><td>招商纳斯达克100ETF发起式联接(QDII)C</td><td>t+2</td><td>6451</td><td class="rise" data-num="+56.77">56.77</td><td class="tcol">—</td><td class="rise tcol" data-num="+0.88">0.88</td><td class="rise tcol" data-num="+0.63">0.63</td><td class="fall tcol" data-num="-1.27">1.27</td><td class="fall tcol" data-num="-3.17">3.17</td><td class="fall tcol" data-num="-1.29">1.29</td><td class="fall" data-num="-4.20">4.20</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/012752" target="_blank" rel="noopener">012752</a></td><td>建信纳斯达克100指数C(QDII)</td><td>t+2</td><td>1599</td><td class="rise" data-num="+13.91">13.91</td><td class="tcol">—</td><td class="rise tcol" data-num="+0.87">0.87</td><td class="rise tcol" data-num="+0.59">0.59</td><td class="fall tcol" data-num="-1.33">1.33</td><td class="fall tcol" data-num="-3.11">3.11</td><td class="fall tcol" data-num="-1.27">1.27</td><td class="fall" data-num="-4.23">4.23</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/016665" target="_blank" rel="noopener">016665</a></td><td>天弘全球高端制造混合(QDII)C</td><td>t+2</td><td>5949</td><td class="fall" data-num="-5.35">5.35</td><td class="tcol">—</td><td class="fall tcol" data-num="-0.09">0.09</td><td class="fall tcol" data-num="-1.84">1.84</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="fall tcol" data-num="-6.85">6.85</td><td class="fall tcol" data-num="-3.76">3.76</td><td class="fall" data-num="-13.44">13.44</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/014916" target="_blank" rel="noopener">014916</a></td><td>财通匠心优选一年持有混合C</td><td>t+1</td><td>48</td><td class="fall" data-num="-0.73">0.73</td><td class="tcol">—</td><td class="fall tcol" data-num="-1.53">1.53</td><td class="rise tcol" data-num="+9.82">9.82</td><td class="fall tcol" data-num="-7.83">7.83</td><td class="fall tcol" data-num="-0.74">0.74</td><td class="fall tcol" data-num="-6.53">6.53</td><td class="fall" data-num="-7.53">7.53</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/011370" target="_blank" rel="noopener">011370</a></td><td>华商均衡成长混合C</td><td>t+1</td><td>2203</td><td class="fall" data-num="-34.15">34.15</td><td class="tcol">—</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="rise tcol" data-num="+10.17">10.17</td><td class="fall tcol" data-num="-8.19">8.19</td><td class="fall tcol" data-num="-0.29">0.29</td><td class="fall tcol" data-num="-6.60">6.60</td><td class="fall" data-num="-7.26">7.26</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/018147" target="_blank" rel="noopener">018147</a></td><td>建信新兴市场优选混合(QDII)C</td><td>t+2</td><td>1789</td><td class="fall" data-num="-57.78">57.78</td><td class="tcol">—</td><td class="fall tcol" data-num="-3.23">3.23</td><td class="rise tcol" data-num="+0.60">0.60</td><td class="fall tcol" data-num="-2.77">2.77</td><td class="fall tcol" data-num="-6.34">6.34</td><td class="fall tcol" data-num="-1.44">1.44</td><td class="fall" data-num="-12.62">12.62</td></tr></tbody></table>
+<table data-tbl="hold"><thead><tr><th>代码</th><th>基金名称</th><th>类型</th><th>持仓金额</th><th>盈亏</th><th class="tcol">T</th><th class="tcol">T-1</th><th class="tcol">T-2</th><th class="tcol">T-3</th><th class="tcol">T-4</th><th class="tcol">T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/019548" target="_blank" rel="noopener">019548</a></td><td>招商纳斯达克100ETF发起式联接(QDII)C</td><td>t+2</td><td>6451</td><td class="rise" data-num="+56.77">56.77</td><td class="tcol">—</td><td class="rise tcol" data-num="+0.88">0.88</td><td class="rise tcol" data-num="+0.63">0.63</td><td class="fall tcol" data-num="-1.27">1.27</td><td class="fall tcol" data-num="-3.17">3.17</td><td class="fall tcol" data-num="-1.29">1.29</td><td class="fall" data-num="-4.20">4.20</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/012752" target="_blank" rel="noopener">012752</a></td><td>建信纳斯达克100指数C(QDII)</td><td>t+2</td><td>1599</td><td class="rise" data-num="+13.91">13.91</td><td class="tcol">—</td><td class="rise tcol" data-num="+0.87">0.87</td><td class="rise tcol" data-num="+0.59">0.59</td><td class="fall tcol" data-num="-1.33">1.33</td><td class="fall tcol" data-num="-3.11">3.11</td><td class="fall tcol" data-num="-1.27">1.27</td><td class="fall" data-num="-4.23">4.23</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/016665" target="_blank" rel="noopener">016665</a></td><td>天弘全球高端制造混合(QDII)C</td><td>t+2</td><td>5949</td><td class="fall" data-num="-5.35">5.35</td><td class="tcol">—</td><td class="fall tcol" data-num="-0.09">0.09</td><td class="fall tcol" data-num="-1.84">1.84</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="fall tcol" data-num="-6.85">6.85</td><td class="fall tcol" data-num="-3.76">3.76</td><td class="fall" data-num="-13.44">13.44</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/014916" target="_blank" rel="noopener">014916</a></td><td>财通匠心优选一年持有混合C</td><td>t+1</td><td>48</td><td class="fall" data-num="-0.73">0.73</td><td class="tcol">—</td><td class="fall tcol" data-num="-1.53">1.53</td><td class="rise tcol" data-num="+9.82">9.82</td><td class="fall tcol" data-num="-7.83">7.83</td><td class="fall tcol" data-num="-0.74">0.74</td><td class="fall tcol" data-num="-6.53">6.53</td><td class="fall" data-num="-7.53">7.53</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/011370" target="_blank" rel="noopener">011370</a></td><td>华商均衡成长混合C</td><td>t+1</td><td>2203</td><td class="fall" data-num="-34.15">34.15</td><td class="tcol">—</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="rise tcol" data-num="+10.17">10.17</td><td class="fall tcol" data-num="-8.19">8.19</td><td class="fall tcol" data-num="-0.29">0.29</td><td class="fall tcol" data-num="-6.60">6.60</td><td class="fall" data-num="-7.26">7.26</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/018147" target="_blank" rel="noopener">018147</a></td><td>建信新兴市场优选混合(QDII)C</td><td>t+2</td><td>1789</td><td class="fall" data-num="-57.78">57.78</td><td class="tcol">—</td><td class="fall tcol" data-num="-3.23">3.23</td><td class="rise tcol" data-num="+0.60">0.60</td><td class="fall tcol" data-num="-2.77">2.77</td><td class="fall tcol" data-num="-6.34">6.34</td><td class="fall tcol" data-num="-1.44">1.44</td><td class="fall" data-num="-12.62">12.62</td></tr></tbody></table>
 </section>
 <section class="card card-stale">
 <h3>已清仓</h3>
@@ -275,7 +276,6 @@ table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){wi
       if (vi < 0 || ri < 0) continue;
       var ai = H.indexOf("持仓金额");
       if (ai < 0) ai = H.indexOf("金额");
-      var pi = H.indexOf("估算盈亏");
       var rows = ts[t].querySelectorAll("tbody tr"), rr = [];
       for (var r = 0; r < rows.length; r++) {
         var tds = rows[r].querySelectorAll("td");
@@ -291,7 +291,7 @@ table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){wi
         if (pv.tagName === "BLOCKQUOTE" && pv.textContent.indexOf("预计盈亏") >= 0) { sub = pv; break; }
         pv = pv.previousElementSibling;
       }
-      out.push({ tds: rr, vi: vi, ri: ri, ai: ai, pi: pi, sub: sub });
+      out.push({ tds: rr, vi: vi, ri: ri, ai: ai, sub: sub });
     }
     return { tables: out, codes: Object.keys(codes) };
   }
@@ -592,7 +592,7 @@ M[cd2]=(M[cd2]||0)+v;
 function apply(){
 /* 2026-11-06 修复：tm 表示「T 列是否为今天的净值」。
    原用 anyTdiff()(T!=T-1) 判断，但 T-1 改为真实昨日值后该条件恒真，
-   导致跨日后仍显示「今日/估算盈亏T」。改为按日期判定。 */
+   导致跨日后仍显示「今日/盈亏T」。改为按日期判定。 */
 function tIsToday(){
 try{
 var nd=document.documentElement.getAttribute('data-nav-date')||'';
@@ -610,7 +610,7 @@ var total=0,seen=false;
 for(var ti=0;ti<ts.length;ti++){
 var trs=ts[ti].querySelectorAll('tr');if(!trs.length)continue;var hdr=trs[0].cells;var iA=-1,iP=-1,iT=-1,iQ=-1,iS=-1;
 for(var i=0;i<hdr.length;i++){var t=(hdr[i].textContent||'').trim();
-if(t==='结算金额')iS=i;else if(t==='持仓金额')iA=i;else if(t.indexOf('估算盈亏')===0)iP=i;else if(t==='T')iT=i;else if(t==='T-1')iQ=i;}
+if(t==='结算金额')iS=i;else if(t==='持仓金额')iA=i;else if(t.indexOf('盈亏')===0)iP=i;else if(t==='T')iT=i;else if(t==='T-1')iQ=i;}
 if(iA<0||iP<0||iT<0||iQ<0)continue;
 var rows=ts[ti].querySelectorAll('tbody tr');
 for(var r=0;r<rows.length;r++){var c=rows[r].cells;
@@ -631,7 +631,7 @@ var ef=c[iP];
 if(ef.dataset.efl!=='1'){ef.dataset.efl='1';ef.style.cursor='pointer';ef.setAttribute('title','点击查看东财详情');
 (function(cd){ef.addEventListener('click',function(){try{window.open('https://fund.eastmoney.com/'+cd+'.html','_blank');}catch(e){}});})(code);}
 }
-var wantH=tm?'估算盈亏T':'估算盈亏T-1';
+var wantH=tm?'盈亏T':'盈亏T-1';
 if((hdr[iP].textContent||'').trim()!==wantH){hdr[iP].textContent=wantH;}}
 if(seen){
 var pt=document.getElementById('pnlTotal');
@@ -823,8 +823,8 @@ var cells=extraCells(c,o);
 for(var i=0;i<cells.length;i++){cells[i].style.transition="none";cells[i].style.opacity="1";}
 c.style.transition="none";c.style.overflow="visible";
 c.style.width="fit-content";
-/* 默认不折叠：初始为展开态 */
-c.setAttribute("data-cfold","0");
+/* 默认左右折叠：初始为折叠态，只显示到 T 列 */
+c.setAttribute("data-cfold","1");
 }
 return true;
 }
