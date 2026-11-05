@@ -61,7 +61,7 @@
 .tcol{width:5.5ch;min-width:5.5ch;max-width:5.5ch;white-space:nowrap;font-variant-numeric:tabular-nums}
 </style></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">23:53:30</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-05</span> ⏰ 估值拉取时间 <span id="stampTime">23:56:48</span></div>
 <div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-27.34</b> 元</span></div>
 </section>
 <section class="card card-hold">
@@ -89,13 +89,14 @@
 
 <table><thead><tr><th>代码</th><th>基金名称</th><th>类型</th><th>金额</th><th>状态</th><th class="tcol">T</th><th class="tcol">T-1</th><th class="tcol">T-2</th><th class="tcol">T-3</th><th class="tcol">T-4</th><th class="tcol">T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/011370" target="_blank" rel="noopener">011370</a></td><td>华商均衡成长混合C</td><td>t+1</td><td class="rise">+2000.00</td><td>已结算</td><td class="fall tcol">-1.55</td><td class="rise tcol">+10.17</td><td class="fall tcol">-8.19</td><td class="fall tcol">-0.29</td><td class="fall tcol">-6.60</td><td class="fall tcol">-8.25</td><td class="fall">-13.57</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/016665" target="_blank" rel="noopener">016665</a></td><td>天弘全球高端制造混合(QDII)C</td><td>t+2</td><td class="rise">+1000.00</td><td>结算中</td><td class="fall tcol">-0.09</td><td class="fall tcol">-1.84</td><td class="fall tcol">-1.55</td><td class="fall tcol">-6.85</td><td class="fall tcol">-3.76</td><td class="rise tcol">+4.84</td><td class="fall">-9.17</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/018147" target="_blank" rel="noopener">018147</a></td><td>建信新兴市场优选混合(QDII)C</td><td>t+2</td><td class="rise">+100.00</td><td>结算中</td><td class="fall tcol">-3.23</td><td class="rise tcol">+0.60</td><td class="fall tcol">-2.77</td><td class="fall tcol">-6.34</td><td class="fall tcol">-1.44</td><td class="rise tcol">+3.87</td><td class="fall">-6.21</td></tr></tbody></table>
 </section></div><script>
-/* 基金估值页面实时刷新（2026-11-01 用户定案：页面不内嵌推送凭据）
-   打开/手动刷新 = 立即拉最新估值，不设定时刷新；
-   GitHub 推送由手机端 push_api.sh 按“文档有改动才推”规矩执行。
-   2026-11-02 定案：所有数据首帧直接写当下最准的已知值(不隐藏)；数据到位后只就地更新有变化的格子；值没变绝不碰 DOM(写入一律走守卫助手)。
-   2026-11-02 续定案：当日 localStorage 留底——成功拉取即存 {d,t,m}；首渲染前同步读，仅当日且比构建快照新才套用(首帧=上次实时值)；失败提示分双态。
-   2026-11-04 定案：估算盈亏/卡汇总(subGT)/总盈亏不再由本脚本写——基数口径归 v9 结算链(结算格×实时T)专属，
-   本脚本只刷 T、时间戳与留底(T-1~T-5 归后端静态值)；同域单写手，消除双写打架与全额基数闪值(总额仍由v9随T实时重算)。 */
+/* 基金估值页面实时刷新（运行时唯一能改 T 列 的脚本）
+   写入范围：T 列、拉取时间戳、总盈亏文字。禁止写 T-1~T-5（归后端静态值）。
+   触发：打开页面 / 手动刷新 / 回前台。不设定时器。
+   2026-11-05 修复：删除「setCell(tds[o.ri], fmt(rz))」一行。
+       原因：接口 valuation 与 rzzl 同源同值，写 T-1 会让 T-1 恒等于 T，
+            后端算好的 +10.17 一加载就被覆盖成 -1.55。
+   总盈亏双写说明：本脚本 setTotal() 与 inject_copy.py 的 PNL_JS 都会写总盈亏，
+       两者口径若不一致会出现闪值，改动时需同步核对。 */
 (function () {
   "use strict";
   var API = "https://www.xqy2024.com/fundsApi/api";
