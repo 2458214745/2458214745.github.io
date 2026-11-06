@@ -2,6 +2,7 @@
 <html lang="zh-CN"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
 <meta name="report-date" content="2026-11-06">
 <meta name="t-date" content="2026-11-05">
+<meta name="t-basis" content="est">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>基金估值汇报</title>
 <style>
@@ -87,7 +88,7 @@ table[data-tbl="cleared"] th:nth-child(9),table[data-tbl="cleared"] td:nth-child
 table[data-tbl="cleared"] th:nth-child(10),table[data-tbl="cleared"] td:nth-child(10){width:5ch!important}
 
 /*---- 近期操作表 ----*/
-/* 金额列 = 持仓金额(5) + 盈亏(5) - 状态(6) = 4ch，使两表前5列同为 29ch，T 列纵向对齐 */
+/* 金额列 = 持仓金额 + 盈亏 - 状态；实测 57+52-47 = 62px，故金额与状态同设 7ch（设备各 55px），两表 T 列均落在 316px */
 table[data-tbl="ops"] th:nth-child(1),table[data-tbl="ops"] td:nth-child(1){width:6ch!important}
 table[data-tbl="ops"] th:nth-child(2),table[data-tbl="ops"] td:nth-child(2){width:10ch!important}
 table[data-tbl="ops"] th:nth-child(3),table[data-tbl="ops"] td:nth-child(3){width:3ch!important}
@@ -100,20 +101,30 @@ table[data-tbl="ops"] th:nth-child(9),table[data-tbl="ops"] td:nth-child(9){widt
 table[data-tbl="ops"] th:nth-child(10),table[data-tbl="ops"] td:nth-child(10){width:5ch!important}
 table[data-tbl="ops"] th:nth-child(11),table[data-tbl="ops"] td:nth-child(11){width:5ch!important}
 table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){width:5ch!important}
-</style></head><body><div class="container"><section class="card card-watch">
+</style><style>
+/*t-fresh-v1  消除「构建值 → 实时值」的刷新跳变*/
+td.tcol{transition:opacity .18s ease}
+html[data-fresh="0"] td.tcol{opacity:.3}
+</style>
+<script>
+/*t-fresh-v1*/
+(function(){try{document.documentElement.setAttribute("data-fresh","0");}catch(e){}
+/* 3 秒兑底：即使 live_refresh 失败，也一定恢复到正常不透明度 */
+setTimeout(function(){try{document.documentElement.setAttribute("data-fresh","1");}catch(e){}},3000);})();
+</script></head><body><div class="container"><section class="card card-watch">
 <h3>持仓概况</h3>
-<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-06</span> ⏰ 估值拉取时间 <span id="stampTime">02:56:35</span></div>
-<div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-27.34</b> 元</span></div>
+<div class="sub-line" id="valStamp">📅 <span id="stampDate">2026-11-06</span> ⏰ 估值拉取时间 <span id="stampTime">10:19:53</span></div>
+<div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>今日预计总盈亏 <b id="pnlTotal" class="fall">-1336.62</b> 元</span></div>
 </section>
 <section class="card card-hold">
 <h3>持仓</h3>
-<div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>预计盈亏 <b id="subGT" class="fall">-27.34</b> 元</span></div>
-<table data-tbl="hold"><thead><tr><th>代码</th><th>基金名称</th><th>类型</th><th>持仓金额</th><th>盈亏</th><th class="tcol">T</th><th class="tcol">T-1</th><th class="tcol">T-2</th><th class="tcol">T-3</th><th class="tcol">T-4</th><th class="tcol">T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/019548" target="_blank" rel="noopener">019548</a></td><td>招商纳斯达克100ETF发起式联接(QDII)C</td><td>t+2</td><td>6451</td><td class="rise" data-num="+56.77">56.77</td><td class="tcol">—</td><td class="rise tcol" data-num="+0.88">0.88</td><td class="rise tcol" data-num="+0.63">0.63</td><td class="fall tcol" data-num="-1.27">1.27</td><td class="fall tcol" data-num="-3.17">3.17</td><td class="fall tcol" data-num="-1.29">1.29</td><td class="fall" data-num="-4.20">4.20</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/012752" target="_blank" rel="noopener">012752</a></td><td>建信纳斯达克100指数C(QDII)</td><td>t+2</td><td>1599</td><td class="rise" data-num="+13.91">13.91</td><td class="tcol">—</td><td class="rise tcol" data-num="+0.87">0.87</td><td class="rise tcol" data-num="+0.59">0.59</td><td class="fall tcol" data-num="-1.33">1.33</td><td class="fall tcol" data-num="-3.11">3.11</td><td class="fall tcol" data-num="-1.27">1.27</td><td class="fall" data-num="-4.23">4.23</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/016665" target="_blank" rel="noopener">016665</a></td><td>天弘全球高端制造混合(QDII)C</td><td>t+2</td><td>5949</td><td class="fall" data-num="-5.35">5.35</td><td class="tcol">—</td><td class="fall tcol" data-num="-0.09">0.09</td><td class="fall tcol" data-num="-1.84">1.84</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="fall tcol" data-num="-6.85">6.85</td><td class="fall tcol" data-num="-3.76">3.76</td><td class="fall" data-num="-13.44">13.44</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/014916" target="_blank" rel="noopener">014916</a></td><td>财通匠心优选一年持有混合C</td><td>t+1</td><td>48</td><td class="fall" data-num="-0.73">0.73</td><td class="tcol">—</td><td class="fall tcol" data-num="-1.53">1.53</td><td class="rise tcol" data-num="+9.82">9.82</td><td class="fall tcol" data-num="-7.83">7.83</td><td class="fall tcol" data-num="-0.74">0.74</td><td class="fall tcol" data-num="-6.53">6.53</td><td class="fall" data-num="-7.53">7.53</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/011370" target="_blank" rel="noopener">011370</a></td><td>华商均衡成长混合C</td><td>t+1</td><td>2203</td><td class="fall" data-num="-34.15">34.15</td><td class="tcol">—</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="rise tcol" data-num="+10.17">10.17</td><td class="fall tcol" data-num="-8.19">8.19</td><td class="fall tcol" data-num="-0.29">0.29</td><td class="fall tcol" data-num="-6.60">6.60</td><td class="fall" data-num="-7.26">7.26</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/018147" target="_blank" rel="noopener">018147</a></td><td>建信新兴市场优选混合(QDII)C</td><td>t+2</td><td>1789</td><td class="fall" data-num="-57.78">57.78</td><td class="tcol">—</td><td class="fall tcol" data-num="-3.23">3.23</td><td class="rise tcol" data-num="+0.60">0.60</td><td class="fall tcol" data-num="-2.77">2.77</td><td class="fall tcol" data-num="-6.34">6.34</td><td class="fall tcol" data-num="-1.44">1.44</td><td class="fall" data-num="-12.62">12.62</td></tr></tbody></table>
+<div class="summary-bar"><span>共 <b>6</b> 只</span><span>约 <b>18039</b> 元</span><span>预计盈亏 <b id="subGT" class="fall">-1336.62</b> 元</span></div>
+<table data-tbl="hold"><thead><tr><th>代码</th><th>基金名称</th><th>类型</th><th>持仓金额</th><th>盈亏</th><th class="tcol">T</th><th class="tcol">T-1</th><th class="tcol">T-2</th><th class="tcol">T-3</th><th class="tcol">T-4</th><th class="tcol">T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/019548" target="_blank" rel="noopener">019548</a></td><td>招商纳斯达克100ETF发起式联接(QDII)C</td><td>t+2</td><td>6451</td><td class="fall" data-num="-410.28">410.28</td><td class="fall tcol" data-num="-6.36">6.36</td><td class="rise tcol" data-num="+0.88">0.88</td><td class="rise tcol" data-num="+0.63">0.63</td><td class="fall tcol" data-num="-1.27">1.27</td><td class="fall tcol" data-num="-3.17">3.17</td><td class="fall tcol" data-num="-1.29">1.29</td><td class="fall" data-num="-4.20">4.20</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/012752" target="_blank" rel="noopener">012752</a></td><td>建信纳斯达克100指数C(QDII)</td><td>t+2</td><td>1599</td><td class="fall" data-num="-101.70">101.70</td><td class="fall tcol" data-num="-6.36">6.36</td><td class="rise tcol" data-num="+0.87">0.87</td><td class="rise tcol" data-num="+0.59">0.59</td><td class="fall tcol" data-num="-1.33">1.33</td><td class="fall tcol" data-num="-3.11">3.11</td><td class="fall tcol" data-num="-1.27">1.27</td><td class="fall" data-num="-4.23">4.23</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/014916" target="_blank" rel="noopener">014916</a></td><td>财通匠心优选一年持有混合C</td><td>t+1</td><td>48</td><td class="fall" data-num="-3.45">3.45</td><td class="fall tcol" data-num="-7.18">7.18</td><td class="fall tcol" data-num="-1.53">1.53</td><td class="rise tcol" data-num="+9.82">9.82</td><td class="fall tcol" data-num="-7.83">7.83</td><td class="fall tcol" data-num="-0.74">0.74</td><td class="fall tcol" data-num="-6.53">6.53</td><td class="fall" data-num="-7.53">7.53</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/011370" target="_blank" rel="noopener">011370</a></td><td>华商均衡成长混合C</td><td>t+1</td><td>2203</td><td class="fall" data-num="-163.68">163.68</td><td class="fall tcol" data-num="-7.43">7.43</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="rise tcol" data-num="+10.17">10.17</td><td class="fall tcol" data-num="-8.19">8.19</td><td class="fall tcol" data-num="-0.29">0.29</td><td class="fall tcol" data-num="-6.60">6.60</td><td class="fall" data-num="-7.26">7.26</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/016665" target="_blank" rel="noopener">016665</a></td><td>天弘全球高端制造混合(QDII)C</td><td>t+2</td><td>5949</td><td class="fall" data-num="-496.15">496.15</td><td class="fall tcol" data-num="-8.34">8.34</td><td class="fall tcol" data-num="-0.09">0.09</td><td class="fall tcol" data-num="-1.84">1.84</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="fall tcol" data-num="-6.85">6.85</td><td class="fall tcol" data-num="-3.76">3.76</td><td class="fall" data-num="-13.44">13.44</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/018147" target="_blank" rel="noopener">018147</a></td><td>建信新兴市场优选混合(QDII)C</td><td>t+2</td><td>1789</td><td class="fall" data-num="-161.37">161.37</td><td class="fall tcol" data-num="-9.02">9.02</td><td class="fall tcol" data-num="-3.23">3.23</td><td class="rise tcol" data-num="+0.60">0.60</td><td class="fall tcol" data-num="-2.77">2.77</td><td class="fall tcol" data-num="-6.34">6.34</td><td class="fall tcol" data-num="-1.44">1.44</td><td class="fall" data-num="-12.62">12.62</td></tr></tbody></table>
 </section>
 <section class="card card-stale">
 <h3>已清仓</h3>
 <div class="summary-bar"><span>共 <b>20</b> 只</span><span>已清仓</span></div>
-<table data-tbl="cleared"><thead><tr><th>代码</th><th>基金名称</th><th>类型</th><th class="tcol">T</th><th class="tcol">T-1</th><th class="tcol">T-2</th><th class="tcol">T-3</th><th class="tcol">T-4</th><th class="tcol">T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/019005" target="_blank" rel="noopener">019005</a></td><td>国投瑞银白银期货(LOF)C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+4.98">4.98</td><td class="fall tcol" data-num="-0.13">0.13</td><td class="rise tcol" data-num="+2.11">2.11</td><td class="fall tcol" data-num="-4.85">4.85</td><td class="fall tcol" data-num="-4.29">4.29</td><td class="fall" data-num="-2.51">2.51</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/016496" target="_blank" rel="noopener">016496</a></td><td>景顺长城中证港股通科技ETF联接C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+4.56">4.56</td><td class="rise tcol" data-num="+3.01">3.01</td><td class="fall tcol" data-num="-0.35">0.35</td><td class="rise tcol" data-num="+2.27">2.27</td><td class="fall tcol" data-num="-0.23">0.23</td><td class="rise" data-num="+9.51">9.51</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/290008" target="_blank" rel="noopener">290008</a></td><td>泰信发展主题混合</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+4.08">4.08</td><td class="rise tcol" data-num="+2.60">2.60</td><td class="rise tcol" data-num="+1.32">1.32</td><td class="rise tcol" data-num="+1.19">1.19</td><td class="fall tcol" data-num="-0.66">0.66</td><td class="rise" data-num="+8.76">8.76</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/021075" target="_blank" rel="noopener">021075</a></td><td>华夏中证沪深港黄金产业股票ETF联接C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+3.59">3.59</td><td class="rise tcol" data-num="+8.17">8.17</td><td class="rise tcol" data-num="+0.78">0.78</td><td class="fall tcol" data-num="-2.18">2.18</td><td class="fall tcol" data-num="-2.96">2.96</td><td class="rise" data-num="+7.20">7.20</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/023598" target="_blank" rel="noopener">023598</a></td><td>景顺长城中证港股通创新药ETF联接C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+3.39">3.39</td><td class="rise tcol" data-num="+8.17">8.17</td><td class="fall tcol" data-num="-2.73">2.73</td><td class="fall tcol" data-num="-0.27">0.27</td><td class="fall tcol" data-num="-1.82">1.82</td><td class="rise" data-num="+6.52">6.52</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/025924" target="_blank" rel="noopener">025924</a></td><td>平安新能源精选混合C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+2.96">2.96</td><td class="rise tcol" data-num="+2.75">2.75</td><td class="rise tcol" data-num="+0.94">0.94</td><td class="rise tcol" data-num="+2.14">2.14</td><td class="fall tcol" data-num="-1.69">1.69</td><td class="rise" data-num="+7.23">7.23</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/022502" target="_blank" rel="noopener">022502</a></td><td>国泰黄金ETF联接E</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+2.41">2.41</td><td class="rise tcol" data-num="+2.72">2.72</td><td class="rise tcol" data-num="+0.47">0.47</td><td class="fall tcol" data-num="-2.19">2.19</td><td class="fall tcol" data-num="-1.21">1.21</td><td class="rise" data-num="+2.12">2.12</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/020894" target="_blank" rel="noopener">020894</a></td><td>景顺长城国证机器人产业ETF联接C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+2.16">2.16</td><td class="rise tcol" data-num="+5.64">5.64</td><td class="fall tcol" data-num="-2.23">2.23</td><td class="rise tcol" data-num="+2.36">2.36</td><td class="fall tcol" data-num="-3.27">3.27</td><td class="rise" data-num="+4.47">4.47</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/022481" target="_blank" rel="noopener">022481</a></td><td>国泰中证动漫游戏ETF联接E</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+2.00">2.00</td><td class="rise tcol" data-num="+1.95">1.95</td><td class="rise tcol" data-num="+1.29">1.29</td><td class="rise tcol" data-num="+7.72">7.72</td><td class="fall tcol" data-num="-5.01">5.01</td><td class="rise" data-num="+7.78">7.78</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/010990" target="_blank" rel="noopener">010990</a></td><td>南方有色金属ETF联接E</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+1.81">1.81</td><td class="rise tcol" data-num="+4.99">4.99</td><td class="rise tcol" data-num="+0.32">0.32</td><td class="fall tcol" data-num="-0.58">0.58</td><td class="fall tcol" data-num="-2.01">2.01</td><td class="rise" data-num="+4.47">4.47</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/002910" target="_blank" rel="noopener">002910</a></td><td>易方达供给改革灵活配置混合</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+1.77">1.77</td><td class="rise tcol" data-num="+3.88">3.88</td><td class="fall tcol" data-num="-0.36">0.36</td><td class="rise tcol" data-num="+0.38">0.38</td><td class="fall tcol" data-num="-1.05">1.05</td><td class="rise" data-num="+4.63">4.63</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/012970" target="_blank" rel="noopener">012970</a></td><td>鹏华国证半导体芯片ETF联接C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+1.69">1.69</td><td class="rise tcol" data-num="+10.37">10.37</td><td class="fall tcol" data-num="-4.83">4.83</td><td class="rise tcol" data-num="+2.25">2.25</td><td class="fall tcol" data-num="-5.10">5.10</td><td class="rise" data-num="+3.65">3.65</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/020671" target="_blank" rel="noopener">020671</a></td><td>易方达上证科创板芯片ETF联接C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+1.53">1.53</td><td class="rise tcol" data-num="+11.90">11.90</td><td class="fall tcol" data-num="-5.22">5.22</td><td class="rise tcol" data-num="+2.83">2.83</td><td class="fall tcol" data-num="-5.61">5.61</td><td class="rise" data-num="+4.52">4.52</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/020904" target="_blank" rel="noopener">020904</a></td><td>广发工程机械主题ETF联接C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+1.22">1.22</td><td class="rise tcol" data-num="+2.06">2.06</td><td class="rise tcol" data-num="+1.13">1.13</td><td class="rise tcol" data-num="+1.60">1.60</td><td class="fall tcol" data-num="-2.95">2.95</td><td class="rise" data-num="+3.01">3.01</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/011840" target="_blank" rel="noopener">011840</a></td><td>天弘中证人工智能主题ETF联接C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+1.06">1.06</td><td class="rise tcol" data-num="+6.90">6.90</td><td class="fall tcol" data-num="-4.13">4.13</td><td class="rise tcol" data-num="+1.97">1.97</td><td class="fall tcol" data-num="-5.06">5.06</td><td class="rise" data-num="+0.27">0.27</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/015795" target="_blank" rel="noopener">015795</a></td><td>天弘创业板指数增强C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+0.79">0.79</td><td class="rise tcol" data-num="+6.35">6.35</td><td class="fall tcol" data-num="-3.08">3.08</td><td class="rise tcol" data-num="+1.58">1.58</td><td class="fall tcol" data-num="-3.94">3.94</td><td class="rise" data-num="+1.37">1.37</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/026174" target="_blank" rel="noopener">026174</a></td><td>路博迈港股通科技股票C</td><td>t+1</td><td class="tcol">—</td><td class="rise tcol" data-num="+0.05">0.05</td><td class="rise tcol" data-num="+6.17">6.17</td><td class="fall tcol" data-num="-3.69">3.69</td><td class="rise tcol" data-num="+1.92">1.92</td><td class="fall tcol" data-num="-3.11">3.11</td><td class="rise" data-num="+1.02">1.02</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/001665" target="_blank" rel="noopener">001665</a></td><td>平安鑫安混合C</td><td>t+1</td><td class="tcol">—</td><td class="fall tcol" data-num="-0.01">0.01</td><td class="rise tcol" data-num="+4.64">4.64</td><td class="fall tcol" data-num="-2.06">2.06</td><td class="rise tcol" data-num="+0.86">0.86</td><td class="fall tcol" data-num="-2.58">2.58</td><td class="rise" data-num="+0.69">0.69</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/024460" target="_blank" rel="noopener">024460</a></td><td>华商致远回报混合C</td><td>t+1</td><td class="tcol">—</td><td class="fall tcol" data-num="-2.04">2.04</td><td class="rise tcol" data-num="+10.14">10.14</td><td class="fall tcol" data-num="-8.14">8.14</td><td class="rise tcol" data-num="+0.43">0.43</td><td class="fall tcol" data-num="-6.43">6.43</td><td class="fall" data-num="-6.86">6.86</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/021620" target="_blank" rel="noopener">021620</a></td><td>天弘石油天然气指数C</td><td>t+1</td><td class="tcol">—</td><td class="fall tcol" data-num="-2.35">2.35</td><td class="rise tcol" data-num="+0.34">0.34</td><td class="fall tcol" data-num="-1.53">1.53</td><td class="rise tcol" data-num="+0.42">0.42</td><td class="rise tcol" data-num="+0.94">0.94</td><td class="fall" data-num="-2.20">2.20</td></tr></tbody></table>
+<table data-tbl="cleared"><thead><tr><th>代码</th><th>基金名称</th><th>类型</th><th class="tcol">T</th><th class="tcol">T-1</th><th class="tcol">T-2</th><th class="tcol">T-3</th><th class="tcol">T-4</th><th class="tcol">T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/019005" target="_blank" rel="noopener">019005</a></td><td>国投瑞银白银期货(LOF)C</td><td>t+1</td><td class="fall tcol" data-num="-0.15">0.15</td><td class="rise tcol" data-num="+4.98">4.98</td><td class="fall tcol" data-num="-0.13">0.13</td><td class="rise tcol" data-num="+2.11">2.11</td><td class="fall tcol" data-num="-4.85">4.85</td><td class="fall tcol" data-num="-4.29">4.29</td><td class="fall" data-num="-2.51">2.51</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/025924" target="_blank" rel="noopener">025924</a></td><td>平安新能源精选混合C</td><td>t+1</td><td class="fall tcol" data-num="-0.98">0.98</td><td class="rise tcol" data-num="+2.96">2.96</td><td class="rise tcol" data-num="+2.75">2.75</td><td class="rise tcol" data-num="+0.94">0.94</td><td class="rise tcol" data-num="+2.14">2.14</td><td class="fall tcol" data-num="-1.69">1.69</td><td class="rise" data-num="+7.23">7.23</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/290008" target="_blank" rel="noopener">290008</a></td><td>泰信发展主题混合</td><td>t+1</td><td class="fall tcol" data-num="-1.09">1.09</td><td class="rise tcol" data-num="+4.08">4.08</td><td class="rise tcol" data-num="+2.60">2.60</td><td class="rise tcol" data-num="+1.32">1.32</td><td class="rise tcol" data-num="+1.19">1.19</td><td class="fall tcol" data-num="-0.66">0.66</td><td class="rise" data-num="+8.76">8.76</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/022502" target="_blank" rel="noopener">022502</a></td><td>国泰黄金ETF联接E</td><td>t+1</td><td class="fall tcol" data-num="-1.31">1.31</td><td class="rise tcol" data-num="+2.41">2.41</td><td class="rise tcol" data-num="+2.72">2.72</td><td class="rise tcol" data-num="+0.47">0.47</td><td class="fall tcol" data-num="-2.19">2.19</td><td class="fall tcol" data-num="-1.21">1.21</td><td class="rise" data-num="+2.12">2.12</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/022481" target="_blank" rel="noopener">022481</a></td><td>国泰中证动漫游戏ETF联接E</td><td>t+1</td><td class="fall tcol" data-num="-1.52">1.52</td><td class="rise tcol" data-num="+2.00">2.00</td><td class="rise tcol" data-num="+1.95">1.95</td><td class="rise tcol" data-num="+1.29">1.29</td><td class="rise tcol" data-num="+7.72">7.72</td><td class="fall tcol" data-num="-5.01">5.01</td><td class="rise" data-num="+7.78">7.78</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/021620" target="_blank" rel="noopener">021620</a></td><td>天弘石油天然气指数C</td><td>t+1</td><td class="fall tcol" data-num="-1.64">1.64</td><td class="fall tcol" data-num="-2.35">2.35</td><td class="rise tcol" data-num="+0.34">0.34</td><td class="fall tcol" data-num="-1.53">1.53</td><td class="rise tcol" data-num="+0.42">0.42</td><td class="rise tcol" data-num="+0.94">0.94</td><td class="fall" data-num="-2.20">2.20</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/021075" target="_blank" rel="noopener">021075</a></td><td>华夏中证沪深港黄金产业股票ETF联接C</td><td>t+1</td><td class="fall tcol" data-num="-1.65">1.65</td><td class="rise tcol" data-num="+3.59">3.59</td><td class="rise tcol" data-num="+8.17">8.17</td><td class="rise tcol" data-num="+0.78">0.78</td><td class="fall tcol" data-num="-2.18">2.18</td><td class="fall tcol" data-num="-2.96">2.96</td><td class="rise" data-num="+7.20">7.20</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/020904" target="_blank" rel="noopener">020904</a></td><td>广发工程机械主题ETF联接C</td><td>t+1</td><td class="fall tcol" data-num="-1.74">1.74</td><td class="rise tcol" data-num="+1.22">1.22</td><td class="rise tcol" data-num="+2.06">2.06</td><td class="rise tcol" data-num="+1.13">1.13</td><td class="rise tcol" data-num="+1.60">1.60</td><td class="fall tcol" data-num="-2.95">2.95</td><td class="rise" data-num="+3.01">3.01</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/026174" target="_blank" rel="noopener">026174</a></td><td>路博迈港股通科技股票C</td><td>t+1</td><td class="fall tcol" data-num="-1.75">1.75</td><td class="rise tcol" data-num="+0.05">0.05</td><td class="rise tcol" data-num="+6.17">6.17</td><td class="fall tcol" data-num="-3.69">3.69</td><td class="rise tcol" data-num="+1.92">1.92</td><td class="fall tcol" data-num="-3.11">3.11</td><td class="rise" data-num="+1.02">1.02</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/016496" target="_blank" rel="noopener">016496</a></td><td>景顺长城中证港股通科技ETF联接C</td><td>t+1</td><td class="fall tcol" data-num="-1.81">1.81</td><td class="rise tcol" data-num="+4.56">4.56</td><td class="rise tcol" data-num="+3.01">3.01</td><td class="fall tcol" data-num="-0.35">0.35</td><td class="rise tcol" data-num="+2.27">2.27</td><td class="fall tcol" data-num="-0.23">0.23</td><td class="rise" data-num="+9.51">9.51</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/023598" target="_blank" rel="noopener">023598</a></td><td>景顺长城中证港股通创新药ETF联接C</td><td>t+1</td><td class="fall tcol" data-num="-1.90">1.90</td><td class="rise tcol" data-num="+3.39">3.39</td><td class="rise tcol" data-num="+8.17">8.17</td><td class="fall tcol" data-num="-2.73">2.73</td><td class="fall tcol" data-num="-0.27">0.27</td><td class="fall tcol" data-num="-1.82">1.82</td><td class="rise" data-num="+6.52">6.52</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/020894" target="_blank" rel="noopener">020894</a></td><td>景顺长城国证机器人产业ETF联接C</td><td>t+1</td><td class="fall tcol" data-num="-1.99">1.99</td><td class="rise tcol" data-num="+2.16">2.16</td><td class="rise tcol" data-num="+5.64">5.64</td><td class="fall tcol" data-num="-2.23">2.23</td><td class="rise tcol" data-num="+2.36">2.36</td><td class="fall tcol" data-num="-3.27">3.27</td><td class="rise" data-num="+4.47">4.47</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/010990" target="_blank" rel="noopener">010990</a></td><td>南方有色金属ETF联接E</td><td>t+1</td><td class="fall tcol" data-num="-2.17">2.17</td><td class="rise tcol" data-num="+1.81">1.81</td><td class="rise tcol" data-num="+4.99">4.99</td><td class="rise tcol" data-num="+0.32">0.32</td><td class="fall tcol" data-num="-0.58">0.58</td><td class="fall tcol" data-num="-2.01">2.01</td><td class="rise" data-num="+4.47">4.47</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/002910" target="_blank" rel="noopener">002910</a></td><td>易方达供给改革灵活配置混合</td><td>t+1</td><td class="fall tcol" data-num="-2.22">2.22</td><td class="rise tcol" data-num="+1.77">1.77</td><td class="rise tcol" data-num="+3.88">3.88</td><td class="fall tcol" data-num="-0.36">0.36</td><td class="rise tcol" data-num="+0.38">0.38</td><td class="fall tcol" data-num="-1.05">1.05</td><td class="rise" data-num="+4.63">4.63</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/015795" target="_blank" rel="noopener">015795</a></td><td>天弘创业板指数增强C</td><td>t+1</td><td class="fall tcol" data-num="-3.46">3.46</td><td class="rise tcol" data-num="+0.79">0.79</td><td class="rise tcol" data-num="+6.35">6.35</td><td class="fall tcol" data-num="-3.08">3.08</td><td class="rise tcol" data-num="+1.58">1.58</td><td class="fall tcol" data-num="-3.94">3.94</td><td class="rise" data-num="+1.37">1.37</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/001665" target="_blank" rel="noopener">001665</a></td><td>平安鑫安混合C</td><td>t+1</td><td class="fall tcol" data-num="-3.46">3.46</td><td class="fall tcol" data-num="-0.01">0.01</td><td class="rise tcol" data-num="+4.64">4.64</td><td class="fall tcol" data-num="-2.06">2.06</td><td class="rise tcol" data-num="+0.86">0.86</td><td class="fall tcol" data-num="-2.58">2.58</td><td class="rise" data-num="+0.69">0.69</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/011840" target="_blank" rel="noopener">011840</a></td><td>天弘中证人工智能主题ETF联接C</td><td>t+1</td><td class="fall tcol" data-num="-3.88">3.88</td><td class="rise tcol" data-num="+1.06">1.06</td><td class="rise tcol" data-num="+6.90">6.90</td><td class="fall tcol" data-num="-4.13">4.13</td><td class="rise tcol" data-num="+1.97">1.97</td><td class="fall tcol" data-num="-5.06">5.06</td><td class="rise" data-num="+0.27">0.27</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/020671" target="_blank" rel="noopener">020671</a></td><td>易方达上证科创板芯片ETF联接C</td><td>t+1</td><td class="fall tcol" data-num="-3.89">3.89</td><td class="rise tcol" data-num="+1.53">1.53</td><td class="rise tcol" data-num="+11.90">11.90</td><td class="fall tcol" data-num="-5.22">5.22</td><td class="rise tcol" data-num="+2.83">2.83</td><td class="fall tcol" data-num="-5.61">5.61</td><td class="rise" data-num="+4.52">4.52</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/012970" target="_blank" rel="noopener">012970</a></td><td>鹏华国证半导体芯片ETF联接C</td><td>t+1</td><td class="fall tcol" data-num="-4.05">4.05</td><td class="rise tcol" data-num="+1.69">1.69</td><td class="rise tcol" data-num="+10.37">10.37</td><td class="fall tcol" data-num="-4.83">4.83</td><td class="rise tcol" data-num="+2.25">2.25</td><td class="fall tcol" data-num="-5.10">5.10</td><td class="rise" data-num="+3.65">3.65</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/024460" target="_blank" rel="noopener">024460</a></td><td>华商致远回报混合C</td><td>t+1</td><td class="fall tcol" data-num="-8.26">8.26</td><td class="fall tcol" data-num="-2.04">2.04</td><td class="rise tcol" data-num="+10.14">10.14</td><td class="fall tcol" data-num="-8.14">8.14</td><td class="rise tcol" data-num="+0.43">0.43</td><td class="fall tcol" data-num="-6.43">6.43</td><td class="fall" data-num="-6.86">6.86</td></tr></tbody></table>
 </section>
 <section class="card card-trade">
 <h3>近期操作 · 2026-11-06（最新交易日）</h3>
@@ -123,12 +134,12 @@ table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){wi
 <section class="card card-trade">
 <h3>近期操作 · 2026-11-05（上一交易日）</h3>
 
-<table data-tbl="ops"><thead><tr><th>代码</th><th>基金名称</th><th>类型</th><th>金额</th><th>状态</th><th class="tcol">T</th><th class="tcol">T-1</th><th class="tcol">T-2</th><th class="tcol">T-3</th><th class="tcol">T-4</th><th class="tcol">T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/016665" target="_blank" rel="noopener">016665</a></td><td>天弘全球高端制造混合(QDII)C</td><td>t+2</td><td class="rise" data-num="+222">+222</td><td>待定</td><td class="tcol">—</td><td class="fall tcol" data-num="-0.09">0.09</td><td class="fall tcol" data-num="-1.84">1.84</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="fall tcol" data-num="-6.85">6.85</td><td class="fall tcol" data-num="-3.76">3.76</td><td class="fall" data-num="-13.44">13.44</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/018147" target="_blank" rel="noopener">018147</a></td><td>建信新兴市场优选混合(QDII)C</td><td>t+2</td><td class="rise" data-num="+100">+100</td><td>待定</td><td class="tcol">—</td><td class="fall tcol" data-num="-3.23">3.23</td><td class="rise tcol" data-num="+0.60">0.60</td><td class="fall tcol" data-num="-2.77">2.77</td><td class="fall tcol" data-num="-6.34">6.34</td><td class="fall tcol" data-num="-1.44">1.44</td><td class="fall" data-num="-12.62">12.62</td></tr></tbody></table>
+<table data-tbl="ops"><thead><tr><th>代码</th><th>基金名称</th><th>类型</th><th>金额</th><th>状态</th><th class="tcol">T</th><th class="tcol">T-1</th><th class="tcol">T-2</th><th class="tcol">T-3</th><th class="tcol">T-4</th><th class="tcol">T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/016665" target="_blank" rel="noopener">016665</a></td><td>天弘全球高端制造混合(QDII)C</td><td>t+2</td><td class="rise" data-num="+222">+222</td><td>待定</td><td class="fall tcol" data-num="-8.34">8.34</td><td class="fall tcol" data-num="-0.09">0.09</td><td class="fall tcol" data-num="-1.84">1.84</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="fall tcol" data-num="-6.85">6.85</td><td class="fall tcol" data-num="-3.76">3.76</td><td class="fall" data-num="-13.44">13.44</td></tr><tr><td><a class="code" href="http://www.paopaojun.com/funds/018147" target="_blank" rel="noopener">018147</a></td><td>建信新兴市场优选混合(QDII)C</td><td>t+2</td><td class="rise" data-num="+100">+100</td><td>待定</td><td class="fall tcol" data-num="-9.02">9.02</td><td class="fall tcol" data-num="-3.23">3.23</td><td class="rise tcol" data-num="+0.60">0.60</td><td class="fall tcol" data-num="-2.77">2.77</td><td class="fall tcol" data-num="-6.34">6.34</td><td class="fall tcol" data-num="-1.44">1.44</td><td class="fall" data-num="-12.62">12.62</td></tr></tbody></table>
 </section>
 <section class="card card-trade">
 <h3>近期操作 · 2026-11-04（上上交易日）</h3>
 
-<table data-tbl="ops"><thead><tr><th>代码</th><th>基金名称</th><th>类型</th><th>金额</th><th>状态</th><th class="tcol">T</th><th class="tcol">T-1</th><th class="tcol">T-2</th><th class="tcol">T-3</th><th class="tcol">T-4</th><th class="tcol">T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/016665" target="_blank" rel="noopener">016665</a></td><td>天弘全球高端制造混合(QDII)C</td><td>t+2</td><td class="rise" data-num="+111">+111</td><td>结算中</td><td class="tcol">—</td><td class="fall tcol" data-num="-0.09">0.09</td><td class="fall tcol" data-num="-1.84">1.84</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="fall tcol" data-num="-6.85">6.85</td><td class="fall tcol" data-num="-3.76">3.76</td><td class="fall" data-num="-13.44">13.44</td></tr></tbody></table>
+<table data-tbl="ops"><thead><tr><th>代码</th><th>基金名称</th><th>类型</th><th>金额</th><th>状态</th><th class="tcol">T</th><th class="tcol">T-1</th><th class="tcol">T-2</th><th class="tcol">T-3</th><th class="tcol">T-4</th><th class="tcol">T-5</th><th>5日</th></tr></thead><tbody><tr><td><a class="code" href="http://www.paopaojun.com/funds/016665" target="_blank" rel="noopener">016665</a></td><td>天弘全球高端制造混合(QDII)C</td><td>t+2</td><td class="rise" data-num="+111">+111</td><td>结算中</td><td class="fall tcol" data-num="-8.34">8.34</td><td class="fall tcol" data-num="-0.09">0.09</td><td class="fall tcol" data-num="-1.84">1.84</td><td class="fall tcol" data-num="-1.55">1.55</td><td class="fall tcol" data-num="-6.85">6.85</td><td class="fall tcol" data-num="-3.76">3.76</td><td class="fall" data-num="-13.44">13.44</td></tr></tbody></table>
 </section></div><script>
 /* 基金估值页面实时刷新（运行时唯一能改 T 列 的脚本）
    写入范围：T 列、拉取时间戳、总盈亏文字。禁止写 T-1~T-5（归后端静态值）。
@@ -299,9 +310,20 @@ table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){wi
   function setText(el, s) { if (el) { var v = String(s); if (el.textContent !== v) el.textContent = v; } }
   function setCls(el, c) { if (el && el.className !== c) el.className = c; }
   function setHtml(el, h) { if (el && el.innerHTML !== h) el.innerHTML = h; }
-  function setCell(td, s, cls) {
+  function setCell(td, s, cls, num) {
     setText(td, s);
     if (cls !== undefined) setCls(td, cls);
+    /* 2026-11-06 修复：同步写 data-num（带符号）。
+       原实现只写绝对值文本，不写 data-num，导致 pnl-mode 的 cnum()
+       读不到符号，跌的基金被当成涨的，盈亏方向整个反了。 */
+    if (td) {
+      if (num === undefined || num === null || !isFinite(num)) {
+        if (td.hasAttribute("data-num")) td.removeAttribute("data-num");
+      } else {
+        var nv = String(num);
+        if (td.getAttribute("data-num") !== nv) td.setAttribute("data-num", nv);
+      }
+    }
   }
 
   /* 今天(北京时间) YYYY-MM-DD */
@@ -310,6 +332,80 @@ table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){wi
     var b = new Date(d.getTime() + (d.getTimezoneOffset() + 480) * 60000);
     var m = b.getMonth() + 1, dd = b.getDate();
     return b.getFullYear() + "-" + (m < 10 ? "0" + m : m) + "-" + (dd < 10 ? "0" + dd : dd);
+  }
+
+  /* ===== 2026-11-06 t-fresh: 消除「构建值 → 实时值」的刷新跳变 =====
+     问题：静态 HTML 里的 T 列永远是构建那一刻的数据，刷新时先看到它，
+           再被实时接口覆盖，视觉上就是「跳一下」。
+     做法：
+       1) 每次拉到实时数据就存一份今日快照（localStorage）
+       2) 下次载入时，若有今日快照，首帧直接用快照渲染（无需等待网络）
+       3) 无快照时，head 里的 t-fresh 脚本已把 T 列置为淡态，
+          数据到达后一次性恢复，用户不会看到「旧值→新值」
+       4) 3 秒兑底在 head 内联脚本里，不依赖本文件  */
+  var SNAP_PREFIX = "fval:snap:";
+
+  function setFresh() {
+    try { document.documentElement.setAttribute("data-fresh", "1"); } catch (e) {}
+  }
+
+  function snapKey() { return SNAP_PREFIX + todayStr(); }
+
+  function snapRead() {
+    try {
+      var raw = localStorage.getItem(snapKey());
+      if (!raw) return null;
+      var o = JSON.parse(raw);
+      if (!o || !o.m) return null;
+      return o.m;
+    } catch (e) { return null; }
+  }
+
+  function snapSave(c) {
+    try {
+      var m = {}, cnt = 0;
+      for (var t = 0; t < c.tables.length; t++) {
+        var o = c.tables[t];
+        for (var r = 0; r < o.tds.length; r++) {
+          var td = o.tds[r][o.vi];
+          if (!td) continue;
+          var dn = td.getAttribute("data-num");
+          var x = (dn === null || dn === "") ? NaN : parseFloat(dn);
+          if (!isFinite(x)) continue;
+          m[o.tds[r][0].textContent.trim()] = x;
+          cnt++;
+        }
+      }
+      if (!cnt) return;
+      localStorage.setItem(snapKey(), JSON.stringify({ ts: Date.now(), m: m }));
+      /* 清掉非今日快照，避免臆数据 */
+      var keys = [];
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf(SNAP_PREFIX) === 0 && k !== snapKey()) keys.push(k);
+      }
+      for (var j = 0; j < keys.length; j++) localStorage.removeItem(keys[j]);
+    } catch (e) {}
+  }
+
+  function restoreSnap() {
+    var m = snapRead();
+    if (!m) return false;
+    var c = collect(), hit = 0;
+    for (var t = 0; t < c.tables.length; t++) {
+      var o = c.tables[t];
+      for (var r = 0; r < o.tds.length; r++) {
+        var code = o.tds[r][0].textContent.trim();
+        if (!(code in m)) continue;
+        var v = Number(m[code]);
+        if (!isFinite(v)) continue;
+        setCell(o.tds[r][o.vi], Math.abs(v).toFixed(2),
+                v > 0 ? "rise" : (v < 0 ? "fall" : ""), v);
+        hit++;
+      }
+    }
+    if (hit) { setFresh(); return true; }
+    return false;
   }
 
   function apply(map, tables) {
@@ -327,9 +423,11 @@ table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){wi
         if ((qd && qd === _today) || (qdt && qdt === _today)) {
           var v = Number(q.valuation);
           /* 表格内不显示正负号，红绿表意 */
-          setCell(tds[o.vi], Math.abs(v).toFixed(2), v > 0 ? "rise" : (v < 0 ? "fall" : ""));
+          setCell(tds[o.vi], Math.abs(v).toFixed(2),
+                  v > 0 ? "rise" : (v < 0 ? "fall" : ""),
+                  isFinite(v) ? v : null);
         } else {
-          setCell(tds[o.vi], "—", "");
+          setCell(tds[o.vi], "—", "", null);
         }
         /* T-1~T-5 由后端按净值日期严格对齐生成，前端不得覆盖。 */
       }
@@ -365,16 +463,23 @@ table[data-tbl="ops"] th:nth-child(12),table[data-tbl="ops"] td:nth-child(12){wi
       try { if (_maxD) document.documentElement.setAttribute("data-nav-date", _maxD); } catch (e) {}
       apply(map, c.tables);
       floorSave(map);
+      snapSave(c);
       setStamp(true);
+      setFresh();
     } catch (e) {
       setStamp(false);
+      setFresh();
     }
   }
+  /* 首帧：有今日快照立即渲染，不等网络，零跳变 */
+  try { restoreSnap(); } catch (e) {}
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", refresh);
   } else {
     refresh();
   }
+  document.addEventListener("phasechange", function () { refresh(); });
 })();
 
 
@@ -477,7 +582,8 @@ var td=c[iT];
 var cur=(td.textContent||'').trim();
 var cell0=(c[0]&&c[0].textContent||'').trim();
 if(!/^[0-9]{6}$/.test(cell0))continue;
-if(num(cur)===null&&cur!=='-'){td.textContent='-';}
+/* 2026-11-06：不再把空值写成「-」。live_refresh 写「—」，两边互相覆盖导致闪烁，现统一为「—」 */
+if(cur==='-'){td.textContent='—';}
 }
 }
 }
@@ -545,9 +651,9 @@ function fmtV(v){return v>=0?('+'+v.toFixed(2)):v.toFixed(2);}
 /* 表格内数字：不显示正负号，颜色表意 */
 function fmtC(v){return Math.abs(Number(v)).toFixed(2);}
 /* 读单元格数值：优先 data-num(带符号)，其次文本 */
-function cnum(td){if(!td)return null;var dn=td.getAttribute('data-num');if(dn!==null&&dn!==''){var x=parseFloat(dn);if(isFinite(x))return x;}return num(td.textContent);}
+function cnum(td){if(!td)return null;var dn=td.getAttribute('data-num');if(dn!==null&&dn!==''){var x=parseFloat(dn);if(isFinite(x))return x;}var v=num(td.textContent);if(v===null)return null;/* 2026-11-06 修复：无 data-num 时文本可能是绝对值，用红绿类补符号，避免跌算成涨 */if(td.className&&td.className.indexOf('fall')>=0&&v>0)return -v;return v;}
 function clsOf(v){return v>0?'rise':(v<0?'fall':'');}
-function setCell(td,s,cl){var cur=(td.textContent||'').trim();var ch=false;if(cur!==s){td.textContent=s;ch=true;}if(cl!==undefined&&td.className!==cl){td.className=cl;ch=true;}return ch;}
+function setCell(td,s,cl,num){var cur=(td.textContent||'').trim();var ch=false;if(cur!==s){td.textContent=s;ch=true;}if(cl!==undefined&&td.className!==cl){td.className=cl;ch=true;}/* 2026-11-06：文本与 data-num 同步，防止下游计算/排序读到旧值 */if(td){if(num===undefined||num===null||!isFinite(num)){if(td.hasAttribute('data-num'))td.removeAttribute('data-num');}else{var nv=String(num);if(td.getAttribute('data-num')!==nv)td.setAttribute('data-num',nv);}}return ch;}
 function setLabel(b,txt){var sp=b.parentNode;if(!sp)return;var kids=sp.childNodes;
 for(var i=0;i<kids.length;i++){if(kids[i].nodeType===3){var cur=(kids[i].data||'').replace(/\s+$/,'');if(cur!==txt){kids[i].data=txt+' ';}return;}}
 sp.insertBefore(document.createTextNode(txt+' '),b);}
@@ -598,6 +704,11 @@ try{
 var nd=document.documentElement.getAttribute('data-nav-date')||'';
 var m=document.querySelector('meta[name="t-date"]');
 var td=m?(m.getAttribute('content')||''):'';
+/* 2026-11-06 修复：T 列为盘中估算时(t-basis=est)，它代表的“就是今天”，
+   此时 tm 必须为 true。否则会走「扣除昨日买入」基准，与静态盈亏不一致，加载就跳。 */
+var mb=document.querySelector('meta[name="t-basis"]');
+var tb=mb?(mb.getAttribute('content')||''):'';
+if(tb==='est')return true;
 /* 以净值日期为准：实时拉到的优先，其次静态 t-date */
 if(nd)return nd===DAY;
 if(td)return td===DAY;
@@ -626,12 +737,13 @@ var yBuy=CARDS_OK?(CYEST[code]||0):((window.__YBUY&&window.__YBUY[code])?window.
 var base=amt-dayBuy-((isQ||!tm)?yBuy:0);
 if(base<0)base=0;
 var raw=rate*base/100;total+=raw;seen=true;
-setCell(c[iP],fmtC(raw),clsOf(raw));
+setCell(c[iP],fmtC(raw),clsOf(raw),raw);
 var ef=c[iP];
 if(ef.dataset.efl!=='1'){ef.dataset.efl='1';ef.style.cursor='pointer';ef.setAttribute('title','点击查看东财详情');
 (function(cd){ef.addEventListener('click',function(){try{window.open('https://fund.eastmoney.com/'+cd+'.html','_blank');}catch(e){}});})(code);}
 }
-var wantH=tm?'盈亏T':'盈亏T-1';
+/* 2026-11-06：表头固定为「盈亏」，不再按日期运行时改写，避免加载瞬间文字跳变 */
+var wantH='盈亏';
 if((hdr[iP].textContent||'').trim()!==wantH){hdr[iP].textContent=wantH;}}
 if(seen){
 var pt=document.getElementById('pnlTotal');
@@ -869,22 +981,6 @@ var b=document.createElement("div");b.className="fbody";
 while(h.nextSibling){b.appendChild(h.nextSibling);}
 c.appendChild(b);return b;
 }
-function vfoldDefault(c){
-var h=titleOf(c),t=((h&&h.textContent)||"").trim();
-if(t.indexOf("持仓概况")>=0)return "1";
-if(t.indexOf("清仓")>=0)return "1";
-if(!c.querySelector("table"))return "1";
-return "0";
-}
-function vfoldMemKey(c){var h=titleOf(c);return "vfold:"+(((h&&h.textContent)||"").trim());}
-function initV(c,h){
-if(c.getAttribute("data-vfold")!==null)return;
-var v=null;try{v=sessionStorage.getItem(vfoldMemKey(c));}catch(e){}
-if(v!=="0"&&v!=="1")v=vfoldDefault(c);
-var b=ensureBody(c,h);
-if(v==="1"){c.setAttribute("data-vfold","1");b.style.transition="none";b.style.maxHeight="0";b.style.opacity="0";b.style.overflow="hidden";}
-else{c.setAttribute("data-vfold","0");}
-}
 function vfold(c,h){
 var b=ensureBody(c,h);
 var closed=c.getAttribute("data-vfold")==="1";
@@ -904,7 +1000,6 @@ b.style.maxHeight=b.scrollHeight+"px";b.style.opacity="1";
 c.setAttribute("data-vfold","0");
 setTimeout(function(){if(c.getAttribute("data-vfold")==="0"){b.style.maxHeight="";b.style.opacity="";}},380);
 }
-try{sessionStorage.setItem(vfoldMemKey(c),c.getAttribute("data-vfold"));}catch(e){}
 return closed?"EXPAND":"COLLAPSE";
 }
 function allCards(){return document.querySelectorAll(".card");}
@@ -1012,7 +1107,7 @@ say("HIT 「"+(h.textContent||"").trim().slice(0,8)+"」 => "+done);
 function scan(){
 ensureBase();
 var cs=allCards();
-for(var i=0;i<cs.length;i++){var c=cs[i],h=titleOf(c);if(h)bind(h);enforce(c);if(h)initV(c,h);}
+for(var i=0;i<cs.length;i++){var c=cs[i],h=titleOf(c);if(h)bind(h);enforce(c);}
 bindDrag();
 }
 var rt=0;
@@ -1105,7 +1200,7 @@ var dk=dayKey();
 var now=dk+'|'+cur;
 var last=null;try{last=sessionStorage.getItem('phase:last');}catch(e){}
 if(last===null){try{sessionStorage.setItem('phase:last',now);}catch(e){}return;}
-if(last!==now){try{sessionStorage.setItem('phase:last',now);}catch(e){}location.reload();return;}
+if(last!==now){try{sessionStorage.setItem('phase:last',now);}catch(e){}/* 2026-11-06：相位切换不再整页重载（会打断阅读、造成跳变），改为广播事件局部刷新 */try{document.dispatchEvent(new Event('phasechange'));}catch(e){}return;}
 if(cur==='POST'){
 var done=null;try{done=sessionStorage.getItem('phase:late:'+dk);}catch(e){}
 if(!done){
@@ -1115,7 +1210,7 @@ else{
 var delay=(21*60+45-mins)*60000-(b.getUTCSeconds()*1000);
 setTimeout(function(){
 var l=null;try{l=sessionStorage.getItem('phase:last');}catch(e){}
-if(l===dk+'|POST'){try{sessionStorage.setItem('phase:late:'+dk,'1');}catch(e){}location.reload();}
+if(l===dk+'|POST'){try{sessionStorage.setItem('phase:late:'+dk,'1');}catch(e){}try{document.dispatchEvent(new Event('phasechange'));}catch(e){}}
 },delay);
 }
 }
